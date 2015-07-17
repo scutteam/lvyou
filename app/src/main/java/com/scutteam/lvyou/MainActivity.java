@@ -1,13 +1,9 @@
 package com.scutteam.lvyou;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-
+import android.support.v7.app.ActionBarActivity;
 import com.activeandroid.ActiveAndroid;
 import com.loopj.android.http.SyncHttpClient;
-
 
 public class MainActivity extends ActionBarActivity {
 
