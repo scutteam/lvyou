@@ -1,6 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">lvyou</string>
 
+    <string name="app_name">lvyou</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_lv_you_application">LvYouApplication</string>
+
 </resources>
