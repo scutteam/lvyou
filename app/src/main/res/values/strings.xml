@@ -7,4 +7,6 @@
     <string name="title_activity_make_journey">MakeJourneyActivity</string>
     <string name="title_activity_lv_you_application">LvYouApplication</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_destination_detail">DestinationDetailActivity</string>
+    <string name="title_activity_choose_begin_place">ChooseBeginPlaceActivity</string>
 </resources>

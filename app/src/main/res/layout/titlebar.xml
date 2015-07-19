@@ -19,10 +19,10 @@
         android:layout_height="46dp"
         android:gravity="center"
         android:layout_centerInParent="true"
-        android:textSize="23sp"
+        android:textSize="20sp"
         android:textColor="#31db35"
         android:text="Titlle"
-        android:textStyle="bold" />
+        />
 
     <TextView
         android:id="@+id/right_icon"
