@@ -21,4 +21,5 @@
     <color name="black">#000000</color>
     <color name="black_60">#60000000</color>
     <color name="ldrawer_color">#FFFFFF</color>
+    <color name="hint_color">#B4B4B4</color>
 </resources>

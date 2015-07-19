@@ -5,6 +5,14 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <!-- TextView -->
+    <style name="Theme.AppTheme.TextAppearance" parent="android:TextAppearance.Widget.TextView">
+        <item name="android:background">@null</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:focusable">false</item>
+    </style>
+
     <style name="text_bold_black_xlarge_size_style" parent="Theme.AppTheme.TextAppearance">
         <item name="android:textSize">@dimen/text_size_xlarge</item>
         <item name="android:textStyle">bold</item>

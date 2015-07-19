@@ -6,7 +6,9 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme" 
+        android:name=".application.LvYouApplication"
+        >
         <meta-data
             android:name="AA_DB_NAME"
             android:value="Pickrand.db" />
@@ -28,10 +30,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".application.LvYouApplication"
-            android:label="@string/title_activity_lv_you_application" >
         </activity>
         <activity
             android:name=".activity.LoginActivity"
