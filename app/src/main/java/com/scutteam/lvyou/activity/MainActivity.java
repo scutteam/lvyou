@@ -17,5 +17,7 @@ public class MainActivity extends Activity {
     /**
      * 初始化界面
      */
-    
+    private void init(){
+        
+    }
 }
