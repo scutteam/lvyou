@@ -16,6 +16,10 @@ public class LvYouApplication extends Application {
         context = this;
         ActiveAndroid.initialize(this);
     }
+    
+    public static Context getInstance() {
+        return context;
+    }
 
     @Override
     public void onTerminate() {

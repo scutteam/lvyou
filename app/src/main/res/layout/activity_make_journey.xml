@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_above="@+id/mj_bottom"
-    android:background="#ededed">
+    android:background="@color/line_card_shadow_color">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -34,7 +34,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="12dp"
             android:text="请输入并选择出发地点"
-            android:textColor="#565656"
+            android:textColor="@color/main_text_color"
             android:clickable="true"
             android:background="@drawable/selector_mj_tv"
             android:gravity="center"
@@ -63,7 +63,7 @@
             <TextView
                 android:layout_width="1dp"
                 android:layout_height="32dp"
-                android:background="#ededed"/>
+                android:background="@color/line_card_shadow_color"/>
             <TextView
                 android:id="@+id/mj_member_num"
                 android:layout_width="50dp"
@@ -76,7 +76,7 @@
             <TextView
                 android:layout_width="1dp"
                 android:layout_height="32dp"
-                android:background="#ededed"/>
+                android:background="@color/line_card_shadow_color"/>
             <TextView
                 android:id="@+id/mj_member_ple"
                 android:layout_width="46dp"
@@ -106,21 +106,21 @@
                 android:text="出发日期"
                 android:textSize="16sp"
                 android:gravity="center"
-                android:textColor="#31db35"
+                android:textColor="@color/image_color"
                 android:clickable="true"
                 android:background="@drawable/selector_mj_tv"
                 />
             <TextView
                 android:layout_width="1dp"
                 android:layout_height="32dp"
-                android:background="#ededed"/>
+                android:background="@color/line_card_shadow_color"/>
             <TextView
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="返程日期"
                 android:textSize="16sp"
-                android:textColor="#31db35"
+                android:textColor="@color/image_color"
                 android:gravity="center"
                 android:clickable="true"
                 android:background="@drawable/selector_mj_tv"
@@ -160,7 +160,7 @@
                 <TextView
                     android:layout_width="1dp"
                     android:layout_height="32dp"
-                    android:background="#ededed"/>
+                    android:background="@color/line_card_shadow_color"/>
                 <TextView
                     android:id="@+id/mj_detail_food"
                     android:layout_width="0dip"
@@ -176,7 +176,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#ededed"/>
+                android:background="@color/line_card_shadow_color"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
@@ -197,7 +197,7 @@
                 <TextView
                     android:layout_width="1dp"
                     android:layout_height="32dp"
-                    android:background="#ededed"/>
+                    android:background="@color/line_card_shadow_color"/>
                 <TextView
                     android:id="@+id/mj_detail_transport"
                     android:layout_width="0dip"
@@ -213,7 +213,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#ededed"/>
+                android:background="@color/line_card_shadow_color"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -235,7 +235,7 @@
                 <TextView
                     android:layout_width="1dp"
                     android:layout_height="32dp"
-                    android:background="#ededed"/>
+                    android:background="@color/line_card_shadow_color"/>
                 <TextView
                     android:layout_width="0dip"
                     android:layout_height="match_parent"
@@ -250,7 +250,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#ededed"/>
+                android:background="@color/line_card_shadow_color"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -273,7 +273,7 @@
                 <TextView
                     android:layout_width="1dp"
                     android:layout_height="32dp"
-                    android:background="#ededed"/>
+                    android:background="@color/line_card_shadow_color"/>
                 <TextView
                     android:layout_width="0dip"
                     android:layout_height="match_parent"
@@ -313,7 +313,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="请选住宿"
-                    android:textColor="#565656"
+                    android:textColor="@color/main_text_color"
                     android:textSize="16sp"/>
                 <TextView
                     android:layout_width="56dp"
@@ -334,12 +334,12 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:textSize="16sp"
-                    android:textColor="#565656"
+                    android:textColor="@color/main_text_color"
                     android:text="住宿"/>
                 <TextView
                     android:layout_width="1dp"
                     android:layout_height="32dp"
-                    android:background="#ededed"/>
+                    android:background="@color/line_card_shadow_color"/>
                 <LinearLayout
                     android:layout_width="0dip"
                     android:layout_height="match_parent"
@@ -351,7 +351,7 @@
                         android:layout_height="28dp"
                         android:gravity="left|bottom"
                         android:layout_marginLeft="5dp"
-                        android:textColor="#565656"
+                        android:textColor="@color/main_text_color"
                         android:textSize="15sp"
                         android:text="经济型酒店"/>
                     <TextView
@@ -360,13 +360,13 @@
                         android:layout_height="28dp"
                         android:layout_marginLeft="5dp"
                         android:textSize="14sp"
-                        android:textColor="#31db35"
+                        android:textColor="@color/image_color"
                         android:text="120/人"/>
                 </LinearLayout>
                 <TextView
                     android:layout_width="1dp"
                     android:layout_height="32dp"
-                    android:background="#ededed"/>
+                    android:background="@color/line_card_shadow_color"/>
 
                 <TextView
                     android:layout_width="56dp"
@@ -397,7 +397,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="#565656"
+                android:textColor="@color/main_text_color"
                 android:text="请选择游玩项目"
                 android:textSize="16sp"/>
             <TextView
@@ -432,7 +432,7 @@
             android:gravity="center"
             android:textColor="#FFFFFF"
             android:clickable="true"
-            android:background="#31db35"/>
+            android:background="@color/image_color"/>
         <TextView
             android:layout_width="0dip"
             android:layout_height="match_parent"
@@ -440,6 +440,7 @@
             android:gravity="right|center_vertical"
             android:textSize="18sp"
             android:background="#F7F7F7"
+            android:textColor="@color/main_text_color"
             android:text="人均: "/>
         <TextView
             android:id="@+id/mj_price_per_person"
@@ -448,8 +449,8 @@
             android:layout_weight="1"
             android:gravity="left|center_vertical"
             android:textSize="18sp"
-            android:background="#F7F7F7"
-            android:textColor="#FF910d"
+            android:textColor="@color/price_color"
+           android:background="#F7F7F7"
             android:text="320元"/>
 
     </LinearLayout>

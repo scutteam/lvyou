@@ -10,7 +10,7 @@ import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
-import com.example.admin.zhiduapp.R;
+import com.scutteam.lvyou.R;
 
 
 public abstract class DrawerArrowDrawable extends Drawable {

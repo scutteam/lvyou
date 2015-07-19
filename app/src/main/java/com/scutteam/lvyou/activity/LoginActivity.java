@@ -5,17 +5,11 @@ import android.os.Bundle;
 
 import com.scutteam.lvyou.R;
 
-public class MainActivity extends Activity {
+public class LoginActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        init();
+        setContentView(R.layout.activity_login);
     }
-
-    /**
-     * 初始化界面
-     */
-    
 }

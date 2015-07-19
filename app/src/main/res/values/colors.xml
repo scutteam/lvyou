@@ -10,4 +10,15 @@
     <color name="button_selector_normal">#f0f0f0</color>
     <color name="view_hotel_menu_tabber_background">#fafafa</color>
     <color name="half_alpha">#565656</color>
+    <color name="transparent">#00000000</color>
+    <color name="transparent_20">#20000000</color>
+    <color name="transparent_30">#77000000</color>
+    <color name="transparent_35">#90000000</color>
+    <color name="transparent_70">#b2000000</color>
+    <color name="white">#ffffff</color>
+    <color name="darkGray">#555555</color>
+    <color name="blue_color">#6478AA</color>
+    <color name="black">#000000</color>
+    <color name="black_60">#60000000</color>
+    <color name="ldrawer_color">#FFFFFF</color>
 </resources>
