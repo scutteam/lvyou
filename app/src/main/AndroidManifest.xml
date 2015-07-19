@@ -27,6 +27,10 @@
             android:name=".application.LvYouApplication"
             android:label="@string/title_activity_lv_you_application" >
         </activity>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:label="@string/title_activity_login" >
+        </activity>
     </application>
 
 </manifest>

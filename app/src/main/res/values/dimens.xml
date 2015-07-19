@@ -1,5 +1,122 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="nav_bar_height">48dp</dimen>
+
+    <!-- Common -->
+    <dimen name="view_small_height">10dp</dimen>
+    <dimen name="view_normal_height">15dp</dimen>
+    <dimen name="view_large_height">20dp</dimen>
+    <dimen name="view_xlarge_height">30dp</dimen>
+    <dimen name="view_xxlarge_height">40dp</dimen>
+    <dimen name="view_xxlarge_height_m">44dp</dimen>
+    <dimen name="view_xxlarge_height_l">48dp</dimen>
+
+    <dimen name="bottom_bar_small_height">48dp</dimen>
+    <dimen name="bottom_bar_normal_height">53.5dp</dimen>
+
+    <dimen name="grid_view_item_size">66dp</dimen>
+    <dimen name="grid_view_item_spacing">12dp</dimen>
+
+    <dimen name="item_tiny_size">36dp</dimen>
+    <dimen name="item_small_size">48dp</dimen>
+    <dimen name="item_normal_size">60dp</dimen>
+    <dimen name="item_large_size">100dp</dimen>
+    <dimen name="item_slarge_size">120dp</dimen>
+    <dimen name="item_mlarge_size">150dp</dimen>
+    <dimen name="item_xlarge_size">200dp</dimen>
+
+    <dimen name="line_height">1px</dimen>
+    <dimen name="line_width">1px</dimen>
+    <dimen name="line_height_dp">1dp</dimen>
+    <dimen name="line_width_dp">1dp</dimen>
+    <dimen name="line_normal_width">10px</dimen>
+    <dimen name="line_normal_height_dp">3dp</dimen>
+
+    <dimen name="icon_size_xxtiny">15dp</dimen>
+    <dimen name="icon_size_xtiny">30dp</dimen>
+    <dimen name="icon_size_tiny">36dp</dimen>
+    <dimen name="icon_size_small">44dp</dimen>
+    <dimen name="icon_size_normal">60dp</dimen>
+    <dimen name="icon_size_large">80dp</dimen>
+    <dimen name="icon_size_large_l">82dp</dimen>
+    <dimen name="icon_size_xlarge">160dp</dimen>
+    <dimen name="icon_size_xxlarge">200dp</dimen>
+
+    <dimen name="photo_crop_size">320dp</dimen>
+    <!-- WoPei Android UI规范 -->
+    <dimen name="layout_margin_negative_large">-25dp</dimen>
+    <dimen name="layout_margin_negative_normal">-15dp</dimen>
+    <dimen name="layout_margin_negative_small">-10dp</dimen>
+    <dimen name="layout_margin_negative_tiny">-5dp</dimen>
+    <dimen name="layout_margin_tiny">5dp</dimen>
+    <dimen name="layout_margin_small">10dp</dimen>
+    <dimen name="layout_margin_normal">15dp</dimen>
+    <dimen name="layout_margin_large">20dp</dimen>
+    <dimen name="layout_margin_xlarge">30dp</dimen>
+    <dimen name="layout_margin_xllarge">40dp</dimen>
+    <dimen name="layout_margin_xxlarge">50dp</dimen>
+    <dimen name="layout_margin_xxllarge">60dp</dimen>
+    <dimen name="layout_margin_xxxlarge">80dp</dimen>
+
+    <dimen name="layout_padding_maxlarge">60dp</dimen>
+    <dimen name="layout_padding_xxlarge">40dp</dimen>
+    <dimen name="layout_padding_xlarge">30dp</dimen>
+    <dimen name="layout_padding_large">20dp</dimen>
+    <dimen name="layout_padding_normal">15dp</dimen>
+    <dimen name="layout_padding_small">10dp</dimen>
+    <dimen name="layout_padding_xtiny">2dp</dimen>
+    <dimen name="layout_padding_tiny">5dp</dimen>
+    <dimen name="layout_padding_button">5dp</dimen>
+    <dimen name="layout_padding_text">5dp</dimen>
+    <dimen name="layout_padding_image">5dp</dimen>
+    <dimen name="layout_padding_edittext">8dip</dimen>
+    <dimen name="layout_padding_temp">8.5dip</dimen>
+    <dimen name="layout_padding_temp2">8.5dip</dimen>
+
+    <!-- Dynamic -->
+    <dimen name="dynamic_margin_left">64dp</dimen>
+
+    <!-- View -->
+    <dimen name="single_view_normal_height">3dp</dimen>
+
+    <!-- ImageView -->
+    <dimen name="img_size_maxlarge">240dp</dimen>
+    <dimen name="img_size_xlarge">150dp</dimen>
+    <dimen name="img_size_large">100dp</dimen>
+    <dimen name="img_size_normal">80dp</dimen>
+    <dimen name="img_size_small">60dp</dimen>
+    <dimen name="img_size_tiny">30dp</dimen>
+
+    <!-- Button -->
+    <dimen name="button_xlarge_width">90dp</dimen>
+    <dimen name="button_large_width">70dp</dimen>
+    <dimen name="button_normal_width">60dp</dimen>
+    <dimen name="button_normal_height">48dp</dimen>
+    <dimen name="button_small_width">18dp</dimen>
+    <dimen name="button_small_height">18dp</dimen>
+
+    <!-- EditText -->
+    <dimen name="edittext_normal_height">30dp</dimen>
+    <dimen name="edittext_large_height">44dp</dimen>
+
+    <!-- Text Size -->
+    <dimen name="text_size_xtiny">8sp</dimen>
+    <dimen name="text_size_tiny">10sp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_normal">14sp</dimen>
+    <dimen name="text_size_medium">15sp</dimen>
+    <dimen name="text_size_large">17sp</dimen>
+    <dimen name="text_size_xlarge">20sp</dimen>
+    <dimen name="text_size_xxlarge">30sp</dimen>
+
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="ldrawer_drawableSize">50dp</dimen>
+    <dimen name="ldrawer_barSize">18dp</dimen>
+    <dimen name="ldrawer_topBottomBarArrowSize">11dp</dimen>
+    <dimen name="ldrawer_thickness">2dp</dimen>
+    <dimen name="ldrawer_gapBetweenBars">3dp</dimen>
+    <dimen name="ldrawer_middleBarArrowSize">16dp</dimen>
+    <dimen name="navdrawer_width">240dp</dimen>
+
 </resources>
