@@ -29,7 +29,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/layout_margin_large"
-        android:id="@id/rl_login_top"
+        android:id="@+id/rl_login_top"
         android:layout_height="180dp">
         <ImageView
             android:layout_width="100dp"
