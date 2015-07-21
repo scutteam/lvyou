@@ -14,6 +14,13 @@ public class LvYouApplication extends Application {
         super.onCreate();
 
         context = this;
+
+//        ImageLoaderConfiguration configuration = ImageLoaderConfiguration
+//                .createDefault(this);
+//
+//        //Initialize ImageLoader with configuration.
+//        ImageLoader.getInstance().init(configuration);
+
         ActiveAndroid.initialize(this);
     }
     

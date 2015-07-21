@@ -6,6 +6,7 @@
     <color name="main_text_color">#565656</color>
     <color name="secondary_text_color">#8e8e8e</color>
     <color name="line_card_shadow_color">#ededed</color>
+    <color name="captcha_selected_color">#cccccc</color>
     <color name="button_selector_pressed">#f8f8f8</color>
     <color name="button_selector_normal">#f0f0f0</color>
     <color name="view_hotel_menu_tabber_background">#fafafa</color>

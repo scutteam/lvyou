@@ -7,4 +7,11 @@
     <string name="title_activity_make_journey">MakeJourneyActivity</string>
     <string name="title_activity_lv_you_application">LvYouApplication</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_bind_account">BindAccountActivity</string>
+    <string name="title_activity_forget_password">ForgetPasswordActivity</string>
+    <string name="title_activity_reset_password">ResetPasswordActivity</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="notice">注册即默认已经阅读并同意简游熊用户服务条款</string>
+    <string name="title_activity_check_phone_number">CheckPhoneNumberActivity</string>
+
 </resources>
