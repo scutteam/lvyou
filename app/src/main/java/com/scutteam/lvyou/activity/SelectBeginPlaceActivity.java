@@ -1,23 +1,24 @@
-package com.scutteam.lvyou;
+package com.scutteam.lvyou.activity;
 
-import android.app.Activity;
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.scutteam.lvyou.R;
 
-public class MakeJourneyActivity extends Activity {
+public class SelectBeginPlaceActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_make_journey);
+        setContentView(R.layout.activity_choose_begin_place);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_make_journey, menu);
+        getMenuInflater().inflate(R.menu.menu_choose_begin_place, menu);
         return true;
     }
 

@@ -74,8 +74,14 @@
             android:label="@string/app_name" >
         </activity>
         <activity
+<<<<<<< HEAD
             android:name=".MakeJourneyActivity"
             android:label="@string/title_activity_make_journey" >
+=======
+            android:name=".activity.MakeJourneyActivity"
+            android:label="@string/title_activity_make_journey"
+            android:theme="@android:style/Theme.NoTitleBar" >
+>>>>>>> 7023603ba68fead4f1d25262b5567cb06a1416d1
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -113,6 +119,14 @@
         <activity
             android:name=".activity.CheckPhoneNumberActivity"
             android:label="@string/title_activity_check_phone_number" >
+        </activity>
+        <activity
+            android:name=".activity.DestinationDetailActivity"
+            android:label="@string/title_activity_destination_detail" >
+        </activity>
+        <activity
+            android:name=".activity.SelectBeginPlaceActivity"
+            android:label="@string/title_activity_choose_begin_place" >
         </activity>
     </application>
 
