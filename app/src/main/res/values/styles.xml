@@ -212,7 +212,40 @@
         <item name="android:minHeight">3dp</item>
         <item name="android:maxHeight">3dp</item>
     </style>
+    
+    <!-- ListView -->
+    <style name="listview_normal_style" parent="android:Widget.ListView">
+        <item name="android:listSelector">@drawable/normal_button_selector</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:divider">@null</item>
+        <item name="android:dividerHeight">@dimen/line_height</item>
+        <item name="android:overScrollMode">never</item>
+        <item name="android:fillViewport">false</item>
+        <item name="android:scrollbars">none</item>
+        <item name="android:fadingEdge">none</item>
+    </style>
 
+    <style name="listview_normal_style_with_divider" parent="android:Widget.ListView">
+        <item name="android:listSelector">@drawable/normal_button_selector</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:divider">@color/default_bg</item>
+        <item name="android:dividerHeight">@dimen/line_height</item>
+        <item name="android:overScrollMode">never</item>
+        <item name="android:fillViewport">false</item>
+        <item name="android:scrollbars">none</item>
+        <item name="android:fadingEdge">none</item>
+    </style>
+
+    <style name="listview_normal_style_with_no_divider" parent="android:Widget.ListView">
+        <item name="android:listSelector">@drawable/normal_button_selector</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:divider">@null</item>
+        <item name="android:dividerHeight">0dp</item>
+        <item name="android:overScrollMode">never</item>
+        <item name="android:fillViewport">false</item>
+        <item name="android:scrollbars">none</item>
+        <item name="android:fadingEdge">none</item>
+    </style>
 
 
 </resources>

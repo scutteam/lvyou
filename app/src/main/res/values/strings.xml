@@ -7,16 +7,18 @@
     <string name="title_activity_make_journey">MakeJourneyActivity</string>
     <string name="title_activity_lv_you_application">LvYouApplication</string>
     <string name="title_activity_login">LoginActivity</string>
-<<<<<<< HEAD
     <string name="title_activity_bind_account">BindAccountActivity</string>
     <string name="title_activity_forget_password">ForgetPasswordActivity</string>
     <string name="title_activity_reset_password">ResetPasswordActivity</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="notice">注册即默认已经阅读并同意简游熊用户服务条款</string>
     <string name="title_activity_check_phone_number">CheckPhoneNumberActivity</string>
-
-=======
     <string name="title_activity_destination_detail">DestinationDetailActivity</string>
     <string name="title_activity_choose_begin_place">ChooseBeginPlaceActivity</string>
->>>>>>> 7023603ba68fead4f1d25262b5567cb06a1416d1
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">松开刷新数据</string>
+    <string name="xlistview_header_hint_loading">正在加载...</string>
+    <string name="xlistview_header_last_time">上次更新时间：</string>
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
 </resources>

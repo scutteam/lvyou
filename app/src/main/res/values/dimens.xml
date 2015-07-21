@@ -1,7 +1,6 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="nav_bar_height">48dp</dimen>
-
     <!-- Common -->
     <dimen name="view_small_height">10dp</dimen>
     <dimen name="view_normal_height">15dp</dimen>

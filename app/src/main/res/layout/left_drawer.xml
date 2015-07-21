@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="300dp"
+    android:background="@color/view_hotel_menu_tabber_background"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/layout_margin_normal"
+        android:orientation="vertical"
+        android:id="@+id/ll_avatar_layout"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content">
+        <com.scutteam.lvyou.widget.CircleImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/civ_avatar"
+            android:src="@mipmap/default_icon"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击登录"
+            android:textColor="@color/main_text_color"
+            android:padding="@dimen/layout_padding_small"
+            />
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp" 
+        android:drawableLeft="@mipmap/star"
+        />
+</LinearLayout>

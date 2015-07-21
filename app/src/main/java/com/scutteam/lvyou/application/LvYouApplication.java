@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.activeandroid.ActiveAndroid;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class LvYouApplication extends Application {
 
@@ -15,12 +17,10 @@ public class LvYouApplication extends Application {
 
         context = this;
 
-//        ImageLoaderConfiguration configuration = ImageLoaderConfiguration
-//                .createDefault(this);
-//
-//        //Initialize ImageLoader with configuration.
-//        ImageLoader.getInstance().init(configuration);
+        ImageLoaderConfiguration configuration = ImageLoaderConfiguration
+                .createDefault(this);
 
+        ImageLoader.getInstance().init(configuration);
         ActiveAndroid.initialize(this);
     }
     
