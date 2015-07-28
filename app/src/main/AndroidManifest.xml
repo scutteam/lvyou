@@ -76,7 +76,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MakeJourneyActivity"
+            android:name=".activity.MakeJourneyActivity"
             android:label="@string/title_activity_make_journey" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
