@@ -6,14 +6,22 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.scutteam.lvyou.R;
+import com.scutteam.lvyou.constant.Constants;
 import com.scutteam.lvyou.util.ScreenManager;
+
+import org.apache.http.Header;
+import org.json.JSONObject;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,6 +34,7 @@ public class ForgetPasswordActivity extends Activity implements View.OnClickList
     private TextView mTvSubmit;
     private TextView mTvGetCaptcha;
     private ImageButton mIbtnBack;
+    private Long user_id = 0L;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -43,11 +52,20 @@ public class ForgetPasswordActivity extends Activity implements View.OnClickList
                         mTvGetCaptcha.setText("已发送("+now_captcha_update_time+")");
                     }
                     break;
+                case CHECK_CAPTCHA_CORRECT:
+                    //判断成功后 跳转到修改密码界面
+                    Intent intent = new Intent();
+                    intent.putExtra("user_id",user_id);
+                    intent.setClass(ForgetPasswordActivity.this,ResetPasswordActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.push_right_out,R.anim.push_left_in);
+                    break;
             }
         }
     };
     private static final int UPDATE_CAPTCHA_TEXT = 100;
     private static final int DEFAULT_CAPTCHA_UPDATE_TIME = 60;
+    private static final int CHECK_CAPTCHA_CORRECT = 101;
     private int now_captcha_update_time = 0;
     private Timer timer;
     
@@ -82,6 +100,37 @@ public class ForgetPasswordActivity extends Activity implements View.OnClickList
         mTvGetCaptcha.setOnClickListener(this);
         mIbtnBack.setOnClickListener(this);
     }
+    
+    public void checkCaptcha() {
+        
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("phone",mEtPhone.getText().toString());
+        params.put("verifyCode",mEtCaptcha.getText().toString());
+        client.post(ForgetPasswordActivity.this,Constants.URL + "user/personal.verification_code.do",params,new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                
+                try {
+                    Log.e("response_captcha",response.toString());
+                    int code = response.getInt("code");
+                    if(code == 0) {
+                         handler.sendEmptyMessage(CHECK_CAPTCHA_CORRECT);
+                    } else {
+                         Toast.makeText(ForgetPasswordActivity.this,response.getString("msg"),Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } 
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
+    }
 
     @Override
     public void onClick(View v) {
@@ -93,18 +142,15 @@ public class ForgetPasswordActivity extends Activity implements View.OnClickList
                     Toast.makeText(ForgetPasswordActivity.this,"手机号码不能为空",Toast.LENGTH_SHORT).show();
                 } else {
                     //提交
-                    //判断成功后 跳转到修改密码界面
-                    Intent intent = new Intent();
-                    intent.setClass(ForgetPasswordActivity.this,ResetPasswordActivity.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.push_right_out,R.anim.push_left_in);
+                    checkCaptcha();
                 }
                 break;
             case R.id.tv_get_captcha:
-                Toast.makeText(ForgetPasswordActivity.this,"发送成功...",Toast.LENGTH_SHORT).show();
-                mTvGetCaptcha.setBackgroundDrawable(getResources().getDrawable(R.drawable.captcha_button_background_selected));
-                now_captcha_update_time = DEFAULT_CAPTCHA_UPDATE_TIME;
-                startCaptchaTimer();
+                if(TextUtils.isEmpty(mEtPhone.getText())) {
+                    Toast.makeText(ForgetPasswordActivity.this,"手机号码不能为空",Toast.LENGTH_SHORT).show();
+                } else {
+                    getCaptcha();
+                }
                 break;
             case R.id.ibtn_back:
                 finish();
@@ -112,6 +158,42 @@ public class ForgetPasswordActivity extends Activity implements View.OnClickList
             default:
                 break;
         }
+    }
+    
+    public void getCaptcha() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("mobile",mEtPhone.getText().toString());
+        client.post(ForgetPasswordActivity.this, Constants.URL + "user/personal.send_code_check.do",params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                
+                try {
+                    Log.e("user_id",response.toString());
+                    int code = response.getInt("code");
+                    if(code == 0) {
+                        user_id = response.getLong("data");
+                        
+                        Toast.makeText(ForgetPasswordActivity.this,"发送成功...",Toast.LENGTH_SHORT).show();
+                        mTvGetCaptcha.setBackgroundDrawable(getResources().getDrawable(R.drawable.captcha_button_background_selected));
+                        now_captcha_update_time = DEFAULT_CAPTCHA_UPDATE_TIME;
+                        startCaptchaTimer();
+                    } else {
+                        Toast.makeText(ForgetPasswordActivity.this,response.getString("msg"),Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                
+                
+            }
+        });
     }
 
     public void startCaptchaTimer() {

@@ -67,26 +67,44 @@ public class ScreenManager {
             }
         }
     }
+    
+    public void backToFirstActivity() {
+        for (int i = 0, size = activityStack.size(); i < size; i++){
+            if(i!=0) {
+                if (null != activityStack.get(i)){
+                    activityStack.get(i).finish();
+                }
+            }
+        }
+    }
     /**
      * 结束所有Activity
      */
     public void finishAllActivity(){
-        for (int i = 0, size = activityStack.size(); i < size; i++){
-            if (null != activityStack.get(i)){
-                activityStack.get(i).finish();
+        if(activityStack.size() > 0) {
+            for (int i = 0, size = activityStack.size(); i < size; i++){
+                if (null != activityStack.get(i)){
+                    activityStack.get(i).finish();
+                }
             }
+            activityStack.clear();
         }
-        activityStack.clear();
     }
     /**
      * 退出应用程序
      */
     public void AppExit(Context context) {
         try {
-            finishAllActivity();
-            ActivityManager activityMgr= (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-            activityMgr.restartPackage(context.getPackageName());
-            System.exit(0);
-        } catch (Exception e) {        }
+            if(activityStack == null) {
+                System.exit(0);
+            } else {
+                finishAllActivity();
+                ActivityManager activityMgr= (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+                activityMgr.restartPackage(context.getPackageName());
+                System.exit(0);
+            }
+        } catch (Exception e) { 
+            e.printStackTrace();
+        }
     }
 }

@@ -4,6 +4,7 @@
     <color name="price_color">#ff910d</color>
     <color name="delete_or_warn_color">#fa5a60</color>
     <color name="main_text_color">#565656</color>
+    <color name="select_list_view_item_background_color">#fafafa</color>
     <color name="secondary_text_color">#8e8e8e</color>
     <color name="line_card_shadow_color">#ededed</color>
     <color name="captcha_selected_color">#cccccc</color>
@@ -21,6 +22,7 @@
     <color name="blue_color">#6478AA</color>
     <color name="black">#000000</color>
     <color name="black_60">#60000000</color>
+    <color name="black_30">#30000000</color>
     <color name="ldrawer_color">#FFFFFF</color>
     <color name="hint_color">#B4B4B4</color>
     <color name="default_bg">#f0f0f0</color>

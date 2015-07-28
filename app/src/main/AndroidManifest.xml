@@ -3,7 +3,7 @@
     package="com.scutteam.lvyou" >
 
     <uses-sdk android:minSdkVersion="10" />
-    
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -18,6 +18,8 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".application.LvYouApplication"
@@ -25,13 +27,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        
         <meta-data
             android:name="AA_DB_NAME"
-            android:value="Pickrand.db" />
+            android:value="lvyou.db" />
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="5" />
+            android:value="1" />
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="55ade01f67e58e33c10002b4" >
@@ -65,10 +66,14 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
-
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".MakeJourneyActivity"
@@ -85,43 +90,61 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.BindAccountActivity"
             android:label="@string/title_activity_bind_account" >
         </activity>
-        
         <activity
             android:name=".activity.ForgetPasswordActivity"
             android:label="@string/title_activity_forget_password" >
         </activity>
-        
         <activity
             android:name=".activity.ResetPasswordActivity"
             android:label="@string/title_activity_reset_password" >
         </activity>
-        
         <activity
             android:name=".activity.RegisterActivity"
             android:label="@string/title_activity_register" >
         </activity>
-        
         <activity
             android:name=".activity.CheckPhoneNumberActivity"
             android:label="@string/title_activity_check_phone_number" >
         </activity>
-        
         <activity
             android:name=".activity.DestinationDetailActivity"
             android:label="@string/title_activity_destination_detail" >
         </activity>
-        
         <activity
             android:name=".activity.SelectBeginPlaceActivity"
             android:label="@string/title_activity_choose_begin_place" >
         </activity>
+        <activity
+            android:name=".fragment.MainFragment"
+            android:label="@string/title_activity_main_fragment" >
+        </activity>
+        <activity
+            android:name=".fragment.AboutAppFragment"
+            android:label="@string/title_activity_about_app" >
+        </activity>
+        <activity
+            android:name=".activity.ModifyUserNameActivity"
+            android:label="@string/title_activity_modify_user_name" >
+        </activity>
+        <activity
+            android:name=".activity.SetRealNameActivity"
+            android:label="@string/title_activity_set_real_name" >
+        </activity>
+        <activity
+            android:name=".activity.ModifyBindPhoneActivity"
+            android:label="@string/title_activity_modify_bind_phone" >
+        </activity>
+        <activity
+            android:name=".activity.ModifyPasswordActivity"
+            android:label="@string/title_activity_modify_password" >
+        </activity>
     </application>
+
 </manifest>

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.LinearInterpolator;
@@ -21,10 +22,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.scutteam.lvyou.R;
 import com.scutteam.lvyou.application.LvYouApplication;
 import com.scutteam.lvyou.constant.Constants;
 import com.scutteam.lvyou.util.DensityUtil;
+import com.scutteam.lvyou.util.ScreenManager;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
@@ -32,6 +37,9 @@ import com.umeng.socialize.controller.listener.SocializeListeners;
 import com.umeng.socialize.exception.SocializeException;
 import com.umeng.socialize.sso.QZoneSsoHandler;
 import com.umeng.socialize.sso.UMQQSsoHandler;
+
+import org.apache.http.Header;
+import org.json.JSONObject;
 
 import java.util.Map;
 import java.util.Timer;
@@ -65,7 +73,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
+            Intent intent = null;
             switch (msg.what) {
                 case UPDATE_CAPTCHA_TEXT:
                     now_captcha_update_time--;
@@ -77,25 +85,44 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                         mTvGetCaptcha.setText("已发送("+now_captcha_update_time+")");
                     }
                     break;
+                case CHECK_CAPTCHA_CORRECT:
+                    //准备注册
+                    intent = new Intent();
+                    intent.putExtra("phone",mEtPhone.getText().toString());
+                    intent.putExtra("captcha",mEtCaptcha.getText().toString());
+                    intent.setClass(RegisterActivity.this,CheckPhoneNumberActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.push_right_out,R.anim.push_left_in);
+                    break;
             }
         }
     };
     private static final int UPDATE_CAPTCHA_TEXT = 100;
     private static final int DEFAULT_CAPTCHA_UPDATE_TIME = 60;
+    private static final int CHECK_CAPTCHA_CORRECT = 101;
     private int now_captcha_update_time = 0;
     private Timer timer;
-    
+    private String screen_name;
+    private String profile_image_url;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        ScreenManager.getScreenManager().addActivity(RegisterActivity.this);
         initUmeng();
         initView();
         initListener();
     }
-    
+
+    @Override
+    protected void onDestroy() {
+
+        ScreenManager.getScreenManager().finishActivity(RegisterActivity.this);
+        super.onDestroy();
+    }
+
     public void initUmeng() {
         addQZoneQQPlatform();
     }
@@ -283,12 +310,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                } else if (TextUtils.isEmpty(mEtCaptcha.getText())) {
                    Toast.makeText(RegisterActivity.this,"验证码不能为空",Toast.LENGTH_SHORT).show();
                } else {
-                   //准备注册
-                   intent = new Intent();
-                   intent.putExtra("phone",mEtPhone.getText().toString());
-                   intent.setClass(RegisterActivity.this,CheckPhoneNumberActivity.class);
-                   startActivity(intent);
-                   overridePendingTransition(R.anim.push_right_out,R.anim.push_left_in);
+                   check_captcha();
                }
                 break;
             case R.id.ll_weibo:
@@ -304,15 +326,75 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.tv_get_captcha:
-                //发送验证码
-                //确定已经发送验证码了 之后 开启定时器
-                Toast.makeText(RegisterActivity.this,"发送成功...",Toast.LENGTH_SHORT).show();
-                now_captcha_update_time = DEFAULT_CAPTCHA_UPDATE_TIME;
-                startCaptchaTimer();
+                if(TextUtils.isEmpty(mEtPhone.getText())) {
+                    Toast.makeText(RegisterActivity.this,"手机号码不能为空",Toast.LENGTH_SHORT).show();
+                } else {
+                    getCaptcha();
+                }
                 break;
             default:
                 break;
         }
+    }
+    
+    public void check_captcha() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("phone",mEtPhone.getText().toString());
+        params.put("verifyCode",mEtCaptcha.getText().toString());
+        client.post(RegisterActivity.this,Constants.URL + "user/personal.verification_code.do",params,new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                try {
+                    Log.e("response_captcha", response.toString());
+                    int code = response.getInt("code");
+                    if(code == 0) {
+                        handler.sendEmptyMessage(CHECK_CAPTCHA_CORRECT);
+                    } else {
+                        Toast.makeText(RegisterActivity.this,response.getString("msg"),Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
+    }
+    
+    public void getCaptcha() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("mobile",mEtPhone.getText().toString());
+        client.post(RegisterActivity.this, Constants.URL + "user/personal.send_code.do",params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                try {
+                    int code = response.getInt("code");
+                    if(code == 0) {
+                        Toast.makeText(RegisterActivity.this,"发送成功...",Toast.LENGTH_SHORT).show();
+                        now_captcha_update_time = DEFAULT_CAPTCHA_UPDATE_TIME;
+                        startCaptchaTimer();
+                    } else {
+                        Toast.makeText(RegisterActivity.this,response.getString("msg"),Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
     }
 
     /**
@@ -333,6 +415,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void onComplete(Bundle value, SHARE_MEDIA platform) {
+
                 Toast.makeText(RegisterActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                 String uid = value.getString("uid");
                 if (!TextUtils.isEmpty(uid)) {
@@ -340,12 +423,6 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 } else {
                     Toast.makeText(RegisterActivity.this, "授权失败...", Toast.LENGTH_SHORT).show();
                 }
-
-                //接下来绑定账号
-                Intent intent = new Intent();
-                intent.setClass(RegisterActivity.this,BindAccountActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.push_left_in,R.anim.push_right_out);
             }
 
             @Override
@@ -354,7 +431,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         });
     }
 
-    private void getUserInfo(SHARE_MEDIA platform) {
+    private void getUserInfo(final SHARE_MEDIA platform) {
         mController.getPlatformInfo(RegisterActivity.this, platform, new SocializeListeners.UMDataListener() {
 
             @Override
@@ -366,7 +443,24 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             public void onComplete(int status, Map<String, Object> info) {
                 //在这里获取用户的数据
                 if (info != null) {
-                    Toast.makeText(RegisterActivity.this, info.toString(), Toast.LENGTH_SHORT).show();
+                    if(platform == SHARE_MEDIA.SINA) {
+                        screen_name = String.valueOf(info.get("screen_name"));
+                        profile_image_url = String.valueOf(info.get("profile_image_url"));
+                    } else if(platform == SHARE_MEDIA.QQ) {
+                        screen_name = String.valueOf(info.get("screen_name"));
+                        profile_image_url = String.valueOf(info.get("profile_image_url"));
+                    } else if(platform == SHARE_MEDIA.WEIXIN) {
+
+                    }
+
+                    LvYouApplication.setImageProfileUrl(profile_image_url);
+                    LvYouApplication.setScreenName(screen_name);
+
+                    //接下来绑定账号
+                    Intent intent = new Intent();
+                    intent.setClass(RegisterActivity.this,BindAccountActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.push_left_in,R.anim.push_right_out);
                 }
             }
         });

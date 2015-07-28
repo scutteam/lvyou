@@ -52,7 +52,6 @@
         android:textColorHint="@color/white"
         android:textColor="@color/white"
         android:id="@+id/et_name"
-        android:inputType="textPassword"
         />
     <View
         android:layout_width="300dp"

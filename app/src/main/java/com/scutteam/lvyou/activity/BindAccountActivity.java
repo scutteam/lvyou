@@ -1,6 +1,7 @@
 package com.scutteam.lvyou.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.scutteam.lvyou.R;
+import com.scutteam.lvyou.util.ScreenManager;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -54,11 +56,19 @@ public class BindAccountActivity extends Activity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bind_account);
-        
+
+        ScreenManager.getScreenManager().addActivity(BindAccountActivity.this);
         initView();
         initListener();
     }
-    
+
+    @Override
+    protected void onDestroy() {
+        ScreenManager.getScreenManager().finishActivity(BindAccountActivity.this);
+        
+        super.onDestroy();
+    }
+
     public void initView () {
         mEtPhone = (EditText) findViewById(R.id.et_phone);
         mEtPassword = (EditText) findViewById(et_password);
@@ -108,6 +118,11 @@ public class BindAccountActivity extends Activity implements View.OnClickListene
                     Toast.makeText(BindAccountActivity.this,"密码不能为空",Toast.LENGTH_SHORT).show();
                 } else {
                     //完成绑定
+                    Intent intent = new Intent();
+                    intent.setClass(BindAccountActivity.this,MainActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.push_left_in,R.anim.push_right_out);
+
                 }
                 break;
             case R.id.ibtn_back:

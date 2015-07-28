@@ -21,4 +21,11 @@
     <string name="xlistview_header_last_time">上次更新时间：</string>
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">松开载入更多</string>
+    <string name="title_activity_main_fragment">MainFragment</string>
+    <string name="title_activity_about_app">AboutAppActivity</string>
+    <string name="title_activity_modify_user_name">ModifyUserNameActivity</string>
+    <string name="title_activity_set_real_name">SetRealNameActivity</string>
+    <string name="title_activity_modify_bind_phone">ModifyBindPhoneActivity</string>
+    <string name="title_activity_modify_password">ModifyPasswordActivity</string>
+
 </resources>

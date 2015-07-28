@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="230dp"
+    android:layout_height="140dp"
+    android:layout_gravity="center"
+    android:background="@drawable/fragment_user_item_background"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="更换头像"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:textColor="@color/black"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:drawableLeft="@mipmap/camera"
+        android:text="拍照"
+        android:paddingLeft="@dimen/layout_padding_small"
+        android:textSize="16sp"
+        android:id="@+id/tv_camera"
+        android:drawablePadding="@dimen/layout_padding_small"
+        android:gravity="center_vertical"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:drawableLeft="@mipmap/picture"
+        android:text="从相册上传"
+        android:textSize="16sp"
+        android:paddingLeft="@dimen/layout_padding_small"
+        android:id="@+id/tv_picture"
+        android:drawablePadding="@dimen/layout_padding_small"
+        android:gravity="center_vertical"
+        />
+</LinearLayout>

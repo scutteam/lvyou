@@ -1,32 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="300dp"
+    android:orientation="vertical" android:layout_width="250dp"
     android:background="@color/view_hotel_menu_tabber_background"
+    android:layout_gravity="left"
     android:layout_height="match_parent">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/layout_margin_normal"
-        android:orientation="vertical"
-        android:id="@+id/ll_avatar_layout"
-        android:gravity="center_horizontal"
+        android:id="@+id/rl_avatar_layout"
         android:layout_height="wrap_content">
         <com.scutteam.lvyou.widget.CircleImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/civ_avatar"
+            android:layout_centerHorizontal="true"
             android:src="@mipmap/default_icon"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="点击登录"
+            android:id="@+id/tv_name"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/civ_avatar"
             android:textColor="@color/main_text_color"
             android:padding="@dimen/layout_padding_small"
             />
-    </LinearLayout>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            android:src="@mipmap/right_arrow"
+            android:id="@+id/iv_arrow_right"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="50dp" 
+        android:layout_height="50dp"
         android:drawableLeft="@mipmap/star"
+        android:text="首页"
+        android:paddingLeft="@dimen/layout_padding_normal"
+        android:id="@+id/tv_main"
+        android:background="@drawable/left_drawer_item_selector"
+        android:gravity="center_vertical"
+        android:textSize="18sp"
+        android:clickable="true"
+        android:textColor="@color/image_color"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:drawableLeft="@mipmap/destination_unselected"
+        android:text="目的地"
+        android:id="@+id/tv_destination"
+        android:background="@drawable/left_drawer_item_selector"
+        android:gravity="center_vertical"
+        android:textSize="18sp"
+        android:paddingLeft="@dimen/layout_padding_normal"
+        android:clickable="true"
+        android:textColor="@color/main_text_color"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:drawableLeft="@mipmap/package_unselected"
+        android:text="我的行程"
+        android:paddingLeft="@dimen/layout_padding_normal"
+        android:id="@+id/tv_my_plan"
+        android:clickable="true"
+        android:background="@drawable/left_drawer_item_selector"
+        android:gravity="center_vertical"
+        android:textSize="18sp"
+        android:textColor="@color/main_text_color"
+        />
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:drawableLeft="@mipmap/user_unlogined"-->
+        <!--android:text="个人资料"-->
+        <!--android:id="@+id/tv_user"-->
+        <!--android:background="@drawable/left_drawer_item_selector"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:textSize="18sp"-->
+        <!--android:clickable="true"-->
+        <!--android:textColor="@color/main_text_color"-->
+        <!--/>-->
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/line_height"-->
+        <!--android:background="@color/default_bg"-->
+        <!--/>-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="关于旅游保险"
+        android:id="@+id/tv_insurance"
+        android:paddingLeft="@dimen/layout_padding_normal"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:textSize="18sp"
+        android:textColor="@color/main_text_color"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="关于简游熊"
+        android:id="@+id/tv_about"
+        android:paddingLeft="@dimen/layout_padding_normal"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:textSize="18sp"
+        android:textColor="@color/main_text_color"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:textSize="18sp"
+        android:layout_weight="1"
+        android:padding="@dimen/layout_padding_normal"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="bottom"
+        android:text="退出账号"
+        android:textSize="18sp"
+        android:id="@+id/tv_logout"
+        android:visibility="gone"
+        android:padding="@dimen/layout_padding_normal"
         />
 </LinearLayout>

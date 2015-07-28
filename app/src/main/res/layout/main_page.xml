@@ -18,14 +18,15 @@
             android:layout_height="50dp"
             android:layout_centerInParent="true"
             android:text="首页"
+            android:id="@+id/tv_title"
             android:gravity="center"
             android:textColor="@color/image_color"
             android:textSize="20sp"
             />
     </RelativeLayout>
-    <com.scutteam.lvyou.widget.me.maxwin.view.XListView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:id="@+id/listView"
-        style="@style/listview_normal_style_with_no_divider"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:id="@+id/content"
+        ></FrameLayout>
 </LinearLayout>

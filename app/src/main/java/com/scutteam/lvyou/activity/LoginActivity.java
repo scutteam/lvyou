@@ -6,7 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -14,15 +17,20 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.scutteam.lvyou.R;
 import com.scutteam.lvyou.application.LvYouApplication;
 import com.scutteam.lvyou.constant.Constants;
 import com.scutteam.lvyou.util.DensityUtil;
+import com.scutteam.lvyou.util.ScreenManager;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
@@ -30,6 +38,9 @@ import com.umeng.socialize.controller.listener.SocializeListeners;
 import com.umeng.socialize.exception.SocializeException;
 import com.umeng.socialize.sso.QZoneSsoHandler;
 import com.umeng.socialize.sso.UMQQSsoHandler;
+
+import org.apache.http.Header;
+import org.json.JSONObject;
 
 import java.util.Map;
 
@@ -57,20 +68,60 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private UMSocialService mController = UMServiceFactory
             .getUMSocialService(Constants.DESCRIPTOR);
     private long mExitTime = 0L;
+    private boolean isQQ = false;
+    private boolean isWeibo = false;
+    private boolean isWeixin = false;
+    private String screen_name;
+    private String profile_image_url;
+    private ImageButton mIbtnBack;
+    
+    private Boolean is_back; //重置密码之后会回来这里 这个时候 不给返回
+    
+    public static final int LOGIN_SUCCESS = 10000;
+    public static final int LOGIN_FAIL = 10001;
+    public Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            
+            switch (msg.what) {
+                case LOGIN_SUCCESS:
+                    //准备登录
+                    Intent intent = new Intent();
+                    intent.setClass(LoginActivity.this,MainActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.push_left_in,R.anim.push_right_out);
+                    break;
+                case LOGIN_FAIL:
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
      
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        ScreenManager.getScreenManager().addActivity(LoginActivity.this);
+
+        initData();
         initUmeng();
         initView();
         initListener();
+    }
+    
+    public void initData() {
+        is_back = getIntent().getBooleanExtra("is_back",false);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        ScreenManager.getScreenManager().finishActivity(LoginActivity.this);
     }
 
     public void initUmeng() {
@@ -92,6 +143,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
     
     public void initView() {
+        mIbtnBack = (ImageButton) findViewById(R.id.ibtn_back);
         mLlMain = (LinearLayout) findViewById(R.id.ll_main);
         mTvLoginTitle = (TextView) findViewById(R.id.tv_login_title);
         mRlLoginTop = (RelativeLayout) findViewById(R.id.rl_login_top);
@@ -125,18 +177,19 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    if(isEtPasswordFocusBefore) {
-                        
+                    if (isEtPasswordFocusBefore) {
+
                     } else {
                         hideLoginTopAndOauth();
                     }
                     isEtPhoneFocusBefore = true;
                     isEtPasswordFocusBefore = false;
                 } else {
-                    
+
                 }
             }
         });
+        mIbtnBack.setOnClickListener(this);
         mEtPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -213,7 +266,86 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         mLlOauth.startAnimation(animation);
 
     }
+    
+    public void getLoginInfo() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("sessionid",LvYouApplication.getSessionId());
+        client.post(LoginActivity.this,Constants.URL + "user/mobilelogin.info.do",params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    Toast.makeText(LoginActivity.this,"获取用户信息成功",Toast.LENGTH_SHORT).show();
+                    JSONObject dataObject = response.getJSONObject("data");
+                    LvYouApplication.setScreenName(dataObject.getString("nickName"));
+                    if(!dataObject.getString("faceIcon").equals("null")) {
+                        LvYouApplication.setImageProfileUrl(Constants.IMAGE_URL + dataObject.getString("faceIcon"));
+                    } else {
+                        LvYouApplication.setImageProfileUrl(null);
+                    }
 
+                    Message message = Message.obtain();
+                    message.what = LOGIN_SUCCESS;
+                    handler.sendMessage(message);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
+    }
+    
+    public void startLogin() {
+        String phone = mEtPhone.getText().toString();
+        String password = mEtPassword.getText().toString();
+
+        AsyncHttpClient client = new AsyncHttpClient();
+//        client.addHeader("user-agent", "Android");
+//        httpRequest.header("user-agent", "Android");
+        RequestParams params = new RequestParams();
+        params.put("phone",phone);
+        params.put("pwd",password);
+        client.post(LoginActivity.this,Constants.URL+"user/mobilelogin.login.do",params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                
+                try {
+                    Log.e("response",response.toString());
+                    int code = response.getInt("code");
+                    String session_data = response.getString("data");
+                    
+                    if(code == 0) {
+                        Toast.makeText(LoginActivity.this,"登录成功,正在获取用户信息",Toast.LENGTH_SHORT).show();
+                        LvYouApplication.setSessionId(session_data);
+                        getLoginInfo();
+                    } else if(code == 1) {
+                        Toast.makeText(LoginActivity.this,"手机号码不存在",Toast.LENGTH_SHORT).show();
+                        mEtPhone.setText("");
+                    } else if(code == 2) {
+                        Toast.makeText(LoginActivity.this,"密码错误",Toast.LENGTH_SHORT).show();
+                        mEtPassword.setText("");
+                    } else if(code == 9) {
+                        Toast.makeText(LoginActivity.this,"发现异常,请稍后重试",Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+
+                Log.e("response_fail",responseString);
+            }
+        });
+    }
 
     @Override
     public void onClick(View v) {
@@ -227,20 +359,31 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     forceHideKeyboard(mEtPhone); //强制退出键盘
                 }
                 break;
+            case R.id.ibtn_back:
+                if(!is_back) {
+                    finish();
+                }
+                break;
             case R.id.tv_login:
-                Toast.makeText(LoginActivity.this,"准备登录",Toast.LENGTH_SHORT).show();
+                if(TextUtils.isEmpty(mEtPhone.getText())) {
+                    Toast.makeText(LoginActivity.this,"手机号码不能为空",Toast.LENGTH_SHORT).show();
+                } else if(TextUtils.isEmpty(mEtPassword.getText())) {
+                    Toast.makeText(LoginActivity.this,"密码不能为空",Toast.LENGTH_SHORT).show();
+                } else {
+                    startLogin();
+                }
                 break;
             case R.id.tv_forget_password:
                 intent = new Intent();
                 intent.setClass(LoginActivity.this,ForgetPasswordActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.push_right_out,R.anim.push_left_in);
+                overridePendingTransition(R.anim.push_left_in,R.anim.push_right_out);
                 break;
             case R.id.tv_register:
                 intent = new Intent();
                 intent.setClass(LoginActivity.this,RegisterActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.push_right_out,R.anim.push_left_in);
+                overridePendingTransition(R.anim.push_left_in,R.anim.push_right_out);
                 break;
             case R.id.ll_weibo:
                 login(SHARE_MEDIA.SINA);
@@ -274,6 +417,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void onComplete(Bundle value, SHARE_MEDIA platform) {
+                
                 Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                 String uid = value.getString("uid");
                 if (!TextUtils.isEmpty(uid)) {
@@ -281,12 +425,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 } else {
                     Toast.makeText(LoginActivity.this, "授权失败...", Toast.LENGTH_SHORT).show();
                 }
-                
-                //接下来绑定账号
-                Intent intent = new Intent();
-                intent.setClass(LoginActivity.this,BindAccountActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.push_left_in,R.anim.push_right_out);
             }
 
             @Override
@@ -295,7 +433,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         });
     }
 
-    private void getUserInfo(SHARE_MEDIA platform) {
+    private void getUserInfo(final SHARE_MEDIA platform) {
         mController.getPlatformInfo(LoginActivity.this, platform, new SocializeListeners.UMDataListener() {
 
             @Override
@@ -307,7 +445,24 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             public void onComplete(int status, Map<String, Object> info) {
                 //在这里获取用户的数据
                 if (info != null) {
-                    Toast.makeText(LoginActivity.this, info.toString(), Toast.LENGTH_SHORT).show();
+                    if(platform == SHARE_MEDIA.SINA) {
+                        screen_name = String.valueOf(info.get("screen_name"));
+                        profile_image_url = String.valueOf(info.get("profile_image_url"));
+                    } else if(platform == SHARE_MEDIA.QQ) {
+                        screen_name = String.valueOf(info.get("screen_name"));
+                        profile_image_url = String.valueOf(info.get("profile_image_url"));
+                    } else if(platform == SHARE_MEDIA.WEIXIN) {
+
+                    }
+                    
+                    LvYouApplication.setImageProfileUrl(profile_image_url);
+                    LvYouApplication.setScreenName(screen_name);
+
+                    //接下来绑定账号
+                    Intent intent = new Intent();
+                    intent.setClass(LoginActivity.this,BindAccountActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.push_left_in,R.anim.push_right_out);
                 }
             }
         });
@@ -315,14 +470,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK) {
-            if(System.currentTimeMillis() - mExitTime > 2000) {
-                mExitTime = System.currentTimeMillis();
-                Toast.makeText(LoginActivity.this,"两次点击退出",Toast.LENGTH_SHORT).show();
+        if(!is_back) {
+            return super.onKeyDown(keyCode, event);
+        } else {
+            if(keyCode == KeyEvent.KEYCODE_BACK) {
+                return true;//不让返回
             } else {
-                System.exit(0);
-            }
+                return super.onKeyDown(keyCode, event);
+            }   
         }
-        return true;
     }
 }

@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.scutteam.lvyou.fragment.AboutAppFragment">
+    
+    <ImageView
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:src="@mipmap/about_app"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:text="v1.0"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/image_color"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:text="一切从简,随心旅游"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/image_color"
+        android:layout_marginTop="50dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="match_parent">    
+    </LinearLayout>
+    <TextView
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Copyrights® 2015 etbear.com All Rights Reserved"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/image_color"
+        />
+</LinearLayout>

@@ -10,6 +10,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.scutteam.lvyou.R;
+import com.scutteam.lvyou.model.Destination;
 
 
 public class MakeJourneyActivity extends Activity {
@@ -27,12 +28,22 @@ public class MakeJourneyActivity extends Activity {
     private TextView minusMemberNums = null;              //减少一个团员
     private TextView plusMemberNums = null;               //增加一个团员
     private TextView showMemberNums = null;               //显示团员数量
+    
+    private Long destination_id; //目的地的id
+    private Destination destination; //所选目的地
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_journey);
+        
+        initData();
         init();
+    }
+    
+    public void initData() {
+        destination_id = getIntent().getLongExtra("destination_id",0L);
+        destination = Destination.findDestinationById(destination_id);
     }
 
     /**

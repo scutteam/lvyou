@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:paddingBottom="@dimen/layout_padding_normal"
+    android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/iv_background"
+        android:scaleType="fitXY"
+        />
+    <LinearLayout
+        android:layout_width="300dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:layout_height="100dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="到外面去看看"
+            android:id="@+id/tv_title"
+            android:textSize="35sp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="11个目的地"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:id="@+id/tv_short_intro_or_num_of_destination"
+            android:textColor="@color/white"
+            android:paddingTop="@dimen/layout_padding_tiny"
+            />
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:drawableLeft="@mipmap/mark"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:id="@+id/tv_mark"
+        android:textColor="@color/white"
+        android:paddingBottom="@dimen/layout_padding_small"
+        android:layout_marginTop="@dimen/layout_margin_small"
+        android:drawablePadding="@dimen/layout_padding_small"
+        android:paddingRight="@dimen/layout_padding_small"
+        android:layout_height="wrap_content" />
+    
+</RelativeLayout>

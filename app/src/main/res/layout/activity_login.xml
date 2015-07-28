@@ -11,6 +11,7 @@
         android:layout_height="@dimen/nav_bar_height">    
         <ImageButton
             android:layout_width="40dp"
+            android:id="@+id/ibtn_back"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:background="@mipmap/back"
