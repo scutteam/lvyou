@@ -13,7 +13,7 @@ import com.scutteam.lvyou.R;
 import com.scutteam.lvyou.model.Destination;
 
 
-public class MakeJourneyActivity extends Activity {
+public class MakeJourneyActivity extends Activity implements View.OnClickListener {
     final int imageWidthRate = 4;                          //固定图片的宽高比例为4:3
     final int imageHeightRate = 3;
 
@@ -24,9 +24,6 @@ public class MakeJourneyActivity extends Activity {
     private RatingBar destinationStar = null;             //目的地获得星数对应的Bar
     private TextView destinationRatingNum = null;         //目的地获得星数对应的数值
     private TextView destionationDetail = null;           //目的地的详细描述
-    private TextView selectBeginPlace = null;             //选择出发地点
-    private TextView minusMemberNums = null;              //减少一个团员
-    private TextView plusMemberNums = null;               //增加一个团员
     private TextView showMemberNums = null;               //显示团员数量
     
     private Long destination_id; //目的地的id
@@ -38,7 +35,7 @@ public class MakeJourneyActivity extends Activity {
         setContentView(R.layout.activity_make_journey);
         
         initData();
-        init();
+        initView();
     }
     
     public void initData() {
@@ -49,7 +46,7 @@ public class MakeJourneyActivity extends Activity {
     /**
      * 初始化界面
      */
-    private void init(){
+    private void initView(){
         TextView title = (TextView)findViewById(R.id.center_text);
         title.setText("定制您的团队行程");
 
@@ -58,41 +55,38 @@ public class MakeJourneyActivity extends Activity {
         params.width = getResources().getDisplayMetrics().widthPixels;
         params.height = (params.width * imageHeightRate) / imageWidthRate;
         destinationImage.setLayoutParams(params);
-        destinationImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MakeJourneyActivity.this, DestinationDetailActivity.class);
-                startActivity(intent);
-            }
-        });
 
-        selectBeginPlace = (TextView)findViewById(R.id.mj_select_begin_place);
-        selectBeginPlace.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MakeJourneyActivity.this, SelectBeginPlaceActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        minusMemberNums = (TextView)findViewById(R.id.mj_member_minus);
-        plusMemberNums = (TextView)findViewById(R.id.mj_member_plus);
         showMemberNums = (TextView)findViewById(R.id.mj_member_num);
-        minusMemberNums.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                memberNums -= 1;
-                showMemberNums.setText(memberNums + "人成团");
-            }
-        });
-        plusMemberNums.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+
+    }
+
+    @Override
+    public void onClick(View v){
+        Intent intent = null;
+        switch(v.getId()){
+            case R.id.mj_image:
+                intent = new Intent(MakeJourneyActivity.this, DestinationDetailActivity.class);
+                startActivity(intent);
+                break;
+
+            case R.id.mj_select_begin_place:
+                intent = new Intent(MakeJourneyActivity.this, SelectBeginPlaceActivity.class);
+                startActivity(intent);
+                break;
+
+            case R.id.mj_member_plus:
                 memberNums += 1;
                 showMemberNums.setText(memberNums + "人成团");
-            }
-        });
+                break;
 
+            case R.id.mj_member_minus:
+                memberNums -= 1;
+                showMemberNums.setText(memberNums + "人成团");
+                break;
+
+            default:
+                break;
+        }
     }
 
 }
