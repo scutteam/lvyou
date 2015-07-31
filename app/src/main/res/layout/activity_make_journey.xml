@@ -17,41 +17,21 @@
                 android:layout_height="wrap_content"
                 layout = "@layout/titlebar"/>
 
-<<<<<<< HEAD
-        <ImageView
-            android:id="@+id/mj_image"
-            android:layout_width="match_parent"
-            android:layout_height="280dp"
-            android:scaleType="fitXY"
-            android:layout_below="@+id/mj_title"
-            android:src="@drawable/tupian43"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/mj_image"
-            android:orientation="horizontal"
-            >
-            <LinearLayout
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
-=======
             <ImageView
                 android:id="@+id/mj_image"
                 android:layout_width="match_parent"
                 android:layout_height="280dp"
+                android:scaleType="centerCrop"
                 android:layout_below="@+id/mj_title"
                 android:src="@drawable/tupian43"
                 />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
+                android:id="@+id/ll_top_layout"
                 android:layout_alignBottom="@+id/mj_image"
                 android:orientation="horizontal"
                 >
->>>>>>> db2419f8da6b8cc33725e8e35ae6b066edeaab8e
                 <LinearLayout
                     android:layout_width="0dip"
                     android:layout_height="72dp"
@@ -101,32 +81,20 @@
                         android:layout_height="36dp"
                         android:gravity="left|center_vertical"
                         android:text="36个学生团去过"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         android:textSize="18sp"
                         android:layout_marginLeft="12dp"
                         android:textColor="@color/white"
                         />
                 </LinearLayout>
                 <TextView
-<<<<<<< HEAD
-                    android:id="@+id/mj_destination_describe"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="left|center_vertical"
-                    android:textSize="18sp"
-                    android:maxLines="2"
-                    android:ellipsize="end"
-                    android:paddingBottom="@dimen/layout_padding_small"
-                    android:layout_marginLeft="12dp"
-                    android:textColor="@color/white"
-                    />
-=======
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_gravity="center_vertical"
                     android:gravity="right"
                     android:layout_marginRight="12dp"
                     android:background="@drawable/go_arrow_gray"/>
->>>>>>> db2419f8da6b8cc33725e8e35ae6b066edeaab8e
             </LinearLayout>
             <TextView
                 android:id="@+id/mj_select_begin_place"

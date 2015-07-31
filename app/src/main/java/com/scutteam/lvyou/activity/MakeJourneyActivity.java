@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -15,21 +18,22 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.scutteam.lvyou.R;
-<<<<<<< HEAD
 import com.scutteam.lvyou.constant.Constants;
-=======
 import com.scutteam.lvyou.dialog.DialogListener;
 import com.scutteam.lvyou.dialog.SelectDayDialog;
->>>>>>> db2419f8da6b8cc33725e8e35ae6b066edeaab8e
 import com.scutteam.lvyou.model.Destination;
+import com.scutteam.lvyou.model.Guide;
+import com.scutteam.lvyou.model.Hotel;
+import com.scutteam.lvyou.model.Insurance;
+import com.scutteam.lvyou.model.Meal;
+import com.scutteam.lvyou.model.ViewSpot;
 
 import org.apache.http.Header;
 import org.json.JSONObject;
 
-<<<<<<< HEAD
+import java.util.ArrayList;
+import java.util.List;
 
-=======
->>>>>>> db2419f8da6b8cc33725e8e35ae6b066edeaab8e
 public class MakeJourneyActivity extends Activity implements View.OnClickListener {
     final int imageWidthRate = 4;                          //固定图片的宽高比例为4:3
     final int imageHeightRate = 3;
@@ -50,6 +54,39 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     private Long destination_id; //目的地的id
     private Destination destination; //所选目的地
     private Context mContext = null;
+    private List<Hotel> hotelList = new ArrayList<Hotel>();
+    private List<Insurance>insuranceList = new ArrayList<Insurance>();
+    private List<Guide>guideList = new ArrayList<Guide>();
+    private List<ViewSpot>viewSpotList = new ArrayList<ViewSpot>();
+    private List<Meal>mealList = new ArrayList<Meal>();
+    private String address; //目的地地址
+    private String short_intro;
+    private String thumb_pic;
+    private String top_pic;
+    private String title;
+    private Double score;   
+    private int minNum;
+    private String long_intro;
+    private String local;
+    private String label;
+    private int limit_num;
+    private boolean is_hot;
+    private int maxNum;
+    
+    private LinearLayout mLlTopLayout;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            
+            switch (msg.what) {
+                case REFRESH_DATA_SUCCESS:
+                    refreshUi();
+                    break;
+            }
+        }
+    };
+    private static final int REFRESH_DATA_SUCCESS = 666666;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +96,6 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         initData();
         initView();
         initListener();
-<<<<<<< HEAD
-        refreshUi();
-=======
->>>>>>> db2419f8da6b8cc33725e8e35ae6b066edeaab8e
     }
 
     private void initData() {
@@ -77,7 +110,33 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 
-                
+                try {
+                    JSONObject dataObject = response.getJSONObject("data");
+                    
+                    address = dataObject.optString("address");
+                    guideList = Guide.insertWithArray(dataObject.getJSONArray("guideList"));
+                    hotelList = Hotel.insertWithArray(dataObject.getJSONArray("hotelList"));
+                    insuranceList = Insurance.insertWithArray(dataObject.getJSONArray("insuranceList"));
+                    is_hot = dataObject.optBoolean("isHot");
+                    label = dataObject.optString("label");
+                    limit_num = dataObject.optInt("limitNum");
+                    local = dataObject.optString("local");
+                    long_intro = dataObject.optString("longIntro");
+                    maxNum = dataObject.optInt("maxNum");
+                    mealList = Meal.insertWithArray(dataObject.getJSONArray("mealList"));
+                    minNum = dataObject.optInt("minNum");
+                    score = dataObject.optDouble("score");
+                    short_intro = dataObject.optString("shortIntro");
+                    thumb_pic = dataObject.optString("thumbPic");
+                    title = dataObject.optString("title");
+                    top_pic = dataObject.optString("topPic");
+                    viewSpotList = ViewSpot.insertWithArray(dataObject.getJSONArray("viewSpotList"));
+                    
+                    handler.sendEmptyMessage(REFRESH_DATA_SUCCESS);
+                    
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -90,24 +149,15 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     /**
      * 初始化界面
      */
-<<<<<<< HEAD
-    private void initView(){
-        TextView title = (TextView)findViewById(R.id.center_text);
-        title.setText("定制您的团队行程");
-        
-        destinationImage = (ImageView)findViewById(R.id.mj_image);
-=======
     private void initView() {
         TextView title = (TextView) findViewById(R.id.center_text);
         title.setText("定制您的团队行程");
 
         destinationImage = (ImageView) findViewById(R.id.mj_image);
->>>>>>> db2419f8da6b8cc33725e8e35ae6b066edeaab8e
         ViewGroup.LayoutParams params = destinationImage.getLayoutParams();   //设置ImageView横高比例为4:3
         params.width = getResources().getDisplayMetrics().widthPixels;
         params.height = (params.width * imageHeightRate) / imageWidthRate;
         destinationImage.setLayoutParams(params);
-<<<<<<< HEAD
         
         selectBeginPlace = (TextView)findViewById(R.id.mj_select_begin_place);
         minusMemberNums = (TextView)findViewById(R.id.mj_member_minus);
@@ -117,13 +167,10 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         destinationStar = (RatingBar) findViewById(R.id.mj_destination_star);
         destinationRatingNum = (TextView) findViewById(R.id.mj_destination_rate_num);
         destinationDetail = (TextView) findViewById(R.id.mj_destination_describe);
-    }
-    
-    public void initListener() {
-        destinationImage.setOnClickListener(this);
-        selectBeginPlace.setOnClickListener(this);
-        minusMemberNums.setOnClickListener(this);
-        plusMemberNums.setOnClickListener(this);
+        mLlTopLayout = (LinearLayout) findViewById(R.id.ll_top_layout);
+
+        beginDay = (TextView) findViewById(R.id.mj_begin_day);
+        returnDay = (TextView) findViewById(R.id.mj_return_day);
     }
     
     public void refreshUi() {
@@ -132,25 +179,14 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         destinationStar.setRating(Float.parseFloat(destination.score.toString()));
         destinationRatingNum.setText(destination.score.toString());
         destinationDetail.setText(destination.short_intro);
-=======
-
-        selectBeginPlace = (TextView) findViewById(R.id.mj_select_begin_place);
-
-        showMemberNums = (TextView) findViewById(R.id.mj_member_num);
-        minusMemberNums = (TextView) findViewById(R.id.mj_member_minus);
-        plusMemberNums = (TextView) findViewById(R.id.mj_member_plus);
-
-        beginDay = (TextView) findViewById(R.id.mj_begin_day);
-        returnDay = (TextView) findViewById(R.id.mj_return_day);
-
 
     }
 
     private void initListener() {
-        destinationImage.setOnClickListener(this);
         minusMemberNums.setOnClickListener(this);
         plusMemberNums.setOnClickListener(this);
         selectBeginPlace.setOnClickListener(this);
+        mLlTopLayout.setOnClickListener(this);
 
         //出发日期跟返程日期
         View.OnClickListener selectDayClickedListener = new View.OnClickListener() {
@@ -168,52 +204,37 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
 
         beginDay.setOnClickListener(selectDayClickedListener);
         returnDay.setOnClickListener(selectDayClickedListener);
->>>>>>> db2419f8da6b8cc33725e8e35ae6b066edeaab8e
     }
 
     @Override
     public void onClick(View v) {
         Intent intent = null;
         switch (v.getId()) {
-            case R.id.mj_image:
-                intent = new Intent(MakeJourneyActivity.this, DestinationDetailActivity.class);
-<<<<<<< HEAD
-                intent.putExtra("destination_id",destination_id);
-                startActivity(intent);
-                break;
-=======
-                startActivity(intent);
-                break;
-
->>>>>>> db2419f8da6b8cc33725e8e35ae6b066edeaab8e
             case R.id.mj_select_begin_place:
                 intent = new Intent(MakeJourneyActivity.this, SelectBeginPlaceActivity.class);
                 startActivity(intent);
                 break;
-<<<<<<< HEAD
             case R.id.mj_member_minus:
                 memberNums -= 1;
                 showMemberNums.setText(memberNums + "人成团");
                 break;
-=======
-
->>>>>>> db2419f8da6b8cc33725e8e35ae6b066edeaab8e
             case R.id.mj_member_plus:
                 memberNums += 1;
                 showMemberNums.setText(memberNums + "人成团");
                 break;
-<<<<<<< HEAD
-            
-=======
-
-            case R.id.mj_member_minus:
-                memberNums -= 1;
-                showMemberNums.setText(memberNums + "人成团");
+            case R.id.ll_top_layout:
+                intent = new Intent(MakeJourneyActivity.this, DestinationDetailActivity.class);
+                ArrayList<String>viewSpotStringList = new ArrayList<String>();
+                for(int i = 0 ; i < viewSpotList.size(); i++) {
+                    viewSpotStringList.add(viewSpotList.get(i).cover_pic);
+                }
+                intent.putStringArrayListExtra("viewSpotList",viewSpotStringList);
+                intent.putExtra("long_intro",long_intro);
+                intent.putExtra("destination_id",destination_id);
+                startActivity(intent);
                 break;
-
             default:
                 break;
->>>>>>> db2419f8da6b8cc33725e8e35ae6b066edeaab8e
         }
     }
 }
