@@ -118,4 +118,12 @@
     <dimen name="ldrawer_middleBarArrowSize">16dp</dimen>
     <dimen name="navdrawer_width">240dp</dimen>
 
+    <dimen name="text_size_day">16sp</dimen>
+    <dimen name="text_size_month">16sp</dimen>
+    <dimen name="text_size_day_name">10sp</dimen>
+    <dimen name="header_month_height">50dip</dimen>
+    <dimen name="selected_day_radius">16dip</dimen>
+    <dimen name="calendar_height">270dip</dimen>
+
+
 </resources>

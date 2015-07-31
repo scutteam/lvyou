@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/sdd_day"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_below="@id/mj_member"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/shape_mj_text_bg"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:clickable="true"
+        >
+        <TextView
+            android:id="@+id/sdd_day_begin"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="出发日期"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:textColor="@color/image_color"
+            android:clickable="true"
+            android:background="@drawable/selector_mj_tv"
+            />
+        <TextView
+            android:id="@+id/sdd_day_return"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="返程日期"
+            android:textSize="16sp"
+            android:textColor="#c5c5c5"
+            android:gravity="center"
+            android:clickable="true"
+            android:background="@drawable/selector_mj_tv"
+            />
+
+    </LinearLayout>
+
+    <com.scutteam.lvyou.util.calendarlistview.library.DayPickerView
+        android:id="@+id/pickerView"
+        app:colorSelectedDayBackground="@color/image_color"
+        app:calendarHeight="220dp"
+        app:enablePreviousDay="false"
+        app:currentDaySelected="true"
+        app:colorCurrentDay="#000000"
+        app:colorPreviousDay="#bebebe"
+        app:colorMonthName="#565656"
+        app:colorDayName="#565656"
+        app:colorNormalDay="#565656"
+        app:textSizeDay = "16sp"
+        app:textSizeDayName="13sp"
+        app:textSizeMonth="22sp"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:layout_below="@+id/sdd_day"
+        />
+
+
+</RelativeLayout>
