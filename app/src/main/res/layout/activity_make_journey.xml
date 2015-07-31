@@ -21,18 +21,19 @@
             android:id="@+id/mj_image"
             android:layout_width="match_parent"
             android:layout_height="280dp"
+            android:scaleType="fitXY"
             android:layout_below="@+id/mj_title"
             android:src="@drawable/tupian43"
             />
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="72dp"
+            android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/mj_image"
             android:orientation="horizontal"
             >
             <LinearLayout
                 android:layout_width="0dip"
-                android:layout_height="72dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_weight="1">
                 <LinearLayout
@@ -76,10 +77,12 @@
                 <TextView
                     android:id="@+id/mj_destination_describe"
                     android:layout_width="match_parent"
-                    android:layout_height="36dp"
+                    android:layout_height="wrap_content"
                     android:gravity="left|center_vertical"
-                    android:text="36个学生团去过"
                     android:textSize="18sp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:paddingBottom="@dimen/layout_padding_small"
                     android:layout_marginLeft="12dp"
                     android:textColor="@color/white"
                     />

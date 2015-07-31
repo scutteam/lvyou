@@ -68,19 +68,19 @@ public class LvYouTheme extends Model {
             theme.theme_id = theme_id;
             
             if(dataObject.has("coverPic")) {
-                theme.cover_pic = Constants.IMAGE_URL + dataObject.getString("coverPic");
+                theme.cover_pic = Constants.IMAGE_URL + dataObject.optString("coverPic");
             }
             if(dataObject.has("isHot")) {
-                theme.is_hot = dataObject.getBoolean("isHot");
+                theme.is_hot = dataObject.optBoolean("isHot");
             }
             if(dataObject.has("shortIntro")) {
-                theme.shortIntro = dataObject.getString("shortIntro");
+                theme.shortIntro = dataObject.optString("shortIntro");
             }
             if(dataObject.has("title")) {
-                theme.title = dataObject.getString("title");
+                theme.title = dataObject.optString("title");
             }
-            if(dataObject.has("dest_num")) {
-                theme.dest_num = dataObject.getInt("dest_num");
+            if(dataObject.has("destNum")) {
+                theme.dest_num = dataObject.optInt("destNum");
             }
                 
             theme.is_select = false;

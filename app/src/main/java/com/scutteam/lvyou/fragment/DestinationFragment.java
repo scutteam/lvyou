@@ -132,7 +132,7 @@ public class DestinationFragment extends Fragment implements XListView.IXListVie
 
         if(selected_theme_id != 0L) {
             for(int i = 0 ; i < themeList.size(); i++) {
-                if(themeList.get(i).theme_id.equals(selected_theme_id)) {
+                if(themeList.get(i).theme_id == selected_theme_id) {
                     themeList.get(i).is_select = true;
                     mTvSelect.setText(themeList.get(i).title);
                 }
