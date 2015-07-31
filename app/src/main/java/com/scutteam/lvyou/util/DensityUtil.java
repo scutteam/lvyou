@@ -131,4 +131,30 @@ public class DensityUtil {
         }
         return DisplayWidthPixels;
     }
+
+
+
+    public static int getScreenWidthDip(Context context) {
+        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+
+        return (int) (dm.widthPixels * dm.density);
+    }
+
+    public static int getScreenHeightDip(Context context) {
+        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+
+        return (int) (dm.heightPixels * dm.density);
+    }
+
+    public static int getScreenWidthPx(Context context) {
+        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+
+        return (dm.widthPixels);
+    }
+
+    public static int getScreenHeightPx(Context context) {
+        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+
+        return (dm.heightPixels);
+    }
 }
