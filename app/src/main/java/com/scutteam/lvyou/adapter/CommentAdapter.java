@@ -71,7 +71,8 @@ public class CommentAdapter extends BaseAdapter {
         Comment comment = commentList.get(position);
         ImageLoader.getInstance().displayImage(comment.face,viewHolder.mCivAvatar);
         viewHolder.mStarBar.setRating(Float.parseFloat(comment.total_score.toString()));
-        viewHolder.mTvName.setText(comment.total_comment);
+        viewHolder.mTvComment.setText(comment.total_comment);
+        viewHolder.mTvName.setText(comment.cust);
 
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         String new_time = sdf.format(new Date(Long.parseLong(comment.create_time)));
@@ -85,11 +86,13 @@ public class CommentAdapter extends BaseAdapter {
         public RatingBar mStarBar;
         public TextView mTvName;
         public TextView mTvTime;
+        public TextView mTvComment;
         
         public ViewHolder(View view) {
             mCivAvatar = (CircleImageView) view.findViewById(R.id.civ_avatar);
             mStarBar = (RatingBar) view.findViewById(R.id.rb_score);
             mTvName = (TextView) view.findViewById(R.id.tv_name);
+            mTvComment = (TextView) view.findViewById(R.id.tv_comment);
             mTvTime = (TextView) view.findViewById(R.id.tv_time);
         }
     }

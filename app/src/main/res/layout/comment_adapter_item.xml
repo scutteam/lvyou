@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp">
@@ -18,6 +17,7 @@
             style="@style/mjRatingBar"
             android:layout_toRightOf="@id/civ_avatar"
             android:layout_width="wrap_content"
+            android:isIndicator="true"
             android:layout_height="24dp"
             android:paddingTop="@dimen/layout_padding_tiny"
             android:layout_marginLeft="@dimen/layout_margin_tiny"
@@ -29,7 +29,10 @@
             android:layout_toRightOf="@id/civ_avatar"
             android:layout_width="wrap_content"
             android:layout_below="@id/rb_score"
+            android:layout_marginTop="@dimen/layout_padding_small"
             android:id="@+id/tv_name"
+            android:maxLength="20"
+            android:ellipsize="end"
             android:layout_marginLeft="@dimen/layout_margin_tiny"
             android:layout_height="wrap_content" />
         <TextView
@@ -38,15 +41,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_time"
+            android:layout_marginTop="@dimen/layout_padding_small"
             android:paddingLeft="@dimen/layout_padding_large"
             />
     </RelativeLayout>
-    
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/layout_padding_small"
         android:paddingRight="@dimen/layout_padding_small"
+        android:id="@+id/tv_comment"
         android:textSize="14sp"
         android:paddingBottom="@dimen/layout_padding_small"
         />

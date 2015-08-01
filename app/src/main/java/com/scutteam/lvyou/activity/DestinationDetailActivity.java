@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -68,6 +69,7 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
             }
         }
     };
+    public View mHeadView;
     public Destination destination;
     public static final int LOAD_COMMENT_SUCCESS = 88888;
     public TextView mTvCurrentPage;
@@ -82,6 +84,7 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
 
         initData();
         initView();
+        initHeadView();
         initListener();
     }
     
@@ -132,7 +135,7 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("kw.destId",destination_id);
-        client.get(DestinationDetailActivity.this, Constants.URL + "main/comment.page_list.json",params,new JsonHttpResponseHandler() {
+        client.get(DestinationDetailActivity.this, Constants.URL + "main/comment.dest_page_list.json",params,new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
@@ -163,20 +166,28 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
         listView.setPullRefreshEnable(false);
         mTvTitle = (TextView) findViewById(R.id.tv_title);
         mIvBack = (ImageView) findViewById(R.id.iv_back);
-        mTvIntro = (TextView) findViewById(R.id.tv_intro);
-        mTvDestinationName = (TextView) findViewById(R.id.tv_destination_name);
-        mRBDestinationStar = (RatingBar) findViewById(R.id.rb_destination_star);
-        mTvDestinationScore = (TextView) findViewById(R.id.tv_destination_score);
-        mTvCurrentPage = (TextView) findViewById(R.id.tv_current_page);
-        mTvTotalPage = (TextView) findViewById(R.id.tv_total_page);
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
+    }
+
+
+    public void initHeadView() {
+        mHeadView = LayoutInflater.from(DestinationDetailActivity.this).inflate(R.layout.destination_detail_head_layout,null);
+        mTvIntro = (TextView) mHeadView.findViewById(R.id.tv_intro);
+        mTvDestinationName = (TextView) mHeadView.findViewById(R.id.tv_destination_name);
+        mRBDestinationStar = (RatingBar) mHeadView.findViewById(R.id.rb_destination_star);
+        mTvDestinationScore = (TextView) mHeadView.findViewById(R.id.tv_destination_score);
+        mTvCurrentPage = (TextView) mHeadView.findViewById(R.id.tv_current_page);
+        mTvTotalPage = (TextView) mHeadView.findViewById(R.id.tv_total_page);
+        viewPager = (ViewPager) mHeadView.findViewById(R.id.viewPager);
         
+        listView.addHeaderView(mHeadView);
+
         mTvTitle.setText(destination.title);
         mTvDestinationName.setText(destination.title);
         mTvIntro.setText(long_intro);
         mRBDestinationStar.setRating(Float.parseFloat(destination.score.toString()));
         mTvDestinationScore.setText(destination.score.toString());
         mTvTotalPage.setText(viewSpotStringList.size()+"");
+
     }
     
     public void initListener() {
