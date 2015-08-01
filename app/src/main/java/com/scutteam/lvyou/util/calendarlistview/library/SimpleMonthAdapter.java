@@ -13,7 +13,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
-public class SimpleMonthAdapter extends Adapter<SimpleMonthAdapter.ViewHolder> implements OnDayClickListener {
+public class SimpleMonthAdapter extends Adapter<SimpleMonthAdapter.ViewHolder>
+        implements OnDayClickListener {
     protected static final int MONTHS_IN_YEAR = 12;
     private final TypedArray typedArray;
     private final Context mContext;
@@ -24,7 +25,8 @@ public class SimpleMonthAdapter extends Adapter<SimpleMonthAdapter.ViewHolder> i
     private final Integer lastMonth;
     private SimpleMonthView.OnDayClickListener onDayClickListener = null;
 
-    public SimpleMonthAdapter(Context context, DatePickerController datePickerController, TypedArray typedArray) {
+    public SimpleMonthAdapter(Context context,
+                              DatePickerController datePickerController, TypedArray typedArray) {
         this.typedArray = typedArray;
         this.calendar = Calendar.getInstance();
         this.firstMonth = calendar.get(Calendar.MONTH);
@@ -109,17 +111,38 @@ public class SimpleMonthAdapter extends Adapter<SimpleMonthAdapter.ViewHolder> i
     }
 
     protected void onDayTapped(SimpleMonthAdapter.CalendarDay calendarDay) {
-        this.mController.onDayOfMonthSelected(calendarDay.year, calendarDay.month, calendarDay.day);
-        this.setSelectedDay(calendarDay);
+
+        //禁止点击当前日期前面的日期
+        if(calendar.get(Calendar.YEAR) <= calendarDay.year
+                && calendar.get(Calendar.MONTH) <= calendarDay.month
+                && calendar.get(Calendar.DAY_OF_MONTH) <= calendarDay.day) {
+            this.mController.onDayOfMonthSelected(calendarDay.year, calendarDay.month, calendarDay.day);
+            this.setSelectedDay(calendarDay);
+        }
     }
 
     public void setSelectedDay(SimpleMonthAdapter.CalendarDay calendarDay) {
         if(this.selectedDays.getFirst() != null && this.selectedDays.getLast() == null) {
-            this.selectedDays.setLast(calendarDay);
-            if(((SimpleMonthAdapter.CalendarDay)this.selectedDays.getFirst()).month < calendarDay.month) {
-                for(int i = 0; i < ((SimpleMonthAdapter.CalendarDay)this.selectedDays.getFirst()).month - calendarDay.month - 1; ++i) {
-                    this.mController.onDayOfMonthSelected(((SimpleMonthAdapter.CalendarDay)this.selectedDays.getFirst()).year, ((SimpleMonthAdapter.CalendarDay)this.selectedDays.getFirst()).month + i, ((SimpleMonthAdapter.CalendarDay)this.selectedDays.getFirst()).day);
+            if(calendarDay.year > selectedDays.getFirst().year
+                    || (calendarDay.year == selectedDays.getFirst().year
+                        && calendarDay.month > selectedDays.getFirst().month)
+                    || (calendarDay.year == selectedDays.getFirst().year
+                        && calendarDay.month == selectedDays.getFirst().month
+                        && calendarDay.day > selectedDays.getFirst().day)) {
+                this.selectedDays.setLast(calendarDay);
+                if (((SimpleMonthAdapter.CalendarDay) this.selectedDays.getFirst()).month < calendarDay.month) {
+                    for (int i = 0;
+                         i < ((SimpleMonthAdapter.CalendarDay) this.selectedDays.getFirst()).month - calendarDay.month - 1;
+                         ++i) {
+                        this.mController.onDayOfMonthSelected(
+                                ((SimpleMonthAdapter.CalendarDay) this.selectedDays.getFirst()).year,
+                                ((SimpleMonthAdapter.CalendarDay) this.selectedDays.getFirst()).month + i,
+                                ((SimpleMonthAdapter.CalendarDay) this.selectedDays.getFirst()).day);
+                    }
                 }
+            }else{
+                this.selectedDays.setFirst(calendarDay);
+                this.selectedDays.setLast(null);
             }
         } else if(this.selectedDays.getLast() != null) {
             this.selectedDays.setFirst(calendarDay);

@@ -107,7 +107,8 @@ public class SimpleMonthView extends View {
         this.mPreviousDayColor = typedArray.getColor(styleable.DayPickerView_colorPreviousDay, resources.getColor(color.normal_day));
         this.mSelectedDaysColor = typedArray.getColor(styleable.DayPickerView_colorSelectedDayBackground, resources.getColor(color.selected_day_background));
         this.mMonthTitleBGColor = typedArray.getColor(styleable.DayPickerView_colorSelectedDayText, resources.getColor(color.selected_day_text));
-        this.mDrawRect = Boolean.valueOf(typedArray.getBoolean(styleable.DayPickerView_drawRoundRect, false));
+        //this.mDrawRect = Boolean.valueOf(typedArray.getBoolean(styleable.DayPickerView_drawRoundRect, false));
+        this.mDrawRect = true;
         this.mStringBuilder = new StringBuilder(50);
         MINI_DAY_NUMBER_TEXT_SIZE = typedArray.getDimensionPixelSize(styleable.DayPickerView_textSizeDay, resources.getDimensionPixelSize(dimen.text_size_day));
         MONTH_LABEL_TEXT_SIZE = typedArray.getDimensionPixelSize(styleable.DayPickerView_textSizeMonth, resources.getDimensionPixelSize(dimen.text_size_month));
@@ -119,6 +120,13 @@ public class SimpleMonthView extends View {
         this.initView();
     }
 
+    /**
+     * offset代表一个月第一个星期之前有几天（比如一个月第一天是星期3，那么offset是2）
+     * mNumCells代表一个月有多少天
+     * mNumDays代表一个星期几天
+     *
+     * @return
+     */
     private int calculateNumRows() {
         int offset = this.findDayOffset();
         int dividend = (offset + this.mNumCells) / this.mNumDays;
@@ -148,7 +156,9 @@ public class SimpleMonthView extends View {
     }
 
     private int findDayOffset() {
-        return (this.mDayOfWeekStart < this.mWeekStart ? this.mDayOfWeekStart + this.mNumDays : this.mDayOfWeekStart) - this.mWeekStart;
+        return (this.mDayOfWeekStart < this.mWeekStart
+                ? this.mDayOfWeekStart + this.mNumDays
+                : this.mDayOfWeekStart) - this.mWeekStart;
     }
 
     private String getMonthAndYearString() {
@@ -159,7 +169,11 @@ public class SimpleMonthView extends View {
     }
 
     private void onDayClick(CalendarDay calendarDay) {
-        if (this.mOnDayClickListener != null && (this.isPrevDayEnabled.booleanValue() || calendarDay.month != this.today.month || calendarDay.year != this.today.year || calendarDay.day >= this.today.monthDay)) {
+        if (this.mOnDayClickListener != null
+                && (this.isPrevDayEnabled.booleanValue()
+                  || calendarDay.month != this.today.month
+                  || calendarDay.year != this.today.year
+                  || calendarDay.day >= this.today.monthDay)) {
             this.mOnDayClickListener.onDayClick(this, calendarDay);
         }
 
@@ -170,7 +184,11 @@ public class SimpleMonthView extends View {
     }
 
     private boolean prevDay(int monthDay, Time time) {
-        return this.mYear < time.year || this.mYear == time.year && this.mMonth < time.month || this.mMonth == time.month && monthDay < time.monthDay;
+        return this.mYear < time.year
+                || this.mYear == time.year
+                && this.mMonth < time.month
+                || this.mMonth == time.month
+                && monthDay < time.monthDay;
     }
 
     protected void drawMonthNums(Canvas canvas) {
@@ -180,9 +198,17 @@ public class SimpleMonthView extends View {
 
         for (int day = 1; day <= this.mNumCells; ++day) {
             int x = paddingDay * (1 + dayOffset * 2) + this.mPadding;
-            if (this.mMonth == this.mSelectedBeginMonth && this.mSelectedBeginDay == day && this.mSelectedBeginYear == this.mYear || this.mMonth == this.mSelectedLastMonth && this.mSelectedLastDay == day && this.mSelectedLastYear == this.mYear) {
+            if (this.mMonth == this.mSelectedBeginMonth
+                    && this.mSelectedBeginDay == day
+                    && this.mSelectedBeginYear == this.mYear
+                    || this.mMonth == this.mSelectedLastMonth
+                    && this.mSelectedLastDay == day
+                    && this.mSelectedLastYear == this.mYear) {
                 if (this.mDrawRect.booleanValue()) {
-                    RectF rectF = new RectF((float) (x - DAY_SELECTED_CIRCLE_SIZE), (float) (y - MINI_DAY_NUMBER_TEXT_SIZE / 3 - DAY_SELECTED_CIRCLE_SIZE), (float) (x + DAY_SELECTED_CIRCLE_SIZE), (float) (y - MINI_DAY_NUMBER_TEXT_SIZE / 3 + DAY_SELECTED_CIRCLE_SIZE));
+                    RectF rectF = new RectF((float) (x - DAY_SELECTED_CIRCLE_SIZE),
+                            (float) (y - MINI_DAY_NUMBER_TEXT_SIZE / 3 - DAY_SELECTED_CIRCLE_SIZE),
+                            (float) (x + DAY_SELECTED_CIRCLE_SIZE),
+                            (float) (y - MINI_DAY_NUMBER_TEXT_SIZE / 3 + DAY_SELECTED_CIRCLE_SIZE));
                     canvas.drawRoundRect(rectF, 10.0F, 10.0F, this.mSelectedCirclePaint);
                 } else {
                     canvas.drawCircle((float) x, (float) (y - MINI_DAY_NUMBER_TEXT_SIZE / 3), (float) DAY_SELECTED_CIRCLE_SIZE, this.mSelectedCirclePaint);
@@ -197,28 +223,65 @@ public class SimpleMonthView extends View {
                 this.mMonthNumPaint.setTypeface(Typeface.defaultFromStyle(0));
             }
 
-            if (this.mMonth == this.mSelectedBeginMonth && this.mSelectedBeginDay == day && this.mSelectedBeginYear == this.mYear || this.mMonth == this.mSelectedLastMonth && this.mSelectedLastDay == day && this.mSelectedLastYear == this.mYear) {
+            if (this.mMonth == this.mSelectedBeginMonth
+                    && this.mSelectedBeginDay == day
+                    && this.mSelectedBeginYear == this.mYear
+                    || this.mMonth == this.mSelectedLastMonth
+                    && this.mSelectedLastDay == day
+                    && this.mSelectedLastYear == this.mYear) {
                 this.mMonthNumPaint.setColor(this.mMonthTitleBGColor);
             }
 
-            if (this.mSelectedBeginDay != -1 && this.mSelectedLastDay != -1 && this.mSelectedBeginYear == this.mSelectedLastYear && this.mSelectedBeginMonth == this.mSelectedLastMonth && this.mSelectedBeginDay == this.mSelectedLastDay && day == this.mSelectedBeginDay && this.mMonth == this.mSelectedBeginMonth && this.mYear == this.mSelectedBeginYear) {
-                this.mMonthNumPaint.setColor(this.mSelectedDaysColor);
+            if (this.mSelectedBeginDay != -1
+                    && this.mSelectedLastDay != -1
+                    && this.mSelectedBeginYear == this.mSelectedLastYear
+                    && this.mSelectedBeginMonth == this.mSelectedLastMonth
+                    && this.mSelectedBeginDay == this.mSelectedLastDay
+                    && day == this.mSelectedBeginDay
+                    && this.mMonth == this.mSelectedBeginMonth
+                    && this.mYear == this.mSelectedBeginYear) {
+                this.mMonthNumPaint.setColor(this.mMonthTitleBGColor);
+                RectF rectF = new RectF((float) (x - DAY_SELECTED_CIRCLE_SIZE),
+                        (float) (y - MINI_DAY_NUMBER_TEXT_SIZE / 3 - DAY_SELECTED_CIRCLE_SIZE),
+                        (float) (x + DAY_SELECTED_CIRCLE_SIZE),
+                        (float) (y - MINI_DAY_NUMBER_TEXT_SIZE / 3 + DAY_SELECTED_CIRCLE_SIZE));
+                canvas.drawRoundRect(rectF, 10.0F, 10.0F, this.mSelectedCirclePaint);
             }
 
             if (this.mSelectedBeginDay != -1 && this.mSelectedLastDay != -1 && this.mSelectedBeginYear == this.mSelectedLastYear && this.mSelectedBeginYear == this.mYear && (this.mMonth == this.mSelectedBeginMonth && this.mSelectedLastMonth == this.mSelectedBeginMonth && (this.mSelectedBeginDay < this.mSelectedLastDay && day > this.mSelectedBeginDay && day < this.mSelectedLastDay || this.mSelectedBeginDay > this.mSelectedLastDay && day < this.mSelectedBeginDay && day > this.mSelectedLastDay) || this.mSelectedBeginMonth < this.mSelectedLastMonth && this.mMonth == this.mSelectedBeginMonth && day > this.mSelectedBeginDay || this.mSelectedBeginMonth < this.mSelectedLastMonth && this.mMonth == this.mSelectedLastMonth && day < this.mSelectedLastDay || this.mSelectedBeginMonth > this.mSelectedLastMonth && this.mMonth == this.mSelectedBeginMonth && day < this.mSelectedBeginDay || this.mSelectedBeginMonth > this.mSelectedLastMonth && this.mMonth == this.mSelectedLastMonth && day > this.mSelectedLastDay)) {
-                this.mMonthNumPaint.setColor(this.mSelectedDaysColor);
+                this.mMonthNumPaint.setColor(this.mMonthTitleBGColor);
+                RectF rectF = new RectF((float) (x - DAY_SELECTED_CIRCLE_SIZE),
+                        (float) (y - MINI_DAY_NUMBER_TEXT_SIZE / 3 - DAY_SELECTED_CIRCLE_SIZE),
+                        (float) (x + DAY_SELECTED_CIRCLE_SIZE),
+                        (float) (y - MINI_DAY_NUMBER_TEXT_SIZE / 3 + DAY_SELECTED_CIRCLE_SIZE));
+                canvas.drawRoundRect(rectF, 10.0F, 10.0F, this.mSelectedCirclePaint);
             }
 
             if (this.mSelectedBeginDay != -1 && this.mSelectedLastDay != -1 && this.mSelectedBeginYear != this.mSelectedLastYear && (this.mSelectedBeginYear == this.mYear && this.mMonth == this.mSelectedBeginMonth || this.mSelectedLastYear == this.mYear && this.mMonth == this.mSelectedLastMonth) && (this.mSelectedBeginMonth < this.mSelectedLastMonth && this.mMonth == this.mSelectedBeginMonth && day < this.mSelectedBeginDay || this.mSelectedBeginMonth < this.mSelectedLastMonth && this.mMonth == this.mSelectedLastMonth && day > this.mSelectedLastDay || this.mSelectedBeginMonth > this.mSelectedLastMonth && this.mMonth == this.mSelectedBeginMonth && day > this.mSelectedBeginDay || this.mSelectedBeginMonth > this.mSelectedLastMonth && this.mMonth == this.mSelectedLastMonth && day < this.mSelectedLastDay)) {
-                this.mMonthNumPaint.setColor(this.mSelectedDaysColor);
+                this.mMonthNumPaint.setColor(this.mMonthTitleBGColor);
+                RectF rectF = new RectF((float) (x - DAY_SELECTED_CIRCLE_SIZE),
+                        (float) (y - MINI_DAY_NUMBER_TEXT_SIZE / 3 - DAY_SELECTED_CIRCLE_SIZE),
+                        (float) (x + DAY_SELECTED_CIRCLE_SIZE),
+                        (float) (y - MINI_DAY_NUMBER_TEXT_SIZE / 3 + DAY_SELECTED_CIRCLE_SIZE));
+                canvas.drawRoundRect(rectF, 10.0F, 10.0F, this.mSelectedCirclePaint);
             }
 
             if (this.mSelectedBeginDay != -1 && this.mSelectedLastDay != -1 && this.mSelectedBeginYear == this.mSelectedLastYear && this.mYear == this.mSelectedBeginYear && (this.mMonth > this.mSelectedBeginMonth && this.mMonth < this.mSelectedLastMonth && this.mSelectedBeginMonth < this.mSelectedLastMonth || this.mMonth < this.mSelectedBeginMonth && this.mMonth > this.mSelectedLastMonth && this.mSelectedBeginMonth > this.mSelectedLastMonth)) {
-                this.mMonthNumPaint.setColor(this.mSelectedDaysColor);
+                this.mMonthNumPaint.setColor(this.mMonthTitleBGColor);
+                RectF rectF = new RectF((float) (x - DAY_SELECTED_CIRCLE_SIZE),
+                        (float) (y - MINI_DAY_NUMBER_TEXT_SIZE / 3 - DAY_SELECTED_CIRCLE_SIZE),
+                        (float) (x + DAY_SELECTED_CIRCLE_SIZE),
+                        (float) (y - MINI_DAY_NUMBER_TEXT_SIZE / 3 + DAY_SELECTED_CIRCLE_SIZE));
+                canvas.drawRoundRect(rectF, 10.0F, 10.0F, this.mSelectedCirclePaint);
             }
 
             if (this.mSelectedBeginDay != -1 && this.mSelectedLastDay != -1 && this.mSelectedBeginYear != this.mSelectedLastYear && (this.mSelectedBeginYear < this.mSelectedLastYear && (this.mMonth > this.mSelectedBeginMonth && this.mYear == this.mSelectedBeginYear || this.mMonth < this.mSelectedLastMonth && this.mYear == this.mSelectedLastYear) || this.mSelectedBeginYear > this.mSelectedLastYear && (this.mMonth < this.mSelectedBeginMonth && this.mYear == this.mSelectedBeginYear || this.mMonth > this.mSelectedLastMonth && this.mYear == this.mSelectedLastYear))) {
-                this.mMonthNumPaint.setColor(this.mSelectedDaysColor);
+                this.mMonthNumPaint.setColor(this.mMonthTitleBGColor);
+                RectF rectF = new RectF((float) (x - DAY_SELECTED_CIRCLE_SIZE),
+                        (float) (y - MINI_DAY_NUMBER_TEXT_SIZE / 3 - DAY_SELECTED_CIRCLE_SIZE),
+                        (float) (x + DAY_SELECTED_CIRCLE_SIZE),
+                        (float) (y - MINI_DAY_NUMBER_TEXT_SIZE / 3 + DAY_SELECTED_CIRCLE_SIZE));
+                canvas.drawRoundRect(rectF, 10.0F, 10.0F, this.mSelectedCirclePaint);
             }
 
             if (!this.isPrevDayEnabled.booleanValue() && this.prevDay(day, this.today) && this.today.month == this.mMonth && this.today.year == this.mYear) {
@@ -389,27 +452,4 @@ public class SimpleMonthView extends View {
         void onDayClick(SimpleMonthView var1, CalendarDay var2);
     }
 
-    public void setSelectedBeginDay(int mSelectedBeginDay) {
-        this.mSelectedBeginDay = mSelectedBeginDay;
-    }
-
-    public void setSelectedLastDay(int mSelectedLastDay) {
-        this.mSelectedLastDay = mSelectedLastDay;
-    }
-
-    public void setSelectedBeginMonth(int mSelectedBeginMonth) {
-        this.mSelectedBeginMonth = mSelectedBeginMonth;
-    }
-
-    public void setSelectedLastMonth(int mSelectedLastMonth) {
-        this.mSelectedLastMonth = mSelectedLastMonth;
-    }
-
-    public void setSelectedBeginYear(int mSelectedBeginYear) {
-        this.mSelectedBeginYear = mSelectedBeginYear;
-    }
-
-    public void setSelectedLastYear(int mSelectedLastYear) {
-        this.mSelectedLastYear = mSelectedLastYear;
-    }
 }
