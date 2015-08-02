@@ -27,6 +27,7 @@ import com.scutteam.lvyou.model.Hotel;
 import com.scutteam.lvyou.model.Insurance;
 import com.scutteam.lvyou.model.Meal;
 import com.scutteam.lvyou.model.ViewSpot;
+import com.scutteam.lvyou.util.calendarlistview.library.SimpleMonthAdapter;
 
 import org.apache.http.Header;
 import org.json.JSONObject;
@@ -43,13 +44,15 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     private TextView destinationName = null;              //目的地名称
     private RatingBar destinationStar = null;             //目的地获得星数对应的Bar
     private TextView destinationRatingNum = null;         //目的地获得星数对应的数值
-    private TextView destinationDetail = null;           //目的地的详细描述
+    private TextView destinationDetail = null;            //目的地的详细描述
     private TextView selectBeginPlace = null;             //选择出发地点
     private TextView minusMemberNums = null;              //减少一个团员
     private TextView plusMemberNums = null;               //增加一个团员
     private TextView showMemberNums = null;               //显示团员数量
-    private TextView beginDay = null;                     //出发日期
-    private TextView returnDay = null;                    //返回日期
+    private TextView tvBeginDay = null;                   //出发日期
+    private TextView tvReturnDay = null;                  //返回日期
+    private SimpleMonthAdapter.CalendarDay beginDay = null;
+    private SimpleMonthAdapter.CalendarDay returnDay = null;
 
     private Long destination_id; //目的地的id
     private Destination destination; //所选目的地
@@ -169,8 +172,8 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         destinationDetail = (TextView) findViewById(R.id.mj_destination_describe);
         mLlTopLayout = (LinearLayout) findViewById(R.id.ll_top_layout);
 
-        beginDay = (TextView) findViewById(R.id.mj_begin_day);
-        returnDay = (TextView) findViewById(R.id.mj_return_day);
+        tvBeginDay = (TextView) findViewById(R.id.mj_begin_day);
+        tvReturnDay = (TextView) findViewById(R.id.mj_return_day);
     }
     
     public void refreshUi() {
@@ -192,18 +195,25 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         View.OnClickListener selectDayClickedListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("#########");
                 SelectDayDialog dialog = new SelectDayDialog(mContext, new DialogListener() {
                     @Override
-                    public void refreshActivity(String text) {
+                    public void refreshActivity(Object data) {
+                        SimpleMonthAdapter.SelectedDays<SimpleMonthAdapter.CalendarDay> selectedDays
+                                = (SimpleMonthAdapter.SelectedDays<SimpleMonthAdapter.CalendarDay>)data;
+                        tvBeginDay.setText(selectedDays.getFirst().toString());
+                        tvReturnDay.setText(selectedDays.getLast().toString());
+                        beginDay = selectedDays.getFirst();
+                        returnDay = selectedDays.getLast();
+                        beginDay.month += 1;    //矫正，具体看源码，源码中月份从0开始
+                        returnDay.month += 1;
                     }
                 });
                 dialog.show();
             }
         };
 
-        beginDay.setOnClickListener(selectDayClickedListener);
-        returnDay.setOnClickListener(selectDayClickedListener);
+        tvBeginDay.setOnClickListener(selectDayClickedListener);
+        tvReturnDay.setOnClickListener(selectDayClickedListener);
     }
 
     @Override

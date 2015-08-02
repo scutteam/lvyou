@@ -22,15 +22,21 @@ public class SimpleMonthAdapter extends Adapter<SimpleMonthAdapter.ViewHolder>
     private final Calendar calendar;
     private final SimpleMonthAdapter.SelectedDays<SimpleMonthAdapter.CalendarDay> selectedDays;
     private final Integer firstMonth;
-    private final Integer lastMonth;
+    //private final Integer lastMonth;
     private SimpleMonthView.OnDayClickListener onDayClickListener = null;
+
+    public void setSdRefreshListener(DayPickerView.SDRefreshListener sdRefreshListener) {
+        this.sdRefreshListener = sdRefreshListener;
+    }
+
+    private DayPickerView.SDRefreshListener sdRefreshListener = null;
 
     public SimpleMonthAdapter(Context context,
                               DatePickerController datePickerController, TypedArray typedArray) {
         this.typedArray = typedArray;
         this.calendar = Calendar.getInstance();
         this.firstMonth = calendar.get(Calendar.MONTH);
-        this.lastMonth = calendar.get(Calendar.MONTH) + 1;
+        //this.lastMonth = calendar.get(Calendar.MONTH) + 1;
         this.selectedDays = new SimpleMonthAdapter.SelectedDays();
         this.mContext = context;
         this.mController = datePickerController;
@@ -84,16 +90,16 @@ public class SimpleMonthAdapter extends Adapter<SimpleMonthAdapter.ViewHolder>
     }
 
     public int getItemCount() {
-        int itemCount = (this.mController.getMaxYear() - this.calendar.get(1) + 1) * 12;
-        if(this.firstMonth.intValue() != -1) {
-            itemCount -= this.firstMonth.intValue();
-        }
+//        int itemCount = (this.mController.getMaxYear() - this.calendar.get(1) + 1) * 12;
+//        if(this.firstMonth.intValue() != -1) {
+//            itemCount -= this.firstMonth.intValue();
+//        }
+//
+//        if(this.lastMonth.intValue() != -1) {
+//            itemCount -= 12 - this.lastMonth.intValue() - 1;
+//        }
 
-        if(this.lastMonth.intValue() != -1) {
-            itemCount -= 12 - this.lastMonth.intValue() - 1;
-        }
-
-        return itemCount;
+        return 2;
     }
 
     protected void init() {
@@ -113,9 +119,13 @@ public class SimpleMonthAdapter extends Adapter<SimpleMonthAdapter.ViewHolder>
     protected void onDayTapped(SimpleMonthAdapter.CalendarDay calendarDay) {
 
         //禁止点击当前日期前面的日期
-        if(calendar.get(Calendar.YEAR) <= calendarDay.year
-                && calendar.get(Calendar.MONTH) <= calendarDay.month
-                && calendar.get(Calendar.DAY_OF_MONTH) <= calendarDay.day) {
+        if(calendar.get(Calendar.YEAR) == calendarDay.year
+                && calendar.get(Calendar.MONTH) == calendarDay.month
+                && calendar.get(Calendar.DAY_OF_MONTH) <= calendarDay.day
+                || calendar.get(Calendar.YEAR) == calendarDay.year
+                && calendar.get(Calendar.MONTH) < calendarDay.month
+                || calendar.get(Calendar.YEAR) < calendarDay.year
+                ) {
             this.mController.onDayOfMonthSelected(calendarDay.year, calendarDay.month, calendarDay.day);
             this.setSelectedDay(calendarDay);
         }
@@ -152,6 +162,7 @@ public class SimpleMonthAdapter extends Adapter<SimpleMonthAdapter.ViewHolder>
         }
 
         this.notifyDataSetChanged();
+        sdRefreshListener.refresh(selectedDays);
     }
 
     public SimpleMonthAdapter.SelectedDays<SimpleMonthAdapter.CalendarDay> getSelectedDays() {
@@ -186,9 +197,9 @@ public class SimpleMonthAdapter extends Adapter<SimpleMonthAdapter.ViewHolder>
     public static class CalendarDay implements Serializable {
         private static final long serialVersionUID = -5456695978688356202L;
         private Calendar calendar;
-        int day;
-        int month;
-        int year;
+        public int day;
+        public int month;
+        public int year;
 
         public CalendarDay() {
             this.setTime(System.currentTimeMillis());
@@ -242,13 +253,12 @@ public class SimpleMonthAdapter extends Adapter<SimpleMonthAdapter.ViewHolder>
 
         public String toString() {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("{ year: ");
             stringBuilder.append(this.year);
-            stringBuilder.append(", month: ");
-            stringBuilder.append(this.month);
-            stringBuilder.append(", day: ");
+            stringBuilder.append("年");
+            stringBuilder.append(this.month + 1);
+            stringBuilder.append("月");
             stringBuilder.append(this.day);
-            stringBuilder.append(" }");
+            stringBuilder.append("日");
             return stringBuilder.toString();
         }
     }

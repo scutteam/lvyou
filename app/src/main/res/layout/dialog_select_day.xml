@@ -7,8 +7,6 @@
         android:id="@+id/sdd_day"
         android:layout_width="match_parent"
         android:layout_height="46dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/shape_mj_text_bg"
         android:orientation="horizontal"
@@ -26,7 +24,7 @@
             android:textColor="@color/image_color"
             android:clickable="true"
             android:background="@drawable/selector_mj_tv"
-            />
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/sdd_day_return"
             android:layout_width="0dip"
@@ -34,20 +32,20 @@
             android:layout_weight="1"
             android:text="返程日期"
             android:textSize="16sp"
-            android:textColor="#c5c5c5"
+            android:textColor="@color/captcha_selected_color"
             android:gravity="center"
             android:clickable="true"
             android:background="@drawable/selector_mj_tv"
-            />
+            android:textStyle="bold" />
 
     </LinearLayout>
 
     <com.scutteam.lvyou.util.calendarlistview.library.DayPickerView
         android:id="@+id/pickerView"
+        android:layout_marginTop="3dp"
         app:colorSelectedDayBackground="@color/image_color"
-        app:calendarHeight="220dp"
+        app:calendarHeight="230dp"
         app:enablePreviousDay="false"
-        app:currentDaySelected="true"
         app:colorCurrentDay="#000000"
         app:colorPreviousDay="#bebebe"
         app:colorMonthName="#565656"
@@ -60,6 +58,19 @@
         android:layout_height="230dp"
         android:layout_below="@+id/sdd_day"
         />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:text="确  定"
+        android:clickable="true"
+        android:layout_below="@+id/pickerView"
+        android:gravity="center"
+        android:textColor="@color/main_text_color"
+        android:background="@drawable/selector_mj_tv"
+        android:layout_marginTop="3dp"
+        android:textSize="20dp"
+        android:textIsSelectable="true"
+        android:id="@+id/sdd_submit" />
 
 
 </RelativeLayout>
