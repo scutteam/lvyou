@@ -61,6 +61,7 @@
                             android:layout_gravity="center_vertical"
                             android:numStars="5"
                             android:rating="4"
+                            android:clickable="false"
                             />
                         <TextView
                             android:id="@+id/mj_destination_rate_num"

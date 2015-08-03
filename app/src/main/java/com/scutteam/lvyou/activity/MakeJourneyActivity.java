@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -28,21 +29,16 @@ import com.scutteam.lvyou.model.Insurance;
 import com.scutteam.lvyou.model.Meal;
 import com.scutteam.lvyou.model.ViewSpot;
 import com.scutteam.lvyou.util.calendarlistview.library.SimpleMonthAdapter;
-
 import org.apache.http.Header;
 import org.json.JSONObject;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MakeJourneyActivity extends Activity implements View.OnClickListener {
-    final int imageWidthRate = 4;                          //固定图片的宽高比例为4:3
-    final int imageHeightRate = 3;
-    private int memberNums = 6;                           //默认6人成团
-    public static final int SBP_REQUEST_CODE = 999;       //onActivityResult中回调的code，对应选择出发地点（Select Begin Place）
 
     private ImageView destinationImage = null;            //目的地展示图片，最上方展示图片
+    private LinearLayout mLlTopLayout;
     private TextView destinationName = null;              //目的地名称
     private RatingBar destinationStar = null;             //目的地获得星数对应的Bar
     private TextView destinationRatingNum = null;         //目的地获得星数对应的数值
@@ -51,17 +47,16 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     private TextView minusMemberNums = null;              //减少一个团员
     private TextView plusMemberNums = null;               //增加一个团员
     private TextView showMemberNums = null;               //显示团员数量
-    private LinearLayout mj_stay_unchoosed;//选择住宿的linearLayout
-    private LinearLayout mj_stay_choosed; //选择住宿后显示linearlayout
-    private TextView mj_stay_choosed_type; //选择住宿的酒店类型
-    private TextView mj_stay_choosed_price;//选择住宿的酒店价格
-
     private TextView tvBeginDay = null;                   //出发日期
     private TextView tvReturnDay = null;                  //返回日期
+    private LinearLayout mj_stay_unchoosed;               //选择住宿的linearLayout
+    private LinearLayout mj_stay_choosed;                 //选择住宿后显示linearlayout
+    private RelativeLayout mj_stay;                       //住宿总的layout
+    private TextView mj_stay_choosed_type;                //选择住宿的酒店类型
+    private TextView mj_stay_choosed_price;               //选择住宿的酒店价格
+
     private SimpleMonthAdapter.CalendarDay beginDay = null;
     private SimpleMonthAdapter.CalendarDay returnDay = null;
-
-    private Long destination_id; //目的地的id
     private Context mContext = null;
     private ArrayList<Hotel> hotelList = new ArrayList<Hotel>();
     private List<Insurance>insuranceList = new ArrayList<Insurance>();
@@ -73,18 +68,22 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     private String thumb_pic;
     private String top_pic;
     private String title;
-    private Double score;   
-    private int minNum;
     private String long_intro;
     private String local;
     private String label;
+    private Long destination_id; //目的地的id
+    private Double score;
     private int limit_num;
-    private boolean is_hot;
     private int maxNum;
-    
-    private RelativeLayout mj_stay;//住宿总的layout
-     
-    private LinearLayout mLlTopLayout;
+    private int minNum;
+    private boolean is_hot;
+
+    final int imageWidthRate = 4;                          //固定图片的宽高比例为4:3
+    final int imageHeightRate = 3;
+    private int memberNums = 6;                           //默认6人成团
+    public static final int SBP_REQUEST_CODE = 999;       //onActivityResult中回调的code，对应选择出发地点（Select Begin Place）
+    private static final int REFRESH_DATA_SUCCESS = 666666;
+
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -97,7 +96,6 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
             }
         }
     };
-    private static final int REFRESH_DATA_SUCCESS = 666666;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +109,6 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
 
     private void initData() {
         destination_id = getIntent().getLongExtra("destination_id", 0L);
-//        destination = Destination.findDestinationById(destination_id);
 
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
@@ -164,13 +161,6 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         TextView title = (TextView) findViewById(R.id.center_text);
         title.setText("定制您的团队行程");
 
-        destinationImage = (ImageView) findViewById(R.id.mj_image);
-        ViewGroup.LayoutParams params = destinationImage.getLayoutParams();   //设置ImageView横高比例为4:3
-        params.width = getResources().getDisplayMetrics().widthPixels;
-        params.height = (params.width * imageHeightRate) / imageWidthRate;
-        mj_stay = (RelativeLayout) findViewById(R.id.mj_stay);
-        destinationImage.setLayoutParams(params);
-        
         selectBeginPlace = (TextView)findViewById(R.id.mj_select_begin_place);
         minusMemberNums = (TextView)findViewById(R.id.mj_member_minus);
         plusMemberNums = (TextView)findViewById(R.id.mj_member_plus);
@@ -182,12 +172,17 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         mLlTopLayout = (LinearLayout) findViewById(R.id.ll_top_layout);
         mj_stay_unchoosed = (LinearLayout) findViewById(R.id.mj_stay_unchoosed);
         mj_stay_choosed = (LinearLayout) findViewById(R.id.mj_stay_choosed);
-        
         mj_stay_choosed_type = (TextView) findViewById(R.id.mj_stay_choosed_type);
         mj_stay_choosed_price = (TextView) findViewById(R.id.mj_stay_choosed_price);
-
         tvBeginDay = (TextView) findViewById(R.id.mj_begin_day);
         tvReturnDay = (TextView) findViewById(R.id.mj_return_day);
+        destinationImage = (ImageView) findViewById(R.id.mj_image);
+        mj_stay = (RelativeLayout) findViewById(R.id.mj_stay);
+
+        ViewGroup.LayoutParams params = destinationImage.getLayoutParams();   //设置ImageView横高比例为4:3
+        params.width = getResources().getDisplayMetrics().widthPixels;
+        params.height = (params.width * imageHeightRate) / imageWidthRate;
+        destinationImage.setLayoutParams(params);
     }
     
     public void refreshUi() {
@@ -200,7 +195,8 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         destinationStar.setRating(Float.parseFloat(score.toString()));
         destinationRatingNum.setText(score.toString());
         destinationDetail.setText(short_intro);
-
+        showMemberNums.setText((minNum + 1) + "人成团");
+        memberNums = minNum + 1;
     }
 
     private void initListener() {
@@ -208,11 +204,48 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         plusMemberNums.setOnClickListener(this);
         selectBeginPlace.setOnClickListener(this);
         mj_stay.setOnClickListener(this);
+        mLlTopLayout.setOnClickListener(this);
+        tvBeginDay.setOnClickListener(this);
+        tvReturnDay.setOnClickListener(this);
+    }
 
-        //出发日期跟返程日期
-        View.OnClickListener selectDayClickedListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    @Override
+    public void onClick(View v) {
+        Intent intent = null;
+        switch (v.getId()) {
+            case R.id.mj_select_begin_place:
+                intent = new Intent(MakeJourneyActivity.this, SelectBeginPlaceActivity.class);
+                startActivityForResult(intent, MakeJourneyActivity.SBP_REQUEST_CODE);
+                break;
+            case R.id.mj_member_minus:
+                if(memberNums > minNum) {
+                    memberNums -= 1;
+                    showMemberNums.setText(memberNums + "人成团");
+                }else{
+                    Toast.makeText(mContext, "至少" + minNum + "人成团", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.mj_member_plus:
+                if(memberNums < maxNum) {
+                    memberNums += 1;
+                    showMemberNums.setText(memberNums + "人成团");
+                }else{
+                    Toast.makeText(mContext, "至多" + maxNum + "人成团", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.ll_top_layout:
+                intent = new Intent(MakeJourneyActivity.this, DestinationDetailActivity.class);
+                ArrayList<String>viewSpotStringList = new ArrayList<String>();
+                for(int i = 0 ; i < viewSpotList.size(); i++) {
+                    viewSpotStringList.add(viewSpotList.get(i).cover_pic);
+                }
+                intent.putStringArrayListExtra("viewSpotList",viewSpotStringList);
+                intent.putExtra("long_intro",long_intro);
+                intent.putExtra("destination_id",destination_id);
+                startActivity(intent);
+                break;
+            case R.id.mj_begin_day:
+            case R.id.mj_return_day:
                 SelectDayDialog dialog = new SelectDayDialog(mContext, new DialogListener() {
                     @Override
                     public void refreshActivity(Object data) {
@@ -227,46 +260,11 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                     }
                 });
                 dialog.show();
-            }
-        };
-
-        mLlTopLayout.setOnClickListener(this);
-        tvBeginDay.setOnClickListener(selectDayClickedListener);
-        tvReturnDay.setOnClickListener(selectDayClickedListener);
-    }
-
-    @Override
-    public void onClick(View v) {
-        Intent intent = null;
-        switch (v.getId()) {
-            case R.id.mj_select_begin_place:
-                intent = new Intent(MakeJourneyActivity.this, SelectBeginPlaceActivity.class);
-                startActivityForResult(intent, MakeJourneyActivity.SBP_REQUEST_CODE);
-                break;
-            case R.id.mj_member_minus:
-                memberNums -= 1;
-                showMemberNums.setText(memberNums + "人成团");
-                break;
-            case R.id.mj_member_plus:
-                memberNums += 1;
-                showMemberNums.setText(memberNums + "人成团");
-                break;
-            case R.id.ll_top_layout:
-                intent = new Intent(MakeJourneyActivity.this, DestinationDetailActivity.class);
-                ArrayList<String>viewSpotStringList = new ArrayList<String>();
-                for(int i = 0 ; i < viewSpotList.size(); i++) {
-                    viewSpotStringList.add(viewSpotList.get(i).cover_pic);
-                }
-                intent.putStringArrayListExtra("viewSpotList",viewSpotStringList);
-                intent.putExtra("long_intro",long_intro);
-                intent.putExtra("destination_id",destination_id);
-                startActivity(intent);
                 break;
             case R.id.mj_stay:
                 intent = new Intent();
                 intent.putExtra("hotel",(Serializable)hotelList);
                 intent.setClass(MakeJourneyActivity.this,SelectStayActivity.class);
-//                intent.putExtras(bundle);
                 startActivityForResult(intent, Constants.REQUEST_SELECT_STAY);
                 break;
             default:
@@ -311,12 +309,12 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         }
     }
     
-    public void refreshHotelUI() {
+    private void refreshHotelUI() {
         mj_stay_unchoosed.setVisibility(View.VISIBLE);
         mj_stay_choosed.setVisibility(View.GONE);
     }
-    
-    public void refreshHotelUI(Hotel hotel) {
+
+    private void refreshHotelUI(Hotel hotel) {
         hotel.is_select = 1;
         mj_stay_unchoosed.setVisibility(View.GONE);
         mj_stay_choosed.setVisibility(View.VISIBLE);
