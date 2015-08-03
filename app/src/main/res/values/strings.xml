@@ -28,5 +28,5 @@
     <string name="title_activity_modify_bind_phone">ModifyBindPhoneActivity</string>
     <string name="title_activity_modify_password">ModifyPasswordActivity</string>
     <string name="sans_serif" translatable="false">sans-serif</string>
-
+    <string name="menu_settings">Settings</string>
 </resources>

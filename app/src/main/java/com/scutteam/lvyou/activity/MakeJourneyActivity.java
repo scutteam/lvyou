@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.activeandroid.query.Select;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -39,6 +40,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     final int imageWidthRate = 4;                          //固定图片的宽高比例为4:3
     final int imageHeightRate = 3;
     private int memberNums = 6;                           //默认6人成团
+    public static final int SBP_REQUEST_CODE = 999;       //onActivityResult中回调的code，对应选择出发地点（Select Begin Place）
 
     private ImageView destinationImage = null;            //目的地展示图片，最上方展示图片
     private TextView destinationName = null;              //目的地名称
@@ -107,15 +109,15 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
 
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-        params.put("id",destination_id);
-        client.get(MakeJourneyActivity.this, Constants.URL + "main/dest.detail.json",params,new JsonHttpResponseHandler(){
+        params.put("id", destination_id);
+        client.get(MakeJourneyActivity.this, Constants.URL + "main/dest.detail.json", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                
+
                 try {
                     JSONObject dataObject = response.getJSONObject("data");
-                    
+
                     address = dataObject.optString("address");
                     guideList = Guide.insertWithArray(dataObject.getJSONArray("guideList"));
                     hotelList = Hotel.insertWithArray(dataObject.getJSONArray("hotelList"));
@@ -134,9 +136,9 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                     title = dataObject.optString("title");
                     top_pic = dataObject.optString("topPic");
                     viewSpotList = ViewSpot.insertWithArray(dataObject.getJSONArray("viewSpotList"));
-                    
+
                     handler.sendEmptyMessage(REFRESH_DATA_SUCCESS);
-                    
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -222,7 +224,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.mj_select_begin_place:
                 intent = new Intent(MakeJourneyActivity.this, SelectBeginPlaceActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, MakeJourneyActivity.SBP_REQUEST_CODE);
                 break;
             case R.id.mj_member_minus:
                 memberNums -= 1;
@@ -247,4 +249,20 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                 break;
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        // 根据上面发送过去的请求吗来区别
+        switch (requestCode) {
+            case MakeJourneyActivity.SBP_REQUEST_CODE:
+                String bp = intent.getStringExtra("begin_place");
+                if(null != bp){
+                    selectBeginPlace.setText(bp);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
 }

@@ -1,15 +1,20 @@
 package com.scutteam.lvyou.dialog;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.scutteam.lvyou.R;
+import com.scutteam.lvyou.util.DensityUtil;
 import com.scutteam.lvyou.util.calendarlistview.library.DatePickerController;
 import com.scutteam.lvyou.util.calendarlistview.library.DayPickerView;
 import com.scutteam.lvyou.util.calendarlistview.library.SimpleMonthAdapter;
@@ -20,20 +25,21 @@ import java.util.Calendar;
 /**
  * Created by liujie on 15/7/21.
  */
-public class SelectDayDialog extends BaseDialog implements DayPickerView.SDRefreshListener{
+public class SelectDayDialog extends Dialog implements DayPickerView.SDRefreshListener{
     private DialogListener mListener = null;
     private Context mContext = null;
     private DayPickerView dayPicker = null;
     private TextView tvBeginDay = null;
     private TextView tvReturnDay = null;
-    private TextView tvSubmit = null;
+    private Button btnSubmit = null;
 
 
     public SelectDayDialog(Context context, DialogListener listener){
         super(context);
         this.mListener = listener;
         this.mContext = context;
-        hideTitle();
+        this.setCanceledOnTouchOutside(false);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         initView();
         initListener();
     }
@@ -43,13 +49,13 @@ public class SelectDayDialog extends BaseDialog implements DayPickerView.SDRefre
         dayPicker = (DayPickerView)dialogView.findViewById(R.id.pickerView);
         tvBeginDay = (TextView)dialogView.findViewById(R.id.sdd_day_begin);
         tvReturnDay = (TextView)dialogView.findViewById(R.id.sdd_day_return);
-        tvSubmit = (TextView)dialogView.findViewById(R.id.sdd_submit);
-        tvSubmit.requestFocus();
-        setContent(dialogView);
+        btnSubmit = (Button)dialogView.findViewById(R.id.sdd_submit);
+        btnSubmit.requestFocus();
+        this.setContentView(dialogView);
     }
 
     private void initListener(){
-        tvSubmit.setOnClickListener(new View.OnClickListener() {
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SimpleMonthAdapter.SelectedDays<SimpleMonthAdapter.CalendarDay> selectedDays
