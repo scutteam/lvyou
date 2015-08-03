@@ -210,18 +210,20 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
             case FRAGMENT_DESTINATION:
                 if(selectedTheme != null) {
-                    if(destinationFragment.themeList.size() > 0) {
-                        //在这里修改fragment
-                        destinationFragment.setSelectTitle(selectedTheme.title);
-                        destinationFragment.refreshSelectedListView(selectedTheme);
-                        destinationFragment.refreshListView(selectedTheme);    
-                    } else {
+//                    if(destinationFragment.themeList.size() > 0) {
+//                        destinationFragment = new DestinationFragment();
+//                        Bundle data = new Bundle();
+//                        data.putLong("selected_theme_id", selectedTheme.theme_id);
+//                        destinationFragment.setArguments(data);
+//                    } else {
                         destinationFragment = new DestinationFragment();
                         Bundle data = new Bundle();
                         data.putLong("selected_theme_id", selectedTheme.theme_id);
                         destinationFragment.setArguments(data);
-                    }
-                } 
+//                    }
+                } else {
+                    destinationFragment = new DestinationFragment();
+                }
                 transaction = fragmentManager.beginTransaction();
                 transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_right_out);
                 transaction.replace(R.id.content,destinationFragment);
@@ -490,11 +492,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK) {
-            if(System.currentTimeMillis() - mExitTime > 2000) {
-                mExitTime = System.currentTimeMillis();
-                Toast.makeText(MainActivity.this, "两次点击退出", Toast.LENGTH_SHORT).show();
+            if(fragmentManager.getFragments().get(0) instanceof  MainFragment) {
+                if(System.currentTimeMillis() - mExitTime > 2000) {
+                    mExitTime = System.currentTimeMillis();
+                    Toast.makeText(MainActivity.this, "两次点击退出", Toast.LENGTH_SHORT).show();
+                } else {
+                    ScreenManager.getScreenManager().AppExit(MainActivity.this);
+                }
             } else {
-                ScreenManager.getScreenManager().AppExit(MainActivity.this);
+                switchFragment(FRAGMENT_MAIN);
             }
         }
         return true;

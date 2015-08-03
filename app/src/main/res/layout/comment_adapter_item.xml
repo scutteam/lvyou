@@ -18,7 +18,7 @@
             android:layout_toRightOf="@id/civ_avatar"
             android:layout_width="wrap_content"
             android:isIndicator="true"
-            android:layout_height="24dp"
+            android:layout_height="30dp"
             android:paddingTop="@dimen/layout_padding_tiny"
             android:layout_marginLeft="@dimen/layout_margin_tiny"
             android:layout_gravity="center_vertical"
@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_time"
-            android:layout_marginTop="@dimen/layout_padding_small"
+            android:layout_marginTop="@dimen/layout_margin_tiny"
             android:paddingLeft="@dimen/layout_padding_large"
             />
     </RelativeLayout>

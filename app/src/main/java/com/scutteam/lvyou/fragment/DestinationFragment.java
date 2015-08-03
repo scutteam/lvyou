@@ -97,7 +97,7 @@ public class DestinationFragment extends Fragment implements XListView.IXListVie
     public static final int LOAD_THEME_DATA_SUCCESS = 300000;
     public static final int LOAD_LISTVIEW_DATA_SUCCESS = 300001;
     public static final int LOAD_MORE_LISTVIEW_DATA_SUCCESS = 300002;
-    public Long selected_theme_id;
+    public Long selected_theme_id = 0L;
     
     public static DestinationFragment getInstance() {
         if(instance == null) {
@@ -113,7 +113,7 @@ public class DestinationFragment extends Fragment implements XListView.IXListVie
     public void refreshSelectedListView(LvYouTheme theme) {
         for(int i = 0;  i < themeList.size() ; i++) {
             themeList.get(i).is_select = false;
-            if(themeList.get(i).theme_id == theme.theme_id) {
+            if(themeList.get(i).theme_id.equals(theme.theme_id)) {
                 themeList.get(i).is_select = true;
             } 
         }
@@ -132,7 +132,7 @@ public class DestinationFragment extends Fragment implements XListView.IXListVie
 
         if(selected_theme_id != 0L) {
             for(int i = 0 ; i < themeList.size(); i++) {
-                if(themeList.get(i).theme_id == selected_theme_id) {
+                if(themeList.get(i).theme_id.equals(selected_theme_id)) {
                     themeList.get(i).is_select = true;
                     mTvSelect.setText(themeList.get(i).title);
                 }
@@ -146,15 +146,15 @@ public class DestinationFragment extends Fragment implements XListView.IXListVie
         mRlSelectLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mSelectListView.getVisibility() == View.GONE) {
-                    mSelectListView.setVisibility(View.VISIBLE);
-                    barrerView.setVisibility(View.VISIBLE);
-                    mIvArrow.setImageDrawable(getResources().getDrawable(R.mipmap.arrow_up));
-                } else {
-                    mSelectListView.setVisibility(View.GONE);
-                    barrerView.setVisibility(View.GONE);
-                    mIvArrow.setImageDrawable(getResources().getDrawable(R.mipmap.arrow_down));
-                }
+            if(mSelectListView.getVisibility() == View.GONE) {
+                mSelectListView.setVisibility(View.VISIBLE);
+                barrerView.setVisibility(View.VISIBLE);
+                mIvArrow.setImageDrawable(getResources().getDrawable(R.mipmap.arrow_up));
+            } else {
+                mSelectListView.setVisibility(View.GONE);
+                barrerView.setVisibility(View.GONE);
+                mIvArrow.setImageDrawable(getResources().getDrawable(R.mipmap.arrow_down));
+            }
             }
         });
 
@@ -170,26 +170,26 @@ public class DestinationFragment extends Fragment implements XListView.IXListVie
         mSelectListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                for(int i = 0 ; i < themeList.size(); i++) {
-                    if(i!=position) {
-                        LvYouTheme theme = themeList.get(i);
-                        theme.is_select = false;
-                    }
+            for(int i = 0 ; i < themeList.size(); i++) {
+                if(i!=position) {
+                    LvYouTheme theme = themeList.get(i);
+                    theme.is_select = false;
                 }
-                LvYouTheme theme = themeList.get(position);
-                theme.is_select = true;
+            }
+            LvYouTheme theme = themeList.get(position);
+            theme.is_select = true;
 
 
-                mSelectListView.setVisibility(View.GONE);
-                barrerView.setVisibility(View.GONE);
-                mTvSelect.setText(theme.title);
-                mIvArrow.setImageDrawable(getResources().getDrawable(R.mipmap.arrow_down));
+            mSelectListView.setVisibility(View.GONE);
+            barrerView.setVisibility(View.GONE);
+            mTvSelect.setText(theme.title);
+            mIvArrow.setImageDrawable(getResources().getDrawable(R.mipmap.arrow_down));
 
-                selectAdapter.notifyDataSetChanged();
+            selectAdapter.notifyDataSetChanged();
 
-                selected_theme_id = theme.theme_id;
-                
-                initListViewData(selected_theme_id);
+            selected_theme_id = theme.theme_id;
+
+            initListViewData(selected_theme_id);
             }
         });
     }
@@ -198,14 +198,13 @@ public class DestinationFragment extends Fragment implements XListView.IXListVie
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if(view == null) {
             view = inflater.inflate(R.layout.fragment_destination,null);
+            if(getArguments() != null) {
+                selected_theme_id = getArguments().getLong("selected_theme_id");
+            }
 
-            selected_theme_id = getArguments().getLong("selected_theme_id");
             initThemeData();
             initView();
             initListener();
-            
-        } else {
-            ((ViewGroup) view.getParent()).removeView(view);
         }
         return view;
     }

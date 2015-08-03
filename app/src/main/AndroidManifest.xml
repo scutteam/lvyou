@@ -140,6 +140,10 @@
             android:name=".activity.ModifyPasswordActivity"
             android:label="@string/title_activity_modify_password" >
         </activity>
+        <activity
+            android:name=".activity.SelectStayActivity"
+            android:label="@string/title_activity_select_stay" >
+        </activity>
     </application>
 
 </manifest>

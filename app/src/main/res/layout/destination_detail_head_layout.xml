@@ -118,6 +118,7 @@
         android:layout_height="50dp"
         android:text="用户评论(3)"
         android:gravity="center_vertical"
+        android:id="@+id/tv_comment_count"
         android:drawablePadding="@dimen/layout_padding_tiny"
         android:textSize="15sp"
         android:paddingLeft="@dimen/layout_padding_normal"

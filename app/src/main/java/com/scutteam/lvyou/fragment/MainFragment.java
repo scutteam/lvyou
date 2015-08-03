@@ -1,5 +1,6 @@
 package com.scutteam.lvyou.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,6 +22,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.scutteam.lvyou.R;
+import com.scutteam.lvyou.activity.MakeJourneyActivity;
 import com.scutteam.lvyou.adapter.MainFragmentItemAdapter;
 import com.scutteam.lvyou.application.LvYouApplication;
 import com.scutteam.lvyou.constant.Constants;
@@ -173,8 +175,6 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
             initView();
             initHeaderViewAndListViewData();
             initListener();
-        } else {
-            ((ViewGroup) view.getParent()).removeView(view);
         }
         return view;
     }
@@ -330,10 +330,17 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int new_position = position - 1 - 1;
-                if(new_position < themeList.size() && new_position >= 0) {
+                if(new_position < themeList.size()) {
                     LvYouTheme theme = themeList.get(new_position); //减去一个viewpager 和一个xListviewHeader
 
                     listener.onThemeItenClick(theme);
+                } else if(new_position >= themeList.size()){
+                    int dest_position = new_position - 2;
+
+                    Intent intent = new Intent();
+                    intent.putExtra("destination_id",destList.get(dest_position).dest_id);
+                    intent.setClass(getActivity(), MakeJourneyActivity.class);
+                    startActivity(intent);
                 }
             }
         });

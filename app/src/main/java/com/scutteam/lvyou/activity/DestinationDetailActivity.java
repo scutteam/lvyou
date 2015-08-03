@@ -36,14 +36,17 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
     private ArrayList<String>viewSpotStringList = new ArrayList<String>();
     private String long_intro;
     private List<Comment>commentList = new ArrayList<Comment>();
+    private List<Comment>newCommentList = new ArrayList<Comment>();
     private int current_page;
     private int total_page;
+    private int total_items;
     private XListView listView;
     private TextView mTvTitle;
     private TextView mTvIntro;
     private TextView mTvDestinationName;
     private RatingBar mRBDestinationStar;
     private TextView mTvDestinationScore;
+    private TextView mTvCommentCount;
     private ImageView mIvBack;
     private CommentAdapter adapter;
     private Handler handler = new Handler() {
@@ -53,17 +56,18 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
             
             switch (msg.what) {
                 case LOAD_COMMENT_SUCCESS:
-//                    if(current_page == total_page) {
-//                        listView.setPullLoadEnable(false);
-//                    } else {
-//                        listView.setPullLoadEnable(true);
-//                    }
-                    listView.setPullLoadEnable(true);
-                    getFakeCommentData();
+                    if(current_page == total_page) {
+                        listView.setPullLoadEnable(false);
+                    } else {
+                        listView.setPullLoadEnable(true);
+                    }
+//                    getFakeCommentData();
                     if(adapter == null) {
+                        mTvCommentCount.setText("用户评论("+total_items+")");
                         initAdapter();
                     } else {
-                        adapter.loadMoreWithCommentList(commentList);
+                        adapter.loadMoreWithCommentList(newCommentList);
+                        listView.stopLoadMore();
                     }
                     break;
             }
@@ -91,35 +95,36 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
     public void initAdapter() {
         adapter = new CommentAdapter(DestinationDetailActivity.this,commentList);
         
+        
         listView.setAdapter(adapter);
     }
    
-    public void getFakeCommentData() {
-        Comment comment = new Comment();
-        comment.cust = "花开人醉";
-        comment.face = Constants.IMAGE_URL + "default_face.jpg";
-        comment.total_score = 4.5;
-        comment.total_comment = "总体来说是挺不错的，我喜欢";
-        comment.create_time = "1328007600000";
-
-        Comment comment2 = new Comment();
-        comment2.cust = "花开人醉2";
-        comment2.face = Constants.IMAGE_URL + "default_face.jpg";
-        comment2.total_score = 4.4;
-        comment2.total_comment = "总体来说是挺不错的，我喜2";
-        comment2.create_time = "132880600000";
-
-        Comment comment3 = new Comment();
-        comment3.cust = "花开人醉3";
-        comment3.face = Constants.IMAGE_URL + "default_face.jpg";
-        comment3.total_score = 4.5;
-        comment3.total_comment = "总体来说是挺不错的，我喜3";
-        comment3.create_time = "1329007600000";
-        
-        commentList.add(comment);
-        commentList.add(comment2);
-        commentList.add(comment3);
-    }
+//    public void getFakeCommentData() {
+//        Comment comment = new Comment();
+//        comment.cust = "花开人醉";
+//        comment.face = Constants.IMAGE_URL + "default_face.jpg";
+//        comment.total_score = 4.5;
+//        comment.total_comment = "总体来说是挺不错的，我喜欢";
+//        comment.create_time = "1328007600000";
+//
+//        Comment comment2 = new Comment();
+//        comment2.cust = "花开人醉2";
+//        comment2.face = Constants.IMAGE_URL + "default_face.jpg";
+//        comment2.total_score = 4.4;
+//        comment2.total_comment = "总体来说是挺不错的，我喜2";
+//        comment2.create_time = "132880600000";
+//
+//        Comment comment3 = new Comment();
+//        comment3.cust = "花开人醉3";
+//        comment3.face = Constants.IMAGE_URL + "default_face.jpg";
+//        comment3.total_score = 4.5;
+//        comment3.total_comment = "总体来说是挺不错的，我喜3";
+//        comment3.create_time = "1329007600000";
+//
+//        commentList.add(comment);
+//        commentList.add(comment2);
+//        commentList.add(comment3);
+//    }
     
     public void initData() {
         destination_id = getIntent().getLongExtra("destination_id",0L);
@@ -145,7 +150,7 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
                     commentList = Comment.insertWithArray(dataObject.getJSONArray("items"));
                     current_page = dataObject.getInt("currentPage");
                     total_page = dataObject.getInt("totalPages");
-                    
+                    total_items = dataObject.getInt("totalItems");
                     handler.sendEmptyMessage(LOAD_COMMENT_SUCCESS);
                     
                 } catch (Exception e){
@@ -158,7 +163,6 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
                 super.onFailure(statusCode, headers, responseString, throwable);
             }
         });
-        
     }
     
     public void initView() {
@@ -178,6 +182,7 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
         mTvCurrentPage = (TextView) mHeadView.findViewById(R.id.tv_current_page);
         mTvTotalPage = (TextView) mHeadView.findViewById(R.id.tv_total_page);
         viewPager = (ViewPager) mHeadView.findViewById(R.id.viewPager);
+        mTvCommentCount = (TextView) mHeadView.findViewById(R.id.tv_comment_count);
         
         listView.addHeaderView(mHeadView);
 
@@ -257,8 +262,33 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
     }
     
     public void loadMore() {
-        handler.sendEmptyMessage(LOAD_COMMENT_SUCCESS);
-        listView.stopLoadMore();
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("kw.destId",destination_id);
+        params.put("pr.page",current_page ++);
+        client.get(DestinationDetailActivity.this, Constants.URL + "main/comment.dest_page_list.json",params,new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                try {
+                    JSONObject dataObject = response.getJSONObject("data");
+                    newCommentList = Comment.insertWithArray(dataObject.getJSONArray("items"));
+                    current_page = dataObject.getInt("currentPage");
+                    total_page = dataObject.getInt("totalPages");
+
+                    handler.sendEmptyMessage(LOAD_COMMENT_SUCCESS);
+
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
     }
 
     @Override

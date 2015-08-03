@@ -75,7 +75,11 @@ public class CommentAdapter extends BaseAdapter {
         viewHolder.mTvName.setText(comment.cust);
 
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-        String new_time = sdf.format(new Date(Long.parseLong(comment.create_time)));
+        String new_time = "";
+        if(comment.create_time != null) {
+            new_time = sdf.format(new Date(Long.parseLong(comment.create_time)));
+        }
+
         viewHolder.mTvTime.setText(new_time);
         
         return convertView;
