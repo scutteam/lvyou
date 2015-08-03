@@ -3,6 +3,7 @@ package com.scutteam.lvyou.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -59,6 +60,22 @@ public class SelectStayActivity extends Activity implements XListView.IXListView
     @Override
     public void onLoadMore() {
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent intent = new Intent();
+            for(int i = 0 ; i < hotelList.size();i++) {
+                if(hotelList.get(i).is_select == 1) {
+                    intent.putExtra("select_hotel", hotelList.get(i).hotel_id);
+                    setResult(Constants.RESULT_SELECT_STAY, intent);
+                }
+            }
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

@@ -55,4 +55,11 @@
         android:textSize="14sp"
         android:paddingBottom="@dimen/layout_padding_small"
         />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/layout_margin_small"
+        android:layout_marginRight="@dimen/layout_margin_small"
+        android:background="#dfdfdf"
+        />
 </LinearLayout>

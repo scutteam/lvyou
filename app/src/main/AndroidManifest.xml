@@ -83,7 +83,6 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".activity.LoginActivity"
@@ -116,9 +115,7 @@
         <activity
             android:name=".activity.SelectBeginPlaceActivity"
             android:label="@string/title_activity_choose_begin_place"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            >
-
+            android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
             android:name=".fragment.MainFragment"
@@ -147,6 +144,10 @@
         <activity
             android:name=".activity.SelectStayActivity"
             android:label="@string/title_activity_select_stay" >
+        </activity>
+        <activity
+            android:name=".activity.ViewSpotActivity"
+            android:label="@string/title_activity_view_spot" >
         </activity>
     </application>
 

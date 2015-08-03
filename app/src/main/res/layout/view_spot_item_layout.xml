@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:paddingTop="15dp"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
-    android:paddingTop="15dp"
+    android:background="@drawable/view_item_background"
     android:layout_height="wrap_content">
-    
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="@drawable/hotel_item_background"
         android:layout_height="wrap_content">
         <ImageView
             android:layout_width="match_parent"
@@ -24,19 +24,6 @@
             android:layout_alignParentRight="true"
             android:src="@mipmap/select_hotel_icon"
             android:background="@drawable/hotel_item_layout_unselected"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/iv_background"
-            android:paddingTop="@dimen/layout_padding_small"
-            android:paddingBottom="@dimen/layout_padding_small"
-            android:paddingLeft="@dimen/layout_padding_normal"
-            android:paddingRight="@dimen/layout_padding_normal"
-            android:text="hsakdhajhdhsajdjsahjdhsajhdkahskjdjasjdlkhsaklhk"
-            android:background="@color/white"
-            android:textSize="16sp"
-            android:id="@+id/tv_intro"
             />
         <RelativeLayout
             android:layout_width="match_parent"
@@ -78,22 +65,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_name"
-                android:text="成交价"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:id="@+id/tv_money"
-                android:paddingBottom="@dimen/layout_padding_small"
-                android:paddingLeft="@dimen/layout_margin_tiny"
-                android:paddingRight="@dimen/layout_padding_small"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_name"
                 android:textColor="@color/white"
                 android:id="@+id/tv_price"
                 android:textSize="16sp"
-                android:layout_toRightOf="@id/tv_money"
                 android:paddingBottom="@dimen/layout_padding_small"
                 android:paddingLeft="@dimen/layout_padding_small"
                 android:paddingRight="@dimen/layout_padding_small"
