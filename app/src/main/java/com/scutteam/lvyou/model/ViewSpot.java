@@ -8,14 +8,16 @@ import com.scutteam.lvyou.constant.Constants;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by admin on 15/7/31.
  */
 @Table(name = "ViewSpot")
-public class ViewSpot extends Model {
+public class ViewSpot extends Model implements Serializable {
+
+    private static final long serialVersionUID = -7060210544600464482L;
     
     @Column(name = "cover_pic")
     public String cover_pic;
@@ -35,9 +37,12 @@ public class ViewSpot extends Model {
     @Column(name = "title")
     public String title;
 
-    public static List<ViewSpot> insertWithArray(JSONArray dataArray) {
+    @Column(name = "is_select")
+    public int is_select;
+
+    public static ArrayList<ViewSpot> insertWithArray(JSONArray dataArray) {
         try {
-            List<ViewSpot>viewSpotList = new ArrayList<ViewSpot>();
+            ArrayList<ViewSpot>viewSpotList = new ArrayList<ViewSpot>();
 
             for(int i = 0; i < dataArray.length(); i++) {
                 ViewSpot viewSpot = insertOrReplace(dataArray.getJSONObject(i));
@@ -75,6 +80,8 @@ public class ViewSpot extends Model {
             if(dataObject.has("title")) {
                 viewSpot.title = dataObject.optString("title");
             }
+            
+            viewSpot.is_select = 0;
 
             return viewSpot;
         } catch (Exception e) {

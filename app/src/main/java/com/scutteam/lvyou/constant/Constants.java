@@ -29,9 +29,12 @@ public class Constants {
     public static final int REQUEST_MODIFY_USER_REAL_NAME = 2003;
     public static final int REQUEST_MODIFY_USER_PHONE = 2004;
     public static final int REQUEST_SELECT_STAY = 2005;
+    public static final int REQUEST_SELECT_VIEW_SPOT = 2006;
+    
     public static final int MODIFY_NAME_SUCCESS = 3000;
     public static final int MODIFY_REAL_NAME_SUCCESS = 4000;
     public static final int MODIFY_BIND_PHONE_SUCCESS = 5000;
     public static final int RESULT_SELECT_STAY = 6000;
+    public static final int RESULT_SELECT_VIEW_SPOT = 7000;
 
 }

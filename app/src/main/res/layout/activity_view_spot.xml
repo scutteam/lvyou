@@ -1,9 +1,11 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    >
+    xmlns:app="http://schemas.android.com/apk/res/com.scutteam.lvyou"
+    tools:context="com.scutteam.lvyou.activity.ViewSpotActivity">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -24,12 +26,22 @@
             android:gravity="center"
             android:layout_centerInParent="true"
             android:textSize="20sp"
+            android:text="选择游玩项目"
             android:textColor="@color/image_color"
             />
     </RelativeLayout>
-    <com.scutteam.lvyou.widget.me.maxwin.view.XListView
+    <com.scutteam.lvyou.widget.com.astuetz.PagerSlidingTabStrip
         android:layout_width="match_parent"
-        android:id="@+id/listView"
-        style="@style/listview_normal_style_with_no_divider"
-        android:layout_height="match_parent"/>
+        app:pstsShouldExpand="true"
+        android:layout_below="@id/rl_nav"
+        android:id="@+id/pager_sliding_tab_strip"
+        app:pstsIndicatorColor="@color/image_color"
+        app:pstsDividerColor="@color/transparent"
+        app:pstsIndicatorHeight="2dp"
+        android:layout_height="40dp"/>
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewPager"
+        />
 </LinearLayout>

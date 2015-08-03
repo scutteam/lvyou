@@ -29,8 +29,10 @@ import com.scutteam.lvyou.model.Insurance;
 import com.scutteam.lvyou.model.Meal;
 import com.scutteam.lvyou.model.ViewSpot;
 import com.scutteam.lvyou.util.calendarlistview.library.SimpleMonthAdapter;
+
 import org.apache.http.Header;
 import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +63,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     private ArrayList<Hotel> hotelList = new ArrayList<Hotel>();
     private List<Insurance>insuranceList = new ArrayList<Insurance>();
     private List<Guide>guideList = new ArrayList<Guide>();
-    private List<ViewSpot>viewSpotList = new ArrayList<ViewSpot>();
+    private ArrayList<ViewSpot>viewSpotList = new ArrayList<ViewSpot>();
     private List<Meal>mealList = new ArrayList<Meal>();
     private String address; //目的地地址
     private String short_intro;
@@ -83,6 +85,8 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     private int memberNums = 6;                           //默认6人成团
     public static final int SBP_REQUEST_CODE = 999;       //onActivityResult中回调的code，对应选择出发地点（Select Begin Place）
     private static final int REFRESH_DATA_SUCCESS = 666666;
+    
+    private LinearLayout mj_play_item;
 
     private Handler handler = new Handler() {
         @Override
@@ -178,6 +182,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         tvReturnDay = (TextView) findViewById(R.id.mj_return_day);
         destinationImage = (ImageView) findViewById(R.id.mj_image);
         mj_stay = (RelativeLayout) findViewById(R.id.mj_stay);
+        mj_play_item = (LinearLayout) findViewById(R.id.mj_play_item);
 
         ViewGroup.LayoutParams params = destinationImage.getLayoutParams();   //设置ImageView横高比例为4:3
         params.width = getResources().getDisplayMetrics().widthPixels;
@@ -200,6 +205,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     }
 
     private void initListener() {
+        ((TextView)findViewById(R.id.left_icon)).setOnClickListener(this);
         minusMemberNums.setOnClickListener(this);
         plusMemberNums.setOnClickListener(this);
         selectBeginPlace.setOnClickListener(this);
@@ -207,12 +213,16 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         mLlTopLayout.setOnClickListener(this);
         tvBeginDay.setOnClickListener(this);
         tvReturnDay.setOnClickListener(this);
+        mj_play_item.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         Intent intent = null;
         switch (v.getId()) {
+            case R.id.left_icon:
+                finish();
+                break;
             case R.id.mj_select_begin_place:
                 intent = new Intent(MakeJourneyActivity.this, SelectBeginPlaceActivity.class);
                 startActivityForResult(intent, MakeJourneyActivity.SBP_REQUEST_CODE);
@@ -241,7 +251,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                 }
                 intent.putStringArrayListExtra("viewSpotList",viewSpotStringList);
                 intent.putExtra("long_intro",long_intro);
-                intent.putExtra("destination_id",destination_id);
+                intent.putExtra("destination_id", destination_id);
                 startActivity(intent);
                 break;
             case R.id.mj_begin_day:
@@ -266,6 +276,12 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                 intent.putExtra("hotel",(Serializable)hotelList);
                 intent.setClass(MakeJourneyActivity.this,SelectStayActivity.class);
                 startActivityForResult(intent, Constants.REQUEST_SELECT_STAY);
+                break;
+            case R.id.mj_play_item:
+                intent = new Intent();
+                intent.putExtra("viewSpot",(Serializable)viewSpotList);
+                intent.setClass(MakeJourneyActivity.this,ViewSpotActivity.class);
+                startActivityForResult(intent, Constants.REQUEST_SELECT_VIEW_SPOT);
                 break;
             default:
                 break;
@@ -308,7 +324,9 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                 break;
         }
     }
-    
+
+
+
     private void refreshHotelUI() {
         mj_stay_unchoosed.setVisibility(View.VISIBLE);
         mj_stay_choosed.setVisibility(View.GONE);
