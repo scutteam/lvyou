@@ -21,6 +21,10 @@
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <android:uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
     <application
         android:name=".application.LvYouApplication"
         android:allowBackup="true"
@@ -74,16 +78,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".activity.MakeJourneyActivity"
             android:label="@string/title_activity_make_journey" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-
         </activity>
         <activity
             android:name=".activity.LoginActivity"
@@ -116,9 +115,7 @@
         <activity
             android:name=".activity.SelectBeginPlaceActivity"
             android:label="@string/title_activity_choose_begin_place"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            >
-
+            android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
             android:name=".fragment.MainFragment"
@@ -147,6 +144,10 @@
         <activity
             android:name=".activity.SelectStayActivity"
             android:label="@string/title_activity_select_stay" >
+        </activity>
+        <activity
+            android:name=".activity.MyJourneyActivity"
+            android:label="@string/title_activity_my_journey" >
         </activity>
     </application>
 

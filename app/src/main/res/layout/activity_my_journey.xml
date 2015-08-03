@@ -1,0 +1,450 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/mj_bottom"
+        android:background="@color/default_bg"
+        android:fillViewport="false"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include
+                android:id="@+id/mj_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout = "@layout/titlebar"/>
+
+            <ImageView
+                android:id="@+id/mj_image"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:scaleType="centerCrop"
+                android:layout_below="@+id/mj_title"
+                android:src="@drawable/tupian43"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:id="@+id/my_journey_ll_top"
+                android:layout_alignBottom="@+id/mj_image"
+                android:orientation="horizontal"
+                >
+                <LinearLayout
+                    android:layout_width="0dip"
+                    android:layout_height="72dp"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|left">
+                        <TextView
+                            android:id="@+id/my_journey_dest_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="凤凰古城"
+                            android:gravity="left|center_vertical"
+                            android:textColor="@color/white"
+                            android:layout_marginLeft="12dp"
+                            android:textSize="18dp"
+                            android:textStyle="bold"
+                            />
+
+                    <TextView
+                        android:id="@+id/my_journey_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center_vertical"
+                        android:text="订单号: 666666"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textSize="14sp"
+                        android:layout_marginLeft="12dp"
+                        android:textColor="@color/white"
+                        />
+                    <TextView
+                        android:id="@+id/my_journey_create_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center_vertical"
+                        android:text="创建于: 2015年8月3日"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textSize="14dp"
+                        android:layout_marginLeft="12dp"
+                        android:textColor="@color/white"
+                        />
+
+                </LinearLayout>
+                <TextView
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="right"
+                    android:layout_marginRight="12dp"
+                    android:background="@drawable/go_arrow_gray"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/my_journey_ll_top"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginTop="5dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="16dp"
+                        android:gravity="center_vertical|left"
+                        android:text="出发地点"
+                        android:textColor="@color/secondary_text_color"
+                        android:layout_marginLeft="8dp" />
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|right"
+                        android:textSize="16dp"
+                        android:textColor="@color/secondary_text_color"
+                        android:id="@+id/my_journey_begin_place"
+                        android:layout_marginRight="8dp"
+                        android:text="华南理工大学（大学城校区）" />
+
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="#9b9b9b"
+                     />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="16dp"
+                        android:gravity="center_vertical|left"
+                        android:text="行程日期"
+                        android:textColor="@color/secondary_text_color"
+                        android:layout_marginLeft="8dp"
+                         />
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|right"
+                        android:textSize="16dp"
+                        android:textColor="@color/secondary_text_color"
+                        android:id="@+id/my_journey_date"
+                        android:layout_marginRight="8dp"
+                        android:text="2015年8月3日-2015年8月12日" />
+
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="#9b9b9b"
+                     />
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="16dp"
+                        android:gravity="center_vertical|left"
+                        android:text="成团人数"
+                        android:textColor="@color/secondary_text_color"
+                        android:layout_marginLeft="8dp"
+                         />
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|right"
+                        android:textSize="16dp"
+                        android:textColor="@color/secondary_text_color"
+                        android:id="@+id/my_journey_member_num"
+                        android:layout_marginRight="8dp"
+                        android:text="12人" />
+
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="#9b9b9b"
+                     />
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="16dp"
+                        android:gravity="center_vertical|left"
+                        android:text="包餐"
+                        android:textColor="@color/secondary_text_color"
+                        android:layout_marginLeft="8dp"
+                         />
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|right"
+                        android:textSize="16dp"
+                        android:textColor="@color/secondary_text_color"
+                        android:id="@+id/my_journey_meal"
+                        android:layout_marginRight="6dp"
+                        android:text="一正餐一早餐" />
+
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="#9b9b9b"
+                     />
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="16dp"
+                        android:gravity="center_vertical|left"
+                        android:text="住宿"
+                        android:textColor="@color/secondary_text_color"
+                        android:layout_marginLeft="8dp"
+                         />
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|right"
+                        android:textSize="16dp"
+                        android:textColor="@color/secondary_text_color"
+                        android:id="@+id/my_journey_stay"
+                        android:layout_marginRight="8dp"
+                        android:text="情缘酒店 120/人" />
+
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="#9b9b9b"
+                     />
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="16dp"
+                        android:gravity="center_vertical|left"
+                        android:text="游玩项目"
+                        android:textColor="@color/secondary_text_color"
+                        android:layout_marginLeft="8dp"
+                         />
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|right"
+                        android:textSize="16dp"
+                        android:textColor="@color/secondary_text_color"
+                        android:id="@+id/my_journey_play_item_count"
+                        android:layout_marginRight="8dp"
+                        android:text="12" />
+
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="#9b9b9b"
+                     />
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="16dp"
+                        android:gravity="center_vertical|left"
+                        android:text="价格"
+                        android:textColor="@color/price_color"
+                        android:layout_marginLeft="8dp"
+                         />
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|right"
+                        android:textSize="16dp"
+                        android:textColor="@color/price_color"
+                        android:id="@+id/my_journey_price"
+                        android:layout_marginRight="8dp"
+                        android:text="320元/人" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/white">
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="提交订单"
+                        android:id="@+id/my_journey_state_1"
+                        android:gravity="center"
+                        android:textSize="17dp"
+                        android:textIsSelectable="false"
+                        android:textColor="@color/main_text_color" />
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/my_journey_divider_arrow"/>
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="制定行程"
+                        android:id="@+id/my_journey_state_2"
+                        android:gravity="center"
+                        android:textSize="17dp"
+                        android:textColor="@color/image_color" />
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/my_journey_divider_arrow"/>
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="签约出发"
+                        android:id="@+id/my_journey_state_3"
+                        android:gravity="center"
+                        android:textSize="17dp"
+                        android:textColor="@color/secondary_text_color" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="5dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="订单状态："
+                        android:textSize="17dp"
+                        android:gravity="center"
+                        android:textColor="@color/main_text_color"
+                        android:layout_marginLeft="8dp" />
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginRight="8dp"
+                        android:text="等待确定行程计划"
+                        android:id="@+id/my_journey_order_state"
+                        android:textSize="17dp"
+                        android:textColor="@color/main_text_color"
+                        android:gravity="center_vertical|left" />
+
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/my_journey_order_state_hint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="状态提示:\n在此状态下日狗无罪"
+                    android:textSize="16dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/mj_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible">
+        <TextView
+            android:id="@+id/my_journey_bottom_btn_1"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="提交行程计划"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:textColor="@color/ldrawer_color"
+            android:clickable="true"
+            android:background="@color/image_color"
+            android:textStyle="bold"
+            android:visibility="visible" />
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:background="@color/ldrawer_color"
+            android:textColor="@color/image_color"
+            android:text="查看行程方案"
+            android:id="@+id/my_journey_bottom_btn_2"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:visibility="visible" />
+        <TextView
+            android:id="@+id/mj_price_per_person"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:textColor="@color/image_color"
+            android:background="@color/ldrawer_color"
+            android:text="320元"
+            android:visibility="gone"
+            android:gravity="center"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</RelativeLayout>
