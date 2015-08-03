@@ -255,9 +255,11 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         // 根据上面发送过去的请求吗来区别
         switch (requestCode) {
             case MakeJourneyActivity.SBP_REQUEST_CODE:
-                String bp = intent.getStringExtra("begin_place");
-                if(null != bp){
-                    selectBeginPlace.setText(bp);
+                if(null != intent) {
+                    String bp = intent.getStringExtra("begin_place");
+                    if (null != bp) {
+                        selectBeginPlace.setText(bp);
+                    }
                 }
                 break;
             default:
