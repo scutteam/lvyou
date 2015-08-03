@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
@@ -38,6 +39,7 @@ public class SelectBeginPlaceActivity extends Activity {
     private ClearEditText mClearEditText;
     private Context mContext;
     private ArrayList<String> schools;
+    private ProgressBar ratingProgressBar;
 
     /**
      * 汉字转换成拼音的类
@@ -79,6 +81,8 @@ public class SelectBeginPlaceActivity extends Activity {
         sideBar = (SideBar) findViewById(R.id.sidrbar);
         dialog = (TextView) findViewById(R.id.dialog);
         sideBar.setTextView(dialog);
+        ratingProgressBar = (ProgressBar)findViewById(R.id.sbp_progressbar);
+        ratingProgressBar.setVisibility(View.VISIBLE);
 
         //设置右侧触摸监听
         sideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
@@ -144,16 +148,16 @@ public class SelectBeginPlaceActivity extends Activity {
                 }else{
                     Toast.makeText(mContext, response.optString("msg"), Toast.LENGTH_SHORT).show();
                 }
+                ratingProgressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
                 Toast.makeText(mContext, "网络连接失败，请重试", Toast.LENGTH_SHORT).show();
+                ratingProgressBar.setVisibility(View.GONE);
             }
         });
-
-        Toast.makeText(mContext, "数据加载中", Toast.LENGTH_SHORT).show();
 
         mClearEditText = (ClearEditText) findViewById(R.id.filter_edit);
 
