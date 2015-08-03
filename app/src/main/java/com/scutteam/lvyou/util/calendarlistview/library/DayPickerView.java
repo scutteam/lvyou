@@ -21,6 +21,13 @@ public class DayPickerView extends RecyclerView {
     private TypedArray typedArray;
     private OnScrollListener onScrollListener;
 
+    public void setSdRefreshListener(SDRefreshListener sdRefreshListener) {
+        this.sdRefreshListener = sdRefreshListener;
+        this.getSimpleMonthAdapter().setSdRefreshListener(sdRefreshListener);
+    }
+
+    private SDRefreshListener sdRefreshListener = null;
+
     public DayPickerView(Context context) {
         this(context, (AttributeSet) null);
     }
@@ -83,5 +90,9 @@ public class DayPickerView extends RecyclerView {
 
     public SimpleMonthAdapter getSimpleMonthAdapter() {
         return mAdapter;
+    }
+
+    public interface SDRefreshListener{
+        public void refresh(SimpleMonthAdapter.SelectedDays<SimpleMonthAdapter.CalendarDay> selectedDays);
     }
 }

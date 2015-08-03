@@ -6,5 +6,5 @@ package com.scutteam.lvyou.dialog;
  *
  */
 public interface DialogListener {
-	public void refreshActivity(String text);
+	public void refreshActivity(Object data);
 }

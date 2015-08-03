@@ -27,6 +27,7 @@ import com.scutteam.lvyou.model.Hotel;
 import com.scutteam.lvyou.model.Insurance;
 import com.scutteam.lvyou.model.Meal;
 import com.scutteam.lvyou.model.ViewSpot;
+import com.scutteam.lvyou.util.calendarlistview.library.SimpleMonthAdapter;
 
 import org.apache.http.Header;
 import org.json.JSONObject;
@@ -39,22 +40,26 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     final int imageWidthRate = 4;                          //固定图片的宽高比例为4:3
     final int imageHeightRate = 3;
     private int memberNums = 6;                           //默认6人成团
+    public static final int SBP_REQUEST_CODE = 999;       //onActivityResult中回调的code，对应选择出发地点（Select Begin Place）
 
     private ImageView destinationImage = null;            //目的地展示图片，最上方展示图片
     private TextView destinationName = null;              //目的地名称
     private RatingBar destinationStar = null;             //目的地获得星数对应的Bar
     private TextView destinationRatingNum = null;         //目的地获得星数对应的数值
-    private TextView destinationDetail = null;           //目的地的详细描述
+    private TextView destinationDetail = null;            //目的地的详细描述
     private TextView selectBeginPlace = null;             //选择出发地点
     private TextView minusMemberNums = null;              //减少一个团员
     private TextView plusMemberNums = null;               //增加一个团员
     private TextView showMemberNums = null;               //显示团员数量
-    private TextView beginDay = null;                     //出发日期
-    private TextView returnDay = null;                    //返回日期
     private LinearLayout mj_stay_unchoosed;//选择住宿的linearLayout
     private LinearLayout mj_stay_choosed; //选择住宿后显示linearlayout
     private TextView mj_stay_choosed_type; //选择住宿的酒店类型
     private TextView mj_stay_choosed_price;//选择住宿的酒店价格
+
+    private TextView tvBeginDay = null;                   //出发日期
+    private TextView tvReturnDay = null;                  //返回日期
+    private SimpleMonthAdapter.CalendarDay beginDay = null;
+    private SimpleMonthAdapter.CalendarDay returnDay = null;
 
     private Long destination_id; //目的地的id
     private Context mContext = null;
@@ -110,15 +115,15 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
 
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-        params.put("id",destination_id);
-        client.get(MakeJourneyActivity.this, Constants.URL + "main/dest.detail.json",params,new JsonHttpResponseHandler(){
+        params.put("id", destination_id);
+        client.get(MakeJourneyActivity.this, Constants.URL + "main/dest.detail.json", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                
+
                 try {
                     JSONObject dataObject = response.getJSONObject("data");
-                    
+
                     address = dataObject.optString("address");
                     guideList = Guide.insertWithArray(dataObject.getJSONArray("guideList"));
                     hotelList = Hotel.insertWithArray(dataObject.getJSONArray("hotelList"));
@@ -137,9 +142,9 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                     title = dataObject.optString("title");
                     top_pic = dataObject.optString("topPic");
                     viewSpotList = ViewSpot.insertWithArray(dataObject.getJSONArray("viewSpotList"));
-                    
+
                     handler.sendEmptyMessage(REFRESH_DATA_SUCCESS);
-                    
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -180,9 +185,9 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         
         mj_stay_choosed_type = (TextView) findViewById(R.id.mj_stay_choosed_type);
         mj_stay_choosed_price = (TextView) findViewById(R.id.mj_stay_choosed_price);
-        
-        beginDay = (TextView) findViewById(R.id.mj_begin_day);
-        returnDay = (TextView) findViewById(R.id.mj_return_day);
+
+        tvBeginDay = (TextView) findViewById(R.id.mj_begin_day);
+        tvReturnDay = (TextView) findViewById(R.id.mj_return_day);
     }
     
     public void refreshUi() {
@@ -208,19 +213,26 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         View.OnClickListener selectDayClickedListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("#########");
                 SelectDayDialog dialog = new SelectDayDialog(mContext, new DialogListener() {
                     @Override
-                    public void refreshActivity(String text) {
+                    public void refreshActivity(Object data) {
+                        SimpleMonthAdapter.SelectedDays<SimpleMonthAdapter.CalendarDay> selectedDays
+                                = (SimpleMonthAdapter.SelectedDays<SimpleMonthAdapter.CalendarDay>)data;
+                        tvBeginDay.setText(selectedDays.getFirst().toString());
+                        tvReturnDay.setText(selectedDays.getLast().toString());
+                        beginDay = selectedDays.getFirst();
+                        returnDay = selectedDays.getLast();
+                        beginDay.month += 1;    //矫正，具体看源码，源码中月份从0开始
+                        returnDay.month += 1;
                     }
                 });
                 dialog.show();
             }
         };
 
-        beginDay.setOnClickListener(selectDayClickedListener);
-        returnDay.setOnClickListener(selectDayClickedListener);
         mLlTopLayout.setOnClickListener(this);
+        tvBeginDay.setOnClickListener(selectDayClickedListener);
+        tvReturnDay.setOnClickListener(selectDayClickedListener);
     }
 
     @Override
@@ -229,7 +241,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.mj_select_begin_place:
                 intent = new Intent(MakeJourneyActivity.this, SelectBeginPlaceActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, MakeJourneyActivity.SBP_REQUEST_CODE);
                 break;
             case R.id.mj_member_minus:
                 memberNums -= 1;
@@ -265,6 +277,17 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case MakeJourneyActivity.SBP_REQUEST_CODE:
+                String bp = data.getStringExtra("begin_place");
+                if(null != bp){
+                    selectBeginPlace.setText(bp);
+                }
+                break;
+            default:
+                break;
+        }
         
         switch (resultCode) {
             case Constants.RESULT_SELECT_STAY:
