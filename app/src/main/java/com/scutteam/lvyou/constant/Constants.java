@@ -37,4 +37,7 @@ public class Constants {
     public static final int RESULT_SELECT_STAY = 6000;
     public static final int RESULT_SELECT_VIEW_SPOT = 7000;
 
+    public static class Sp{
+        public static final String PRE_NAME = "easy_bear";
+    }
 }

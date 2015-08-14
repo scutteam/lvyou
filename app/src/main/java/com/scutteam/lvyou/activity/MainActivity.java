@@ -46,7 +46,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private TextView mTvMain;
     private TextView mTvDestination;
     private TextView mTvMyPlan;
-//    private TextView mTvUser;
     private TextView mTvInsurance;
     private TextView mTvAbout;
     private TextView mTvLogout;
