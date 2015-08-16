@@ -39,4 +39,5 @@
     <string name="title_activity_welcome">WelcomeActivity</string>
     <string name="sp_first_launch">first_login</string>
     <string name="title_activity_get_insurance">GetInsuranceActivity</string>
+    <string name="get_insurance_hint">只需填写个人身份证号码，姓名，即可免费获取由旅行社赠送的旅行意外险及旅行社责任险，同时也应该让团队每个成员都获取旅行保险</string>
 </resources>
