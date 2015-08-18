@@ -40,4 +40,9 @@ public class Constants {
     public static class Sp{
         public static final String PRE_NAME = "easy_bear";
     }
+
+    public static class Account{
+        public static final String QQ_APP_ID = "1104819796";
+        public static final String QQ_APP_KEY = "aMrocgBYzDQfiw5g";
+    }
 }

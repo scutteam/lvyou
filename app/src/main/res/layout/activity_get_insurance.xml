@@ -36,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/get_insurance_mine_image"
                     android:textColor="#4898FF"
-                    android:textSize="19sp"
+                    android:textSize="17sp"
                     android:gravity="center"
                     android:layout_marginTop="2dp"
                     android:text="获取我的保险"/>
@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/get_insurance_partner_image"
                     android:textColor="#4898FF"
-                    android:textSize="19sp"
+                    android:textSize="17sp"
                     android:gravity="center"
                     android:layout_marginTop="2dp"
                     android:text="让成员获取保险"/>

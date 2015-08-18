@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.scutteam.lvyou.R;
+import com.scutteam.lvyou.dialog.ShareDialog;
 import com.scutteam.lvyou.util.ListViewUtil;
 
 public class GetInsuranceActivity extends Activity implements View.OnClickListener{
@@ -53,6 +54,8 @@ public class GetInsuranceActivity extends Activity implements View.OnClickListen
                 break;
 
             case R.id.get_insurance_partners:
+                ShareDialog shareDialog = new ShareDialog(mContext);
+                shareDialog.show();
                 break;
 
             default:
