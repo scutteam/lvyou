@@ -12,8 +12,15 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.scutteam.lvyou.R;
+import com.scutteam.lvyou.constant.Constants;
 import com.scutteam.lvyou.util.ScreenManager;
+
+import org.apache.http.Header;
+import org.json.JSONObject;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -44,11 +51,23 @@ public class BindAccountActivity extends Activity implements View.OnClickListene
                         mTvGetCaptcha.setText("已发送("+now_captcha_update_time+")");
                     }
                     break;
+                case GET_CAPTCHA_SUCCESS:
+                    now_captcha_update_time = DEFAULT_CAPTCHA_UPDATE_TIME;
+                    startCaptchaTimer();
+                    break;
+                case BIND_ACCOUNT_SUCCESS:
+                    Intent intent = new Intent();
+                    intent.setClass(BindAccountActivity.this,MainActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.push_left_in,R.anim.push_right_out);
+                    break;
             }
         }
     };
     private static final int UPDATE_CAPTCHA_TEXT = 100;
     private static final int DEFAULT_CAPTCHA_UPDATE_TIME = 60;
+    private static final int GET_CAPTCHA_SUCCESS = 61;
+    private static final int BIND_ACCOUNT_SUCCESS = 62;
     private int now_captcha_update_time = 0;
     private Timer timer;
     
@@ -97,6 +116,37 @@ public class BindAccountActivity extends Activity implements View.OnClickListene
         timer.schedule(task,1000,1000);
         mTvGetCaptcha.setClickable(false);
     }
+    
+    public void getCaptcha() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("mobile",mEtPhone.getText().toString());
+        client.post(BindAccountActivity.this, Constants.URL + "user/personal.send_code_check.do", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                try {
+                    int code = response.getInt("code");
+                    if (code == 0) {
+                        Toast.makeText(BindAccountActivity.this, "验证码发送成功", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(BindAccountActivity.this, response.getString("msg"), Toast.LENGTH_SHORT).show();
+                    }
+
+                    handler.sendEmptyMessage(GET_CAPTCHA_SUCCESS);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
+    }
 
     @Override
     public void onClick(View v) {
@@ -104,9 +154,13 @@ public class BindAccountActivity extends Activity implements View.OnClickListene
             case R.id.tv_get_captcha:
                 //发送验证码
                 //确定已经发送验证码了 之后 开启定时器
-                Toast.makeText(BindAccountActivity.this,"发送成功...",Toast.LENGTH_SHORT).show();
-                now_captcha_update_time = DEFAULT_CAPTCHA_UPDATE_TIME;
-                startCaptchaTimer();
+                if(TextUtils.isEmpty(mEtPhone.getText())) {
+                    Toast.makeText(BindAccountActivity.this,"手机号码不能为空",Toast.LENGTH_SHORT).show();
+                } else if(TextUtils.isEmpty(mEtPassword.getText())) {
+                    Toast.makeText(BindAccountActivity.this,"密码不能为空",Toast.LENGTH_SHORT).show();
+                } else {
+                    getCaptcha();
+                }
                 break;
             case R.id.tv_bind:
 
@@ -117,12 +171,7 @@ public class BindAccountActivity extends Activity implements View.OnClickListene
                 } else if(TextUtils.isEmpty(mEtPassword.getText())) {
                     Toast.makeText(BindAccountActivity.this,"密码不能为空",Toast.LENGTH_SHORT).show();
                 } else {
-                    //完成绑定
-                    Intent intent = new Intent();
-                    intent.setClass(BindAccountActivity.this,MainActivity.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.push_left_in,R.anim.push_right_out);
-
+                    bindAccount();
                 }
                 break;
             case R.id.ibtn_back:
@@ -133,5 +182,37 @@ public class BindAccountActivity extends Activity implements View.OnClickListene
             default:
                 break;
         }  
+    }
+    
+    public void bindAccount() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("verifyCode",mEtCaptcha.getText().toString());
+        params.put("customer.phone", mEtPhone.getText().toString());
+        params.put("customer.password", mEtPassword.getText().toString());
+        client.post(BindAccountActivity.this, Constants.URL + "user/personal.bind.do", params, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                
+                try {
+                    int code = response.getInt("code");
+                    if(code == 0) {
+                        Toast.makeText(BindAccountActivity.this,"第三方账号绑定成功",Toast.LENGTH_SHORT).show();
+                        
+                        handler.sendEmptyMessage(BIND_ACCOUNT_SUCCESS);
+                    } else {
+                        Toast.makeText(BindAccountActivity.this,response.getString("msg"),Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
     }
 }

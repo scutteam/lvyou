@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.scutteam.lvyou.R;
+import com.scutteam.lvyou.constant.Constants;
 import com.scutteam.lvyou.model.Comment;
 import com.scutteam.lvyou.widget.CircleImageView;
 
@@ -35,6 +36,15 @@ public class CommentAdapter extends BaseAdapter {
         this.commentList.addAll(commentList);
         
         layoutInflater = LayoutInflater.from(context);
+    }
+    
+    public void reloadWithCommentList(List<Comment> commentList) {
+        if(this.commentList.size() > 0) {
+            this.commentList.clear();
+        }
+        this.commentList.addAll(commentList);
+        
+        this.notifyDataSetChanged();
     }
     
     public void loadMoreWithCommentList(List<Comment> commentList) {
@@ -69,7 +79,12 @@ public class CommentAdapter extends BaseAdapter {
         }
         
         Comment comment = commentList.get(position);
-        ImageLoader.getInstance().displayImage(comment.face,viewHolder.mCivAvatar);
+        if(comment.face.equals(Constants.IMAGE_URL + "null")) {
+            viewHolder.mCivAvatar.setImageDrawable(context.getResources().getDrawable(R.mipmap.default_icon));
+        } else {
+            ImageLoader.getInstance().displayImage(comment.face,viewHolder.mCivAvatar);
+        }
+
         viewHolder.mStarBar.setRating(Float.parseFloat(comment.total_score.toString()));
         viewHolder.mTvComment.setText(comment.total_comment);
         viewHolder.mTvName.setText(comment.cust);

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="80dp">
+    <ImageView
+        android:layout_width="60dp"
+        android:scaleType="centerCrop"
+        android:id="@+id/iv_avatar"
+        android:layout_margin="10dp"
+        android:layout_height="60dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="虹桥"
+            android:id="@+id/tv_name"
+            android:textColor="@color/main_text_color"
+            android:textSize="16sp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:gravity="center_vertical"
+            android:text="50/人"
+            android:id="@+id/tv_price"
+            android:textColor="@color/image_color"
+            android:textSize="16sp"
+            />
+    </LinearLayout>
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/iv_remove"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="10dp"
+        android:src="@mipmap/remove_view_spot_button"
+        />
+</LinearLayout>
