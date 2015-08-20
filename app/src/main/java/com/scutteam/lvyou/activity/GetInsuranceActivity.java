@@ -2,6 +2,7 @@ package com.scutteam.lvyou.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -29,6 +30,8 @@ public class GetInsuranceActivity extends Activity implements View.OnClickListen
     }
 
     private void initView(){
+        TextView title = (TextView) findViewById(R.id.center_text);
+        title.setText("获取保险");
         rlGetMyInsurance = (RelativeLayout)findViewById(R.id.get_insurance_mine);
         rlGetPartnersInsurance = (RelativeLayout)findViewById(R.id.get_insurance_partners);
         tvGetInsuranceHint = (TextView)findViewById(R.id.get_insurance_hint);
@@ -38,6 +41,7 @@ public class GetInsuranceActivity extends Activity implements View.OnClickListen
     }
 
     private void initListener(){
+        findViewById(R.id.left_icon).setOnClickListener(this);
         rlGetMyInsurance.setOnClickListener(this);
         rlGetPartnersInsurance.setOnClickListener(this);
     }
@@ -45,7 +49,13 @@ public class GetInsuranceActivity extends Activity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.left_icon:
+                finish();
+                break;
+
             case R.id.get_insurance_mine:
+                Intent intent = new Intent(mContext, GetMyInsuranceActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.get_insurance_partners:

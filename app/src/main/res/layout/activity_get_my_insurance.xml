@@ -1,0 +1,231 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    android:orientation="vertical"
+    tools:context="com.scutteam.lvyou.activity.GetMyInsuranceActivity">
+    <include
+        android:id="@+id/get_my_insurance_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout = "@layout/titlebar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/default_bg"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="94dp">
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:src="@drawable/get_my_insurance_icon"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="2"
+                    android:text="凤凰古城"
+                    android:textSize="16sp"
+                    android:textColor="@color/main_text_color"
+                    android:gravity="bottom"
+                    android:paddingLeft="4dp"
+                    android:id="@+id/get_my_insurance_dest_name" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="1"
+                    android:text="创建时间: 2015-08-20-20:30"
+                    android:gravity="bottom"
+                    android:paddingLeft="4dp"
+                    android:textColor="@color/secondary_text_color"
+                    android:textSize="12dp"
+                    android:id="@+id/get_my_insurance_create_time" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="2"
+                    android:text="订单号: 00123"
+                    android:gravity="top"
+                    android:paddingLeft="4dp"
+                    android:textColor="@color/secondary_text_color"
+                    android:textSize="12dp"
+                    android:id="@+id/get_my_insurance_plan_id" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/default_bg"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="horizontal">
+            <com.scutteam.lvyou.widget.CircleImageView
+                android:id="@+id/get_my_insurance_image"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/get_my_insurance_icon"/>
+            <TextView
+                android:id="@+id/get_my_insurance_plan_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:text="吹个大波波的团游"
+                android:textSize="15sp"
+                android:textColor="@color/main_text_color"
+                android:paddingLeft="10dp"
+                android:maxHeight="50dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="姓名 :  "
+            android:textColor="#838383"
+            android:textSize="15sp"
+            android:gravity="center_vertical|right"/>
+        <EditText
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_get_my_insurance_et_bg"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="6dp"
+            android:textColor="@color/main_text_color"
+            android:hint="请输入真实姓名"
+            android:paddingLeft="6dp"
+            android:textSize="14sp"
+            android:layout_weight="1"
+            android:id="@+id/get_my_insurance_user_name" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="身份证号 :  "
+            android:textColor="#838383"
+            android:textSize="15sp"
+            android:gravity="center_vertical|right"/>
+        <EditText
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_get_my_insurance_et_bg"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="6dp"
+            android:textColor="@color/main_text_color"
+            android:hint="请输入对应身份证号"
+            android:paddingLeft="6dp"
+            android:textSize="14sp"
+            android:layout_weight="1"
+            android:id="@+id/get_my_insurance_user_id" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="手机号码 :  "
+            android:textColor="#838383"
+            android:textSize="15sp"
+            android:gravity="center_vertical|right"/>
+        <EditText
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_get_my_insurance_et_bg"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="6dp"
+            android:paddingLeft="6dp"
+            android:textColor="@color/main_text_color"
+            android:hint="请输入联系手机"
+            android:textSize="14sp"
+            android:layout_weight="1"
+            android:id="@+id/get_my_insurance_user_phone" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DADADA"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="保险信息"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="10dp"
+         />
+    <TextView
+        android:id="@+id/get_my_insurance_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="@color/secondary_text_color"
+        android:text="太平财产保险有限公司(100旅行社责任险)\n君龙人寿保险公司（10个人意外险）"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        />
+    <TextView
+        android:id="@+id/get_my_insurance_sumit"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:text="我要报名"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_gravity="bottom"
+        android:textColor="#FFFFFF"
+        android:clickable="true"
+        android:background="@color/image_color"/>
+
+</LinearLayout>

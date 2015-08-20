@@ -19,17 +19,20 @@ import com.umeng.socialize.controller.listener.SocializeListeners;
 import com.umeng.socialize.media.QQShareContent;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.sso.UMQQSsoHandler;
+import com.umeng.socialize.weixin.controller.UMWXHandler;
+import com.umeng.socialize.weixin.media.WeiXinShareContent;
 
 
 /**
  * Created by liujie on 15/8/18.
  */
-public class ShareDialog extends Dialog implements View.OnClickListener{
+public class ShareDialog extends Dialog implements View.OnClickListener {
     String Tag = "ShareDialog --> ";
     private Context mContext;
     private View contentView;
     private LinearLayout llShareToWechat;
     private LinearLayout llShareToQQ;
+
     public ShareDialog(Context context, int theme) {
         super(context, theme);
     }
@@ -44,14 +47,15 @@ public class ShareDialog extends Dialog implements View.OnClickListener{
         initListener();
         setContentView(contentView);
     }
-    private void initView(){
+
+    private void initView() {
         Log.i(Tag, "initView");
-        llShareToWechat = (LinearLayout)contentView.findViewById(R.id.dialog_share_wechat);
-        llShareToQQ = (LinearLayout)contentView.findViewById(R.id.dialog_share_qq);
+        llShareToWechat = (LinearLayout) contentView.findViewById(R.id.dialog_share_wechat);
+        llShareToQQ = (LinearLayout) contentView.findViewById(R.id.dialog_share_qq);
     }
 
-    private void initListener(){
-        Log.i(Tag , "initListener");
+    private void initListener() {
+        Log.i(Tag, "initListener");
         contentView.setOnClickListener(this);
         llShareToWechat.setOnClickListener(this);
         llShareToQQ.setOnClickListener(this);
@@ -60,7 +64,7 @@ public class ShareDialog extends Dialog implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         Log.i(Tag, "onClick");
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.dialog_share_wechat:
                 doShareToWechat();
                 break;
@@ -74,22 +78,17 @@ public class ShareDialog extends Dialog implements View.OnClickListener{
         }
     }
 
-    private void doShareToQQ(){
+    private void doShareToQQ() {
         // 首先在您的Activity中添加如下成员变量
         final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share");
-        //参数1为当前Activity，参数2为开发者在QQ互联申请的APP ID，参数3为开发者在QQ互联申请的APP kEY.
 
-        UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler((Activity)mContext, Constants.Account.QQ_APP_ID, Constants.Account.QQ_APP_KEY);
+        UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler((Activity) mContext, Constants.Account.QQ_APP_ID, Constants.Account.QQ_APP_KEY);
         qqSsoHandler.addToSocialSDK();
-
-        // 设置分享内容
-        mController.setShareContent("分享链接给团友，让团友也获取保险");
-        mController.setAppWebSite(SHARE_MEDIA.QQ, "www.baidu.com");
 
         QQShareContent qqShareContent = new QQShareContent();
         qqShareContent.setShareContent("分享链接给团友，让团友也获取保险");
-        qqShareContent.setTitle("hello, title");
-        qqShareContent.setShareImage(new UMImage(mContext , R.drawable.icon_left_arrow));
+        qqShareContent.setTitle("获取保险");
+        qqShareContent.setShareImage(new UMImage(mContext, R.drawable.app_icon));
         qqShareContent.setTargetUrl("http://www.baidu.com");
         mController.setShareMedia(qqShareContent);
 
@@ -102,21 +101,41 @@ public class ShareDialog extends Dialog implements View.OnClickListener{
 
                     @Override
                     public void onComplete(SHARE_MEDIA platform, int eCode, SocializeEntity entity) {
-                        if (eCode == 200) {
-                            Toast.makeText(mContext, "分享成功", Toast.LENGTH_SHORT).show();
-                        } else {
-                            String eMsg = "";
-                            if (eCode == -101) {
-                                eMsg = "没有授权";
-                            }
-                        }
                     }
                 });
         dismiss();
     }
 
-    private void doShareToWechat(){
+    private void doShareToWechat() {
         Log.i(Tag, "share to wechat");
+        final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share");
+
+        UMWXHandler wxHandler = new UMWXHandler(mContext, Constants.Account.WECHAT_APP_ID, Constants.Account.WECHAT_KEY);
+        wxHandler.addToSocialSDK();
+
+        //设置微信好友分享内容
+        WeiXinShareContent weixinContent = new WeiXinShareContent();
+        //设置分享文字
+        weixinContent.setShareContent("分享链接给团友，让团友也获取保险");
+        //设置title
+        weixinContent.setTitle("获取保险");
+        weixinContent.setShareImage(new UMImage(mContext, R.drawable.app_icon));
+        //设置分享内容跳转URL
+        weixinContent.setTargetUrl("http://www.baidu.com");
+        mController.setShareMedia(weixinContent);
+
+        mController.postShare(mContext, SHARE_MEDIA.WEIXIN,
+                new SocializeListeners.SnsPostListener() {
+                    @Override
+                    public void onStart() {
+                    }
+
+                    @Override
+                    public void onComplete(SHARE_MEDIA platform, int eCode, SocializeEntity entity) {
+                    }
+                });
+
         dismiss();
     }
+
 }

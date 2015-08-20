@@ -61,14 +61,18 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
                     } else {
                         listView.setPullLoadEnable(true);
                     }
-//                    getFakeCommentData();
-                    if(adapter == null) {
-                        mTvCommentCount.setText("用户评论("+total_items+")");
-                        initAdapter();
+                    mTvCommentCount.setText("用户评论("+total_items+")");
+                    initAdapter();
+
+                    break;
+                case LOAD_MORE_COMMENT_SUCCESS:
+                    if(current_page == total_page) {
+                        listView.setPullLoadEnable(false);
                     } else {
-                        adapter.loadMoreWithCommentList(newCommentList);
-                        listView.stopLoadMore();
+                        listView.setPullLoadEnable(true);
                     }
+                    adapter.loadMoreWithCommentList(newCommentList);
+                    listView.stopLoadMore();
                     break;
             }
         }
@@ -76,6 +80,7 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
     public View mHeadView;
     public Destination destination;
     public static final int LOAD_COMMENT_SUCCESS = 88888;
+    public static final int LOAD_MORE_COMMENT_SUCCESS = 88889;
     public TextView mTvCurrentPage;
     public TextView mTvTotalPage;
     public ViewPager viewPager;
@@ -98,33 +103,6 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
         
         listView.setAdapter(adapter);
     }
-   
-//    public void getFakeCommentData() {
-//        Comment comment = new Comment();
-//        comment.cust = "花开人醉";
-//        comment.face = Constants.IMAGE_URL + "default_face.jpg";
-//        comment.total_score = 4.5;
-//        comment.total_comment = "总体来说是挺不错的，我喜欢";
-//        comment.create_time = "1328007600000";
-//
-//        Comment comment2 = new Comment();
-//        comment2.cust = "花开人醉2";
-//        comment2.face = Constants.IMAGE_URL + "default_face.jpg";
-//        comment2.total_score = 4.4;
-//        comment2.total_comment = "总体来说是挺不错的，我喜2";
-//        comment2.create_time = "132880600000";
-//
-//        Comment comment3 = new Comment();
-//        comment3.cust = "花开人醉3";
-//        comment3.face = Constants.IMAGE_URL + "default_face.jpg";
-//        comment3.total_score = 4.5;
-//        comment3.total_comment = "总体来说是挺不错的，我喜3";
-//        comment3.create_time = "1329007600000";
-//
-//        commentList.add(comment);
-//        commentList.add(comment2);
-//        commentList.add(comment3);
-//    }
     
     public void initData() {
         destination_id = getIntent().getLongExtra("destination_id",0L);
@@ -265,7 +243,7 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("kw.destId",destination_id);
-        params.put("pr.page",current_page ++);
+        params.put("pr.page",current_page);
         client.get(DestinationDetailActivity.this, Constants.URL + "main/comment.dest_page_list.json",params,new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -274,10 +252,10 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
                 try {
                     JSONObject dataObject = response.getJSONObject("data");
                     newCommentList = Comment.insertWithArray(dataObject.getJSONArray("items"));
-                    current_page = dataObject.getInt("currentPage");
                     total_page = dataObject.getInt("totalPages");
+                    current_page ++;
 
-                    handler.sendEmptyMessage(LOAD_COMMENT_SUCCESS);
+                    handler.sendEmptyMessage(LOAD_MORE_COMMENT_SUCCESS);
 
                 } catch (Exception e){
                     e.printStackTrace();

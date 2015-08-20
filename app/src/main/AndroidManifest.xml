@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.scutteam.lvyou">
+    package="com.scutteam.lvyou" >
 
     <uses-sdk android:minSdkVersion="10" />
 
@@ -28,22 +28,20 @@
         android:allowBackup="true"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <meta-data
             android:name="AA_DB_NAME"
             android:value="lvyou.db" />
         <meta-data
             android:name="AA_DB_VERSION"
             android:value="1" />
-
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="55ade01f67e58e33c10002b4"
-            />
+            android:value="55ade01f67e58e33c10002b4" />
 
         <activity
             android:name=".activity.SplashActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
         <activity
             android:name="com.umeng.socialize.view.ShareActivity"
             android:configChanges="orientation|keyboard"
@@ -51,12 +49,10 @@
             android:noHistory="true"
             android:theme="@style/Theme.UMDialog"
             android:windowSoftInputMode="stateVisible|adjustResize" />
-
-
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true">
+            android:noHistory="true" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -73,11 +69,21 @@
 
         <data android:scheme="tencent1104819796" />
 
-
-
+        <activity
+            android:name=".umeng.wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".activity.MainActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.MakeJourneyActivity"
             android:label="@string/title_activity_make_journey" />
@@ -132,13 +138,26 @@
             android:label="@string/title_activity_welcome" />
         <activity
             android:name=".activity.GetInsuranceActivity"
-            android:label="@string/title_activity_get_insurance">
+            android:label="@string/title_activity_get_insurance" >
+            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
+            -->
+        </activity>
+        <activity
+            android:name=".activity.ViewSpotDetailActivity"
+            android:label="@string/title_activity_view_spot_detail" >
+        </activity>
+        <activity
+            android:name=".activity.CommentDetailActivity"
+            android:label="@string/title_activity_comment_detail" >
+        </activity>
+        <activity
+            android:name=".activity.GetMyInsuranceActivity"
+            android:label="@string/title_activity_get_my_insurance" >
         </activity>
     </application>
 

@@ -1,0 +1,37 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:orientation="vertical"
+    tools:context="com.scutteam.lvyou.activity.CommentDetailActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/rl_nav"
+        android:orientation="horizontal"
+        android:background="#FFFFFF">
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/back_arrow"/>
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="用户评论"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
+            android:textColor="@color/image_color"
+            />
+    </RelativeLayout>
+    <com.scutteam.lvyou.widget.me.maxwin.view.XListView
+        android:layout_width="match_parent"
+        android:id="@+id/listView"
+        style="@style/listview_normal_style_with_divider"
+        android:layout_height="match_parent">
+    </com.scutteam.lvyou.widget.me.maxwin.view.XListView>
+</LinearLayout>

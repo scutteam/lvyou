@@ -32,7 +32,6 @@
     <string name="menu_settings">Settings</string>
     <string name="title_activity_my_journey">MyJourneyActivity</string>
     <string name="title_activity_view_spot">ViewSpotActivity</string>
-
     <string name="title_activity_splash">SplashActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
@@ -40,4 +39,8 @@
     <string name="sp_first_launch">first_login</string>
     <string name="title_activity_get_insurance">GetInsuranceActivity</string>
     <string name="get_insurance_hint">只需填写个人身份证号码，姓名，即可免费获取由旅行社赠送的旅行意外险及旅行社责任险，同时也应该让团队每个成员都获取旅行保险</string>
+    <string name="title_activity_view_spot_detail">ViewSpotDetailActivity</string>
+    <string name="title_activity_comment_detail">CommentDetailActivity</string>
+    <string name="title_activity_get_my_insurance">GetMyInsuranceActivity</string>
+
 </resources>

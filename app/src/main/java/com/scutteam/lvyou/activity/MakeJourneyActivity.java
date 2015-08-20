@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.scutteam.lvyou.R;
+import com.scutteam.lvyou.adapter.ViewSpotShowAdapter;
 import com.scutteam.lvyou.constant.Constants;
 import com.scutteam.lvyou.dialog.DialogListener;
 import com.scutteam.lvyou.dialog.SelectDayDialog;
@@ -27,6 +29,7 @@ import com.scutteam.lvyou.model.Guide;
 import com.scutteam.lvyou.model.Hotel;
 import com.scutteam.lvyou.model.Insurance;
 import com.scutteam.lvyou.model.Meal;
+import com.scutteam.lvyou.model.Recommendtrip;
 import com.scutteam.lvyou.model.ViewSpot;
 import com.scutteam.lvyou.util.calendarlistview.library.SimpleMonthAdapter;
 
@@ -56,6 +59,12 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     private RelativeLayout mj_stay;                       //住宿总的layout
     private TextView mj_stay_choosed_type;                //选择住宿的酒店类型
     private TextView mj_stay_choosed_price;               //选择住宿的酒店价格
+    private ListView mj_plat_item_list;                   //选择游玩项目之后更新的游玩项目列表
+    private ViewSpotShowAdapter showAdapter;
+    private TextView mTvCalculate;
+    private TextView mj_detail_food; //包餐
+    private TextView mTvGuide;       //导游
+    private TextView mTvInsurance;   //保险
 
     private SimpleMonthAdapter.CalendarDay beginDay = null;
     private SimpleMonthAdapter.CalendarDay returnDay = null;
@@ -63,7 +72,8 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     private ArrayList<Hotel> hotelList = new ArrayList<Hotel>();
     private List<Insurance>insuranceList = new ArrayList<Insurance>();
     private List<Guide>guideList = new ArrayList<Guide>();
-    private ArrayList<ViewSpot>viewSpotList = new ArrayList<ViewSpot>();
+    public ArrayList<ViewSpot>viewSpotList = new ArrayList<ViewSpot>();
+    public ArrayList<ViewSpot>viewSpotSelectedList = new ArrayList<ViewSpot>();
     private List<Meal>mealList = new ArrayList<Meal>();
     private String address; //目的地地址
     private String short_intro;
@@ -85,8 +95,16 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     private int memberNums = 6;                           //默认6人成团
     public static final int SBP_REQUEST_CODE = 999;       //onActivityResult中回调的code，对应选择出发地点（Select Begin Place）
     private static final int REFRESH_DATA_SUCCESS = 666666;
+    private static final int CALCULATE_DATA_SUCCESS = 666667;
     
     private LinearLayout mj_play_item;
+    
+    private TextView mj_price_per_person;
+    private String startDate;
+    private String endDate;
+    private Hotel selectedHotel;
+    private double average_price;
+    private TextView mj_submit;
 
     private Handler handler = new Handler() {
         @Override
@@ -96,6 +114,11 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
             switch (msg.what) {
                 case REFRESH_DATA_SUCCESS:
                     refreshUi();
+                    break;
+                case CALCULATE_DATA_SUCCESS:
+                    mTvCalculate.setVisibility(View.GONE);
+                    mj_price_per_person.setVisibility(View.VISIBLE);
+                    mj_price_per_person.setText(average_price+"元");
                     break;
             }
         }
@@ -183,11 +206,19 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         destinationImage = (ImageView) findViewById(R.id.mj_image);
         mj_stay = (RelativeLayout) findViewById(R.id.mj_stay);
         mj_play_item = (LinearLayout) findViewById(R.id.mj_play_item);
+        mTvCalculate = (TextView) findViewById(R.id.tv_calculate);
+        mj_detail_food = (TextView) findViewById(R.id.mj_detail_food);
+        mTvGuide = (TextView) findViewById(R.id.tv_guide);
+        mTvInsurance = (TextView) findViewById(R.id.tv_insurance);
+        mj_price_per_person = (TextView) findViewById(R.id.mj_price_per_person);
+        mj_submit = (TextView) findViewById(R.id.mj_submit);
 
         ViewGroup.LayoutParams params = destinationImage.getLayoutParams();   //设置ImageView横高比例为4:3
         params.width = getResources().getDisplayMetrics().widthPixels;
         params.height = (params.width * imageHeightRate) / imageWidthRate;
         destinationImage.setLayoutParams(params);
+
+        mj_plat_item_list = (ListView) findViewById(R.id.mj_plat_item_list);
     }
     
     public void refreshUi() {
@@ -200,8 +231,13 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         destinationStar.setRating(Float.parseFloat(score.toString()));
         destinationRatingNum.setText(score.toString());
         destinationDetail.setText(short_intro);
-        showMemberNums.setText((minNum + 1) + "人成团");
-        memberNums = minNum + 1;
+        showMemberNums.setText(minNum + "人成团");
+        memberNums = minNum;
+        
+        //更新包餐(yes) 交通 导游(yes) 保险(yes)
+        mj_detail_food.setText(mealList.get(0).intro);
+        mTvGuide.setText(guideList.get(0).level_name);
+        mTvInsurance.setText(insuranceList.get(0).insurance_type+"\n"+insuranceList.get(1).insurance_type);
     }
 
     private void initListener() {
@@ -214,6 +250,8 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         tvBeginDay.setOnClickListener(this);
         tvReturnDay.setOnClickListener(this);
         mj_play_item.setOnClickListener(this);
+        mTvCalculate.setOnClickListener(this);
+        mj_submit.setOnClickListener(this);
     }
 
     @Override
@@ -267,6 +305,9 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                         returnDay = selectedDays.getLast();
                         beginDay.month += 1;    //矫正，具体看源码，源码中月份从0开始
                         returnDay.month += 1;
+
+                        startDate = getYYYYMMDDStringFrom(selectedDays,true);
+                        endDate = getYYYYMMDDStringFrom(selectedDays,false);
                     }
                 });
                 dialog.show();
@@ -279,14 +320,118 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                 break;
             case R.id.mj_play_item:
                 intent = new Intent();
+                intent.putExtra("selectedViewSpot",(Serializable)viewSpotSelectedList);
                 intent.putExtra("viewSpot",(Serializable)viewSpotList);
+                intent.putExtra("id",destination_id);
                 intent.setClass(MakeJourneyActivity.this,ViewSpotActivity.class);
                 startActivityForResult(intent, Constants.REQUEST_SELECT_VIEW_SPOT);
+                break;
+            case R.id.tv_calculate:
+                if(startDate == null || endDate == null) {
+                    Toast.makeText(MakeJourneyActivity.this,"未选择出发日期",Toast.LENGTH_SHORT).show();
+                } else if (selectedHotel == null) {
+                    Toast.makeText(MakeJourneyActivity.this,"未选择住宿",Toast.LENGTH_SHORT).show();
+                } else if (viewSpotSelectedList.size() == 0) {
+                    Toast.makeText(MakeJourneyActivity.this,"未选择游玩项目",Toast.LENGTH_SHORT).show();
+                } else {
+                    calculatePrice();
+                }
+                break;
+            case R.id.mj_submit:
+                if(startDate == null || endDate == null) {
+                    Toast.makeText(MakeJourneyActivity.this,"未选择出发日期",Toast.LENGTH_SHORT).show();
+                } else if (selectedHotel == null) {
+                    Toast.makeText(MakeJourneyActivity.this,"未选择住宿",Toast.LENGTH_SHORT).show();
+                } else if (viewSpotSelectedList.size() == 0) {
+                    Toast.makeText(MakeJourneyActivity.this,"未选择游玩项目",Toast.LENGTH_SHORT).show();
+                } else {
+                    submitJourney();
+                }
                 break;
             default:
                 break;
         }
     }
+    
+    public void submitJourney() {
+
+    }
+    
+    public void calculatePrice() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("total.destId",destination_id);
+        params.put("total.hotelId",selectedHotel.hotel_id);
+        params.put("total.guideId",guideList.get(0).guide_id);
+        params.put("total.mealId",mealList.get(0).meal_id);
+//        params.put("total.destId",destination_id);
+        params.put("total.peopleNum",memberNums);
+        params.put("total.startDate",startDate);
+        params.put("total.endDate",endDate);
+        String view_spot_string = "";
+        for(int i = 0 ; i < viewSpotSelectedList.size() ; i++) {
+            if(i == viewSpotSelectedList.size() - 1) {
+                view_spot_string += viewSpotSelectedList.get(i).view_spot_id;
+            } else {
+                view_spot_string += viewSpotSelectedList.get(i).view_spot_id + ",";
+            }
+        }
+        params.put("total.vsIds",view_spot_string);
+        
+        client.post(MakeJourneyActivity.this,Constants.URL + "user/dest.total_price.do",params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                
+                try {
+                    int code = response.getInt("code");
+                    if(code == 0) {
+                        average_price = response.getDouble("data");
+                        
+                    } else {
+                        Toast.makeText(MakeJourneyActivity.this,response.getString("msg"),Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
+    }
+    
+    public String getYYYYMMDDStringFrom(SimpleMonthAdapter.SelectedDays<SimpleMonthAdapter.CalendarDay>selectedDays,boolean isStart) {
+        String month = "";
+        String day = "";
+        if(isStart) {
+            if(selectedDays.getFirst().month < 10) {
+                month = "0" + selectedDays.getFirst().month;
+            } else {
+                month = selectedDays.getFirst().month + "";
+            }
+            if(selectedDays.getFirst().day < 10) {
+                day = "0" + selectedDays.getFirst().day;
+            } else {
+                day = selectedDays.getFirst().day + "";
+            }
+            return selectedDays.getFirst().year + "-" + month + "-" + day;
+        } else {
+            if(selectedDays.getLast().month < 10) {
+                month = "0" + selectedDays.getLast().month;
+            } else {
+                month = selectedDays.getLast().month + "";
+            }
+            if(selectedDays.getLast().day < 10) {
+                day = "0" + selectedDays.getLast().day;
+            } else {
+                day = selectedDays.getLast().day + "";
+            }
+            return selectedDays.getLast().year + "-" + month + "-" + day;
+        }
+    } 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -322,17 +467,62 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                     refreshHotelUI();//真正没走过这里
                 }
                 break;
+            case Constants.RESULT_SELECT_RECOMMEND_TRIP:
+                Recommendtrip trip = (Recommendtrip) data.getSerializableExtra("trip");
+                if(trip != null) {
+                    Toast.makeText(MakeJourneyActivity.this,trip.toString(),Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+            case Constants.RESULT_SELECT_VIEW_SPOT:
+                viewSpotSelectedList = (ArrayList<ViewSpot>) data.getSerializableExtra("selected_view_spot_list");
+                for(int i = 0 ; i < viewSpotList.size() ; i++) {
+                    viewSpotList.get(i).is_select = 0;
+                }
+                for(int i = 0 ; i < viewSpotSelectedList.size(); i++) {
+                    for(int j = 0 ; j < viewSpotList.size();j++) {
+                        long view_spot_id = viewSpotList.get(j).view_spot_id;
+                        if(viewSpotSelectedList.get(i).view_spot_id == view_spot_id) {
+                            viewSpotList.get(j).is_select = 1;
+                        }
+                    }
+                }
+
+                refreshViewSpotUI();
+                break;
         }
     }
+    
+    public void refreshViewSpotUI() {
+        if(showAdapter == null) {
+            showAdapter = new ViewSpotShowAdapter(MakeJourneyActivity.this,viewSpotSelectedList);
+            mj_plat_item_list.setAdapter(showAdapter);   
+        } else {
+            showAdapter.reloadWithList(viewSpotSelectedList);
+        }
 
+        //动态设置listview的高度
+        int totalHeight = 0;
+        for (int i = 0; i < showAdapter.getCount(); i++) {
+            View listItem = showAdapter.getView(i,null,mj_plat_item_list);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
 
-
+        ViewGroup.LayoutParams params = mj_plat_item_list.getLayoutParams();
+        params.height = totalHeight + (mj_plat_item_list.getDividerHeight() * (showAdapter.getCount() -1 ));
+        ((ViewGroup.MarginLayoutParams)params).setMargins(10, 10, 10, 10);
+        mj_plat_item_list.setLayoutParams(params);
+    }
+    
     private void refreshHotelUI() {
+        selectedHotel = null;
         mj_stay_unchoosed.setVisibility(View.VISIBLE);
         mj_stay_choosed.setVisibility(View.GONE);
     }
 
     private void refreshHotelUI(Hotel hotel) {
+        selectedHotel = hotel;
         hotel.is_select = 1;
         mj_stay_unchoosed.setVisibility(View.GONE);
         mj_stay_choosed.setVisibility(View.VISIBLE);
