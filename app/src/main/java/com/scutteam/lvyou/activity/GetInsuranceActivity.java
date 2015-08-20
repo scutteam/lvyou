@@ -1,19 +1,14 @@
-package com.scutteam.lvyou.activity.util;
+package com.scutteam.lvyou.activity;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.scutteam.lvyou.R;
 import com.scutteam.lvyou.dialog.ShareDialog;
-import com.scutteam.lvyou.util.ListViewUtil;
 
 public class GetInsuranceActivity extends Activity implements View.OnClickListener{
 

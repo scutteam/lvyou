@@ -131,7 +131,7 @@
             android:name=".activity.WelcomeActivity"
             android:label="@string/title_activity_welcome" />
         <activity
-            android:name=".activity.util.GetInsuranceActivity"
+            android:name=".activity.GetInsuranceActivity"
             android:label="@string/title_activity_get_insurance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
