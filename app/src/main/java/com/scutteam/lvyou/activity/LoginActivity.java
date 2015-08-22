@@ -76,6 +76,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private ImageButton mIbtnBack;
     
     private Boolean is_back; //重置密码之后会回来这里 这个时候 不给返回
+    private Boolean is_request_login = false;
     
     public static final int LOGIN_SUCCESS = 10000;
     public static final int LOGIN_FAIL = 10001;
@@ -86,11 +87,17 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             
             switch (msg.what) {
                 case LOGIN_SUCCESS:
-                    //准备登录
-                    Intent intent = new Intent();
-                    intent.setClass(LoginActivity.this,MainActivity.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.push_left_in,R.anim.push_right_out);
+                    if(!is_request_login) {
+                        //准备登录
+                        Intent intent = new Intent();
+                        intent.setClass(LoginActivity.this,MainActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.push_left_in,R.anim.push_right_out);    
+                    } else {
+                        setResult(Constants.RESULT_LOGIN);
+                        finish();
+                    }
+
                     break;
                 case LOGIN_FAIL:
                     break;
@@ -115,6 +122,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     
     public void initData() {
         is_back = getIntent().getBooleanExtra("is_back",false);
+        is_request_login = getIntent().getBooleanExtra("is_request_login",false);
     }
 
     @Override

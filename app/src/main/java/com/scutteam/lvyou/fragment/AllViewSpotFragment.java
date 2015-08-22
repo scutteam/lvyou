@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import com.scutteam.lvyou.R;
 import com.scutteam.lvyou.activity.ViewSpotDetailActivity;
 import com.scutteam.lvyou.adapter.ViewSpotAdapter;
+import com.scutteam.lvyou.constant.Constants;
 import com.scutteam.lvyou.model.ViewSpot;
 import com.scutteam.lvyou.widget.me.maxwin.view.XListView;
 
@@ -55,11 +56,27 @@ public class AllViewSpotFragment extends Fragment {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), ViewSpotDetailActivity.class);
                 intent.putExtra("view_spot_id",viewSpot.view_spot_id);
-                startActivity(intent);
+                startActivityForResult(intent, Constants.REQUEST_GET_VIEW_SPOT_DETAIL);
             }
         });
     }
-    
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        
+        if(resultCode == Constants.RESULT_GET_VIEW_SPOT_DETAIL) {
+            long view_spot_id = data.getLongExtra("view_spot_id",0L);
+
+            for(int i = 0 ; i < viewSpotList.size(); i++) {
+                if(viewSpotList.get(i).view_spot_id == view_spot_id) {
+                    adapter.listener.WhenViewSpotSelectIconClickSetFocus(viewSpotList.get(i));
+                    break;
+                } 
+            }
+        }
+    }
+
     public void initAdapter() {
         listView.setAdapter(adapter);
     }

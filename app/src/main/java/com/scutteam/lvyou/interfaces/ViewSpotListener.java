@@ -8,5 +8,5 @@ import com.scutteam.lvyou.model.ViewSpot;
 public interface ViewSpotListener {
     
     public void WhenViewSpotSelectIconClick(ViewSpot viewSpot);
-    
+    public void WhenViewSpotSelectIconClickSetFocus(ViewSpot viewSpot);//就是不管点击多少次都是表示选中
 }

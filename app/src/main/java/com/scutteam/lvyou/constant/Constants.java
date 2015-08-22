@@ -31,6 +31,8 @@ public class Constants {
     public static final int REQUEST_SELECT_STAY = 2005;
     public static final int REQUEST_SELECT_VIEW_SPOT = 2006;
     public static final int REQUEST_SELECT_RECOMMEND_TRIP = 2007;
+    public static final int REQUEST_LOGIN = 2008;
+    public static final int REQUEST_GET_VIEW_SPOT_DETAIL = 2009;
     
     public static final int MODIFY_NAME_SUCCESS = 3000;
     public static final int MODIFY_REAL_NAME_SUCCESS = 4000;
@@ -38,6 +40,8 @@ public class Constants {
     public static final int RESULT_SELECT_STAY = 6000;
     public static final int RESULT_SELECT_VIEW_SPOT = 7000;
     public static final int RESULT_SELECT_RECOMMEND_TRIP = 8000;
+    public static final int RESULT_LOGIN = 9000;
+    public static final int RESULT_GET_VIEW_SPOT_DETAIL = 10000;
 
     public static class Sp{
         public static final String PRE_NAME = "easy_bear";

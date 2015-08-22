@@ -24,7 +24,7 @@ public class ViewSpotAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<ViewSpot>viewSpotList = new ArrayList<ViewSpot>();
     private LayoutInflater layoutInflater;
-    private ViewSpotListener listener;
+    public ViewSpotListener listener;
 
     public ViewSpotAdapter(Context context, ArrayList<ViewSpot>viewSpotList) {
         this.context = context;

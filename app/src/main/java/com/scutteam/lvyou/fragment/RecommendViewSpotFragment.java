@@ -15,6 +15,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.scutteam.lvyou.R;
+import com.scutteam.lvyou.activity.RecommendViewSpotDetailActivity;
 import com.scutteam.lvyou.adapter.RecommendViewSpotAdapter;
 import com.scutteam.lvyou.constant.Constants;
 import com.scutteam.lvyou.dialog.SelectRecommendAlertDialog;
@@ -105,8 +106,12 @@ public class RecommendViewSpotFragment extends Fragment implements RecommendView
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Recommendtrip recommendtrip = recommendtripList.get(position - mListView.getHeaderViewsCount());
                 Intent intent = new Intent();
-                //条转进入html界面
+                intent.putExtra("RecommendTrip",(Serializable)recommendtrip);
+                intent.setClass(getActivity(), RecommendViewSpotDetailActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -47,7 +47,7 @@ public class ViewSpotDetailActivity extends Activity implements XListView.IXList
     private double score;
     private String title;
     private String [] viewSpotStringList;
-    
+
     private int total_items;
     private XListView listView;
     private TextView mTvTitle;
@@ -282,6 +282,7 @@ public class ViewSpotDetailActivity extends Activity implements XListView.IXList
     public void initListener() {
         mIvBack.setOnClickListener(this);
         listView.setXListViewListener(this);
+        mTvAddViewSpot.setOnClickListener(this);
         listView.setPullLoadEnable(false);
         listView.setPullRefreshEnable(false);
     }
@@ -328,15 +329,22 @@ public class ViewSpotDetailActivity extends Activity implements XListView.IXList
 
     @Override
     public void onClick(View v) {
+        Intent intent = null;
         switch (v.getId()) {
             case R.id.iv_back:
                 finish();
                 break;
             case R.id.tv_comment_count:
-                Intent intent = new Intent();
+                intent = new Intent();
                 intent.putExtra("id",view_spot_id);
                 intent.setClass(ViewSpotDetailActivity.this,CommentDetailActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.tv_add_view_spot:
+                intent = new Intent();
+                intent.putExtra("view_spot_id",view_spot_id);
+                setResult(Constants.RESULT_GET_VIEW_SPOT_DETAIL,intent);
+                finish();
                 break;
         }
     }

@@ -1,8 +1,5 @@
 package com.scutteam.lvyou.activity;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +13,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.scutteam.lvyou.R;
@@ -26,10 +24,15 @@ import com.scutteam.lvyou.util.sortlistview.PinyinComparator;
 import com.scutteam.lvyou.util.sortlistview.SideBar;
 import com.scutteam.lvyou.util.sortlistview.SortAdapter;
 import com.scutteam.lvyou.util.sortlistview.SortModel;
+
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class SelectBeginPlaceActivity extends Activity {
     private ListView sortListView;
@@ -39,6 +42,7 @@ public class SelectBeginPlaceActivity extends Activity {
     private ClearEditText mClearEditText;
     private Context mContext;
     private ArrayList<String> schools;
+    private ArrayList<Long> ids = new ArrayList<Long>();
     private ProgressBar ratingProgressBar;
 
     /**
@@ -106,6 +110,7 @@ public class SelectBeginPlaceActivity extends Activity {
                                     int position, long id) {
                 if (null != ((SortModel) adapter.getItem(position)).getName()){
                     Intent intent = new Intent(mContext, MakeJourneyActivity.class);
+                    intent.putExtra("begin_place_id",((SortModel) adapter.getItem(position)).getSort_place_id());
                     intent.putExtra("begin_place", ((SortModel) adapter.getItem(position)).getName());
                     ((Activity) mContext).setResult(MakeJourneyActivity.SBP_REQUEST_CODE, intent);
                     finish();
@@ -125,6 +130,7 @@ public class SelectBeginPlaceActivity extends Activity {
                         try {
                             String showText = null;
                             JSONObject school = datas.getJSONObject(i);
+                            Long id = school.optLong("id");
                             String schoolName = school.optString("school");
                             if(null != schoolName) {
                                 String schoolArea = school.optString("area");
@@ -134,6 +140,7 @@ public class SelectBeginPlaceActivity extends Activity {
                                     showText = schoolName;
                                 }
                             }
+                            ids.add(id);
                             schools.add(showText);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -190,7 +197,7 @@ public class SelectBeginPlaceActivity extends Activity {
             for (int i = 0; i < schools.size(); i++) {
                 temps[i] = schools.get(i);
             }
-            SourceDateList = filledData(temps);
+            SourceDateList = filledData(temps,ids);
 
             // 根据a-z进行排序源数据
             Collections.sort(SourceDateList, pinyinComparator);
@@ -204,12 +211,13 @@ public class SelectBeginPlaceActivity extends Activity {
      * @param date
      * @return
      */
-    private List<SortModel> filledData(String[] date) {
+    private List<SortModel> filledData(String[] date,ArrayList<Long>ids) {
         List<SortModel> mSortList = new ArrayList<SortModel>();
 
         for (int i = 0; i < date.length; i++) {
             SortModel sortModel = new SortModel();
             sortModel.setName(date[i]);
+            sortModel.setSort_place_id(ids.get(i));
             //汉字转换成拼音
             String pinyin = characterParser.getSelling(date[i]);
             String sortString = pinyin.substring(0, 1).toUpperCase();

@@ -196,6 +196,15 @@ public class ViewSpotActivity extends FragmentActivity implements View.OnClickLi
         if(viewSpot.is_select == 0) {
             viewSpot.is_select = 1;
             selectedViewSpotList.add(viewSpot);
+
+            for(int i = 0; i < allViewSpotFragment.viewSpotList.size(); i++) {
+                long id = allViewSpotFragment.viewSpotList.get(i).view_spot_id;
+                if(id == viewSpot.view_spot_id) {
+                    allViewSpotFragment.viewSpotList.get(i).is_select = 1;
+                    break;
+                }
+            }
+            
         } else {
             viewSpot.is_select = 0;
             for(int i = 0 ; i < selectedViewSpotList.size(); i++) {
@@ -205,9 +214,30 @@ public class ViewSpotActivity extends FragmentActivity implements View.OnClickLi
                     break;
                 }
             }
+            for(int i = 0; i < allViewSpotFragment.viewSpotList.size(); i++) {
+                long id = allViewSpotFragment.viewSpotList.get(i).view_spot_id;
+                if(id == viewSpot.view_spot_id) {
+                    allViewSpotFragment.viewSpotList.get(i).is_select = 0;
+                    break;
+                }
+            }
         }
         selectViewSpotFragment.selectedViewSpotList = selectedViewSpotList;
         selectViewSpotFragment.adapter.notifyDataSetChanged();
         allViewSpotFragment.adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void WhenViewSpotSelectIconClickSetFocus(ViewSpot viewSpot) {
+        if(selectedViewSpotList.contains(viewSpot)) {
+            
+        } else {
+            viewSpot.is_select = 1;
+            selectedViewSpotList.add(viewSpot);
+
+            selectViewSpotFragment.selectedViewSpotList = selectedViewSpotList;
+            selectViewSpotFragment.adapter.notifyDataSetChanged();
+            allViewSpotFragment.adapter.notifyDataSetChanged();
+        }
     }
 }

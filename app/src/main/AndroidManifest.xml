@@ -78,9 +78,9 @@
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name" >
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -139,6 +139,7 @@
         <activity
             android:name=".activity.GetInsuranceActivity"
             android:label="@string/title_activity_get_insurance" >
+
             <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -158,6 +159,10 @@
         <activity
             android:name=".activity.GetMyInsuranceActivity"
             android:label="@string/title_activity_get_my_insurance" >
+        </activity>
+        <activity
+            android:name=".activity.RecommendViewSpotDetailActivity"
+            android:label="@string/title_activity_recommend_view_spot_detail" >
         </activity>
     </application>
 
