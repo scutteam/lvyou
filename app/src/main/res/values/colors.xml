@@ -33,4 +33,9 @@
     <color name="background_tab_pressed">#6633B5E5</color>
 
     <color name="black_overlay">#66000000</color>
+    <color name="my_plan_state_0">#757575</color>
+    <color name="my_plan_state_1">#1c4072</color>
+    <color name="my_plan_state_23">#ff0000</color>
+    <color name="my_plan_state_456">#00a7ee</color>
+    <color name="my_plan_state_7">#02a747</color>
 </resources>

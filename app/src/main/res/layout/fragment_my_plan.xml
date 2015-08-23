@@ -2,11 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <TextView
+    <com.scutteam.lvyou.widget.me.maxwin.view.XListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="我的行程"
-        android:gravity="center"
-        />
+        android:id="@+id/my_plan_listView"
+        android:divider="@null"
+        android:layout_height="match_parent"/>
 </LinearLayout>

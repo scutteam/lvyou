@@ -126,6 +126,30 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        if(null != intent) {
+            int destinationFragment = intent.getIntExtra("destination_fragment", FRAGMENT_MAIN);
+            if(null != mDrawerLayout){
+                if(destinationFragment == FRAGMENT_PLAN){
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                    String sessionid = LvYouApplication.getSessionId();
+                    if(sessionid!=null && sessionid.length() > 0) {
+                        setTitle("我的行程");
+                        switchFragment(FRAGMENT_PLAN);
+                    } else {
+                        intent = new Intent();
+                        intent.setClass(MainActivity.this,LoginActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.push_left_in,R.anim.push_right_out);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         ScreenManager.getScreenManager().finishActivity(MainActivity.this);
         
