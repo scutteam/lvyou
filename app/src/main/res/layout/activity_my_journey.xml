@@ -41,7 +41,7 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical|left">
                         <TextView
-                            android:id="@+id/my_journey_dest_name"
+                            android:id="@+id/my_journey_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="凤凰古城"
@@ -53,7 +53,7 @@
                             />
 
                     <TextView
-                        android:id="@+id/my_journey_id"
+                        android:id="@+id/my_journey_order_num"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="left|center_vertical"

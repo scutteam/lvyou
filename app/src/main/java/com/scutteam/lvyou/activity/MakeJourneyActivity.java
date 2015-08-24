@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -60,6 +61,8 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     private TextView showMemberNums = null;               //显示团员数量
     private TextView tvBeginDay = null;                   //出发日期
     private TextView tvReturnDay = null;                  //返回日期
+    private int minDay;                                   //最少游玩天数
+    private int maxDay;                                   //最多游玩天数
     private LinearLayout mj_stay_unchoosed;               //选择住宿的linearLayout
     private LinearLayout mj_stay_choosed;                 //选择住宿后显示linearlayout
     private RelativeLayout mj_stay;                       //住宿总的layout
@@ -115,6 +118,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     private double average_price;
     private TextView mj_submit;
     public TextView mj_play_item_nums;
+    private String begin_place;
     private long begin_place_id;
     
     private int playDay;
@@ -180,6 +184,8 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                     maxNum = dataObject.optInt("maxNum");
                     mealList = Meal.insertWithArray(dataObject.getJSONArray("mealList"));
                     minNum = dataObject.optInt("minNum");
+                    minDay = dataObject.optInt("minDay");
+                    maxDay = dataObject.optInt("maxDay");
                     score = dataObject.optDouble("score");
                     short_intro = dataObject.optString("shortIntro");
                     thumb_pic = dataObject.optString("thumbPic");
@@ -265,7 +271,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     }
 
     private void initListener() {
-        ((TextView)findViewById(R.id.left_icon)).setOnClickListener(this);
+        findViewById(R.id.left_icon).setOnClickListener(this);
         minusMemberNums.setOnClickListener(this);
         plusMemberNums.setOnClickListener(this);
         selectBeginPlace.setOnClickListener(this);
@@ -287,7 +293,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        Intent intent = null;
+        Intent intent;
         switch (v.getId()) {
             case R.id.left_icon:
                 finish();
@@ -345,6 +351,8 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                         endDate = getYYYYMMDDStringFrom(selectedDays,false);
                     }
                 });
+                dialog.setMaxDay(maxDay);
+                dialog.setMinDay(minDay);
                 dialog.show();
                 break;
             case R.id.mj_stay:
@@ -365,7 +373,10 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                 startActivityForResult(intent, Constants.REQUEST_SELECT_VIEW_SPOT);
                 break;
             case R.id.tv_calculate:
-                if(startDate == null || endDate == null) {
+                if(null == begin_place || "".equals(begin_place)){
+                    Toast.makeText(MakeJourneyActivity.this,"未选择出发地点",Toast.LENGTH_SHORT).show();
+                }
+                else if(startDate == null || endDate == null) {
                     Toast.makeText(MakeJourneyActivity.this,"未选择出发日期",Toast.LENGTH_SHORT).show();
                 } else if (selectedHotel == null) {
                     Toast.makeText(MakeJourneyActivity.this,"未选择住宿",Toast.LENGTH_SHORT).show();
@@ -376,7 +387,10 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                 }
                 break;
             case R.id.mj_submit:
-                if(startDate == null || endDate == null) {
+                if(null == begin_place || "".equals(begin_place)){
+                    Toast.makeText(MakeJourneyActivity.this,"未选择出发地点",Toast.LENGTH_SHORT).show();
+                }
+                else if(startDate == null || endDate == null) {
                     Toast.makeText(MakeJourneyActivity.this,"未选择出发日期",Toast.LENGTH_SHORT).show();
                 } else if (selectedHotel == null) {
                     Toast.makeText(MakeJourneyActivity.this,"未选择住宿",Toast.LENGTH_SHORT).show();
@@ -538,10 +552,10 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         switch (requestCode) {
             case MakeJourneyActivity.SBP_REQUEST_CODE:
                 if(null != data) {
-                    String bp = data.getStringExtra("begin_place");
+                    begin_place = data.getStringExtra("begin_place");
                     begin_place_id = data.getLongExtra("begin_place_id",0L);
-                    if (null != bp) {
-                        selectBeginPlace.setText(bp);
+                    if (null != begin_place) {
+                        selectBeginPlace.setText(begin_place);
                     }
                 }
                 break;

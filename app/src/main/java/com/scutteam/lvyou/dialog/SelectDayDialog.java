@@ -32,6 +32,8 @@ public class SelectDayDialog extends Dialog implements DayPickerView.SDRefreshLi
     private TextView tvBeginDay = null;
     private TextView tvReturnDay = null;
     private Button btnSubmit = null;
+    private int minDay;
+    private int maxDay;
 
 
     public SelectDayDialog(Context context, DialogListener listener){
@@ -60,12 +62,12 @@ public class SelectDayDialog extends Dialog implements DayPickerView.SDRefreshLi
             public void onClick(View view) {
                 SimpleMonthAdapter.SelectedDays<SimpleMonthAdapter.CalendarDay> selectedDays
                         = dayPicker.getSimpleMonthAdapter().getSelectedDays();
-                if(null == selectedDays.getFirst()){
+                if (null == selectedDays.getFirst()) {
                     Toast.makeText(mContext, "请选择出发日期", Toast.LENGTH_SHORT).show();
-                }else if(null == selectedDays.getLast()){
+                } else if (null == selectedDays.getLast()) {
                     Toast.makeText(mContext, "请选择返程日期", Toast.LENGTH_SHORT).show();
-                }else{
-                    if(null != mListener){
+                } else {
+                    if (null != mListener) {
                         mListener.refreshActivity(selectedDays);
                     }
                     dismiss();
@@ -84,6 +86,18 @@ public class SelectDayDialog extends Dialog implements DayPickerView.SDRefreshLi
             }
         });
         dayPicker.setSdRefreshListener(this);
+    }
+
+    public void setMinDay(int day){
+        minDay = day;
+        if(null != dayPicker)
+            dayPicker.setMinDay(day);
+    }
+
+    public void setMaxDay(int day){
+        maxDay = day;
+        if(null != dayPicker)
+            dayPicker.setMaxDay(day);
     }
 
     /**

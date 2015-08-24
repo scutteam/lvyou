@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 /**
  * Created by liujie on 15/8/22.
  */
-public class Plan{
+public class Plan implements Serializable{
 
     public long id;                //行程对应逻辑id
     public String title;           //行程标题

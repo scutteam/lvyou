@@ -192,6 +192,14 @@ public class ViewSpotActivity extends FragmentActivity implements View.OnClickLi
     }
 
     @Override
+    public void onBackPressed() {
+        Intent intent =new Intent();
+        intent.putExtra("selected_view_spot_list",(Serializable)selectedViewSpotList);
+        setResult(Constants.RESULT_SELECT_VIEW_SPOT, intent);
+        finish();
+    }
+
+    @Override
     public void WhenViewSpotSelectIconClick(ViewSpot viewSpot) {
         if(viewSpot.is_select == 0) {
             viewSpot.is_select = 1;

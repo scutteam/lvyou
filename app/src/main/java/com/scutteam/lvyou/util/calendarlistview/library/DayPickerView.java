@@ -9,6 +9,8 @@ import android.content.res.TypedArray;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
+
 import com.scutteam.lvyou.R;
 
 public class DayPickerView extends RecyclerView {
@@ -20,6 +22,8 @@ public class DayPickerView extends RecyclerView {
     protected int mPreviousScrollState;
     private TypedArray typedArray;
     private OnScrollListener onScrollListener;
+    private int minDay;
+    private int maxDay;
 
     public void setSdRefreshListener(SDRefreshListener sdRefreshListener) {
         this.sdRefreshListener = sdRefreshListener;
@@ -90,6 +94,19 @@ public class DayPickerView extends RecyclerView {
 
     public SimpleMonthAdapter getSimpleMonthAdapter() {
         return mAdapter;
+    }
+
+
+    public void setMinDay(int day){
+        minDay = day;
+        if(null != mAdapter)
+            mAdapter.setMinDay(day);
+    }
+
+    public void setMaxDay(int day){
+        maxDay = day;
+        if(null != mAdapter)
+            mAdapter.setMaxDay(day);
     }
 
     public interface SDRefreshListener{

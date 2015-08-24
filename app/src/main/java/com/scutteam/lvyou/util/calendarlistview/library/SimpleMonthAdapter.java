@@ -3,11 +3,15 @@ package com.scutteam.lvyou.util.calendarlistview.library;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v7.widget.RecyclerView.Adapter;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView.LayoutParams;
+import android.widget.Toast;
+
 import com.scutteam.lvyou.R.styleable;
 import com.scutteam.lvyou.util.calendarlistview.library.SimpleMonthView.OnDayClickListener;
+
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,6 +26,8 @@ public class SimpleMonthAdapter extends Adapter<SimpleMonthAdapter.ViewHolder>
     private final Calendar calendar;
     private final SimpleMonthAdapter.SelectedDays<SimpleMonthAdapter.CalendarDay> selectedDays;
     private final Integer firstMonth;
+    private int minDay;
+    private int maxDay;
     //private final Integer lastMonth;
     private SimpleMonthView.OnDayClickListener onDayClickListener = null;
 
@@ -59,16 +65,16 @@ public class SimpleMonthAdapter extends Adapter<SimpleMonthAdapter.ViewHolder>
         int selectedLastMonth = -1;
         int selectedFirstYear = -1;
         int selectedLastYear = -1;
-        if(this.selectedDays.getFirst() != null) {
-            selectedFirstDay = ((SimpleMonthAdapter.CalendarDay)this.selectedDays.getFirst()).day;
-            selectedFirstMonth = ((SimpleMonthAdapter.CalendarDay)this.selectedDays.getFirst()).month;
-            selectedFirstYear = ((SimpleMonthAdapter.CalendarDay)this.selectedDays.getFirst()).year;
+        if (this.selectedDays.getFirst() != null) {
+            selectedFirstDay = ((SimpleMonthAdapter.CalendarDay) this.selectedDays.getFirst()).day;
+            selectedFirstMonth = ((SimpleMonthAdapter.CalendarDay) this.selectedDays.getFirst()).month;
+            selectedFirstYear = ((SimpleMonthAdapter.CalendarDay) this.selectedDays.getFirst()).year;
         }
 
-        if(this.selectedDays.getLast() != null) {
-            selectedLastDay = ((SimpleMonthAdapter.CalendarDay)this.selectedDays.getLast()).day;
-            selectedLastMonth = ((SimpleMonthAdapter.CalendarDay)this.selectedDays.getLast()).month;
-            selectedLastYear = ((SimpleMonthAdapter.CalendarDay)this.selectedDays.getLast()).year;
+        if (this.selectedDays.getLast() != null) {
+            selectedLastDay = ((SimpleMonthAdapter.CalendarDay) this.selectedDays.getLast()).day;
+            selectedLastMonth = ((SimpleMonthAdapter.CalendarDay) this.selectedDays.getLast()).month;
+            selectedLastYear = ((SimpleMonthAdapter.CalendarDay) this.selectedDays.getLast()).year;
         }
 
         v.reuse();
@@ -86,7 +92,7 @@ public class SimpleMonthAdapter extends Adapter<SimpleMonthAdapter.ViewHolder>
     }
 
     public long getItemId(int position) {
-        return (long)position;
+        return (long) position;
     }
 
     public int getItemCount() {
@@ -103,14 +109,14 @@ public class SimpleMonthAdapter extends Adapter<SimpleMonthAdapter.ViewHolder>
     }
 
     protected void init() {
-        if(this.typedArray.getBoolean(styleable.DayPickerView_currentDaySelected, false)) {
+        if (this.typedArray.getBoolean(styleable.DayPickerView_currentDaySelected, false)) {
             this.onDayTapped(new SimpleMonthAdapter.CalendarDay(System.currentTimeMillis()));
         }
 
     }
 
     public void onDayClick(SimpleMonthView simpleMonthView, SimpleMonthAdapter.CalendarDay calendarDay) {
-        if(calendarDay != null) {
+        if (calendarDay != null) {
             this.onDayTapped(calendarDay);
         }
 
@@ -119,7 +125,7 @@ public class SimpleMonthAdapter extends Adapter<SimpleMonthAdapter.ViewHolder>
     protected void onDayTapped(SimpleMonthAdapter.CalendarDay calendarDay) {
 
         //禁止点击当前日期前面的日期
-        if(calendar.get(Calendar.YEAR) == calendarDay.year
+        if (calendar.get(Calendar.YEAR) == calendarDay.year
                 && calendar.get(Calendar.MONTH) == calendarDay.month
                 && calendar.get(Calendar.DAY_OF_MONTH) <= calendarDay.day
                 || calendar.get(Calendar.YEAR) == calendarDay.year
@@ -132,29 +138,54 @@ public class SimpleMonthAdapter extends Adapter<SimpleMonthAdapter.ViewHolder>
     }
 
     public void setSelectedDay(SimpleMonthAdapter.CalendarDay calendarDay) {
-        if(this.selectedDays.getFirst() != null && this.selectedDays.getLast() == null) {
-            if(calendarDay.year > selectedDays.getFirst().year
+        if (this.selectedDays.getFirst() != null && this.selectedDays.getLast() == null) {
+            if (calendarDay.year > selectedDays.getFirst().year
                     || (calendarDay.year == selectedDays.getFirst().year
-                        && calendarDay.month > selectedDays.getFirst().month)
+                    && calendarDay.month > selectedDays.getFirst().month)
                     || (calendarDay.year == selectedDays.getFirst().year
-                        && calendarDay.month == selectedDays.getFirst().month
-                        && calendarDay.day > selectedDays.getFirst().day)) {
-                this.selectedDays.setLast(calendarDay);
-                if (((SimpleMonthAdapter.CalendarDay) this.selectedDays.getFirst()).month < calendarDay.month) {
-                    for (int i = 0;
-                         i < ((SimpleMonthAdapter.CalendarDay) this.selectedDays.getFirst()).month - calendarDay.month - 1;
-                         ++i) {
-                        this.mController.onDayOfMonthSelected(
-                                ((SimpleMonthAdapter.CalendarDay) this.selectedDays.getFirst()).year,
-                                ((SimpleMonthAdapter.CalendarDay) this.selectedDays.getFirst()).month + i,
-                                ((SimpleMonthAdapter.CalendarDay) this.selectedDays.getFirst()).day);
+                    && calendarDay.month == selectedDays.getFirst().month
+                    && calendarDay.day >= selectedDays.getFirst().day)) {
+
+                int days;
+                if (calendarDay.month > selectedDays.getFirst().month) {
+                    days = getDayNumOfMonth(selectedDays.getFirst().year, selectedDays.getFirst().month) - selectedDays.getFirst().day;
+                    for (int i = 1; i < calendarDay.month - selectedDays.getFirst().month; i++) {
+                        days += getDayNumOfMonth(selectedDays.getFirst().year, selectedDays.getFirst().month + i);
+                    }
+                    days += calendarDay.day;
+                    days += 1;
+                }else{
+                    days = calendarDay.day - selectedDays.getFirst().day + 1;
+                }
+
+                Log.i("days", days + "");
+                Log.i("minDay", minDay + "");
+                Log.i("maxDay", maxDay + "");
+
+                if (days < minDay && minDay != 0) {
+                    Toast.makeText(mContext, "出游日期不能小于 " + minDay + " 天", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (days > maxDay && maxDay != 0) {
+                    Toast.makeText(mContext, "出游日期不能多于 " + maxDay + " 天", Toast.LENGTH_SHORT).show();
+                    return;
+                }else {
+                    this.selectedDays.setLast(calendarDay);
+                    if (((SimpleMonthAdapter.CalendarDay) this.selectedDays.getFirst()).month < calendarDay.month) {
+                        for (int i = 0;
+                             i < ((SimpleMonthAdapter.CalendarDay) this.selectedDays.getFirst()).month - calendarDay.month - 1;
+                             ++i) {
+                            this.mController.onDayOfMonthSelected(
+                                    ((SimpleMonthAdapter.CalendarDay) this.selectedDays.getFirst()).year,
+                                    ((SimpleMonthAdapter.CalendarDay) this.selectedDays.getFirst()).month + i,
+                                    ((SimpleMonthAdapter.CalendarDay) this.selectedDays.getFirst()).day);
+                        }
                     }
                 }
-            }else{
+            } else {
                 this.selectedDays.setFirst(calendarDay);
                 this.selectedDays.setLast(null);
             }
-        } else if(this.selectedDays.getLast() != null) {
+        } else if (this.selectedDays.getLast() != null) {
             this.selectedDays.setFirst(calendarDay);
             this.selectedDays.setLast(null);
         } else {
@@ -220,7 +251,7 @@ public class SimpleMonthAdapter extends Adapter<SimpleMonthAdapter.ViewHolder>
         }
 
         private void setTime(long timeInMillis) {
-            if(this.calendar == null) {
+            if (this.calendar == null) {
                 this.calendar = Calendar.getInstance();
             }
 
@@ -243,7 +274,7 @@ public class SimpleMonthAdapter extends Adapter<SimpleMonthAdapter.ViewHolder>
         }
 
         public Date getDate() {
-            if(this.calendar == null) {
+            if (this.calendar == null) {
                 this.calendar = Calendar.getInstance();
             }
 
@@ -263,12 +294,30 @@ public class SimpleMonthAdapter extends Adapter<SimpleMonthAdapter.ViewHolder>
         }
     }
 
+    public void setMinDay(int day) {
+        minDay = day;
+    }
+
+    public void setMaxDay(int day) {
+        maxDay = day;
+    }
+
+    private int getDayNumOfMonth(int year, int month) {
+        if (month < 0 || month > 11) {
+            return 0;
+        }
+        int[] monDays = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        if (((year) % 4 == 0 && (year) % 100 != 0) || (year) % 400 == 0)
+            monDays[1]++;
+        return monDays[month];
+    }
+
     public static class ViewHolder extends android.support.v7.widget.RecyclerView.ViewHolder {
         final SimpleMonthView simpleMonthView;
 
         public ViewHolder(View itemView, OnDayClickListener onDayClickListener) {
             super(itemView);
-            this.simpleMonthView = (SimpleMonthView)itemView;
+            this.simpleMonthView = (SimpleMonthView) itemView;
             this.simpleMonthView.setLayoutParams(new LayoutParams(-1, -1));
             this.simpleMonthView.setClickable(true);
             this.simpleMonthView.setOnDayClickListener(onDayClickListener);

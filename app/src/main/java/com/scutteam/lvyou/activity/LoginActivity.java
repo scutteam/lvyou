@@ -46,6 +46,7 @@ import java.util.Map;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
 
+    private Context mContext;
     private LinearLayout mLlMain;
     private TextView mTvLoginTitle;
     private RelativeLayout mRlLoginTop;
@@ -110,6 +111,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = LoginActivity.this;
         setContentView(R.layout.activity_login);
 
         ScreenManager.getScreenManager().addActivity(LoginActivity.this);
@@ -286,7 +288,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 try {
                     Toast.makeText(LoginActivity.this,"获取用户信息成功",Toast.LENGTH_SHORT).show();
                     JSONObject dataObject = response.getJSONObject("data");
+                    Log.i("user info", dataObject.toString());
                     LvYouApplication.setScreenName(dataObject.getString("nickName"));
+                    LvYouApplication.setUserId(dataObject.getString("id"));
                     if(!dataObject.getString("faceIcon").equals("null")) {
                         LvYouApplication.setImageProfileUrl(Constants.IMAGE_URL + dataObject.getString("faceIcon"));
                     } else {
@@ -309,8 +313,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
     
     public void startLogin() {
-        String phone = mEtPhone.getText().toString();
-        String password = mEtPassword.getText().toString();
+//        String phone = mEtPhone.getText().toString();
+//        String password = mEtPassword.getText().toString();
+        String phone = "18814111130";
+        String password = "123456";
+
 
         AsyncHttpClient client = new AsyncHttpClient();
 //        client.addHeader("user-agent", "Android");
@@ -349,7 +356,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-
+                Toast.makeText(mContext, "登录失败，请重试" ,Toast.LENGTH_SHORT).show();
                 Log.e("response_fail",responseString);
             }
         });
@@ -373,13 +380,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.tv_login:
-                if(TextUtils.isEmpty(mEtPhone.getText())) {
-                    Toast.makeText(LoginActivity.this,"手机号码不能为空",Toast.LENGTH_SHORT).show();
-                } else if(TextUtils.isEmpty(mEtPassword.getText())) {
-                    Toast.makeText(LoginActivity.this,"密码不能为空",Toast.LENGTH_SHORT).show();
-                } else {
-                    startLogin();
-                }
+                startLogin();
+//                if(TextUtils.isEmpty(mEtPhone.getText())) {
+//                    Toast.makeText(LoginActivity.this,"手机号码不能为空",Toast.LENGTH_SHORT).show();
+//                } else if(TextUtils.isEmpty(mEtPassword.getText())) {
+//                    Toast.makeText(LoginActivity.this,"密码不能为空",Toast.LENGTH_SHORT).show();
+//                } else {
+//                    startLogin();
+//                }
                 break;
             case R.id.tv_forget_password:
                 intent = new Intent();

@@ -1,6 +1,8 @@
 package com.scutteam.lvyou.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.scutteam.lvyou.R;
+import com.scutteam.lvyou.activity.MyJourneyActivity;
 import com.scutteam.lvyou.model.Plan;
 
 import java.util.ArrayList;
@@ -16,15 +19,15 @@ import java.util.List;
 /**
  * Created by hono on 15/8/22.
  */
-public class MyPlanAdapter extends BaseAdapter{
+public class MyPlanAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<Plan> plans;
     private LayoutInflater layoutInflater;
 
-    public MyPlanAdapter(Context context, List<Plan> plans){
+    public MyPlanAdapter(Context context, List<Plan> plans) {
         mContext = context;
         layoutInflater = LayoutInflater.from(context);
-        this.plans = (ArrayList<Plan>)plans;
+        this.plans = (ArrayList<Plan>) plans;
     }
 
     @Override
@@ -43,24 +46,34 @@ public class MyPlanAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup viewGroup) {
+    public View getView(final int position, View convertView, ViewGroup viewGroup) {
         ViewHolder viewHolder;
-        if(convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.my_plan_adapter_item,null);
+        if (convertView == null) {
+            convertView = layoutInflater.inflate(R.layout.my_plan_adapter_item, null);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, MyJourneyActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("plan", plans.get(position));
+                mContext.startActivity(intent);
+            }
+        });
+
         viewHolder.tvName.setText(plans.get(position).title);
-        viewHolder.tvStartPlace.setText(plans.get(position).place + "(" + plans.get(position).area +")");
+        viewHolder.tvStartPlace.setText(plans.get(position).place + "(" + plans.get(position).area + ")");
         viewHolder.tvMemberNum.setText(plans.get(position).member_num + "人团");
         viewHolder.tvCreateTime.setText("创建于: " + plans.get(position).create_time);
         viewHolder.tvId.setText("订单号: " + plans.get(position).order_num);
 
         viewHolder.tvState.setText(plans.get(position).state_text);
-        switch (plans.get(position).state){
+        switch (plans.get(position).state) {
             case Plan.STATE_SAVE:
                 viewHolder.tvState.setTextColor(mContext.getResources().getColor(R.color.my_plan_state_1));
                 viewHolder.tvState.setBackgroundResource(R.drawable.shape_my_plan_state_1);

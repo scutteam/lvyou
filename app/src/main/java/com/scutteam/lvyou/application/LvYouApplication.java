@@ -14,6 +14,7 @@ public class LvYouApplication extends Application {
 
     public static Context context;
     public static String session_id;
+    public static String user_id;
     public static String screen_name;
     public static String image_profile_url;
     public static String real_name;
@@ -83,6 +84,14 @@ public class LvYouApplication extends Application {
 
     public static void setSessionId(String session_id) {
         LvYouApplication.session_id = session_id;
+    }
+
+    public static void setUserId(String uid){
+        user_id = uid;
+    }
+
+    public static String getUserId(){
+        return user_id;
     }
 
     public static Context getInstance() {
