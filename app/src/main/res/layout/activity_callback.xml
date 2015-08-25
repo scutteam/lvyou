@@ -1,0 +1,93 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.scutteam.lvyou.activity.CallbackActivity">
+
+    <include
+        android:id="@+id/callback_head"
+        layout="@layout/titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/mj_image"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_below="@+id/callback_head"
+        android:scaleType="centerCrop"
+        android:src="@drawable/tupian43" />
+
+
+    <LinearLayout
+        android:id="@+id/callback_ll_top"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_alignBottom="@+id/mj_image"
+        android:gravity="center_vertical|left"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/callback_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:gravity="left|center_vertical"
+            android:text="凤凰古城"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/callback_order_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:ellipsize="end"
+            android:gravity="left|center_vertical"
+            android:maxLines="1"
+            android:text="订单号: 666666"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/callback_create_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:ellipsize="end"
+            android:gravity="left|center_vertical"
+            android:maxLines="1"
+            android:text="创建于: 2015年8月3日"
+            android:textColor="@color/white"
+            android:textSize="14dp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_below="@+id/callback_ll_top">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="42dp">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:text="导游评价"
+                android:gravity="center"
+                />
+
+            <RatingBar
+                android:id="@+id/callback_guide_star"
+                style="@style/mjRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:minWidth="10dip"
+                android:numStars="5"
+                android:rating="3"
+                android:clickable="true" />
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

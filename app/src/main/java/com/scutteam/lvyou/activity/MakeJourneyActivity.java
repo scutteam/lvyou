@@ -444,7 +444,8 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                
+                Log.i("submit journey", response.toString());
+
                 try {
                     int code = response.getInt("code");
                     if(code == 0) {
@@ -471,6 +472,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     public void calculatePrice() {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
+        params.put("total.placeId",begin_place_id);
         params.put("total.destId",destination_id);
         params.put("total.hotelId",selectedHotel.hotel_id);
         params.put("total.guideId",guideList.get(0).guide_id);

@@ -78,14 +78,6 @@
                         />
 
                 </LinearLayout>
-                <TextView
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="right"
-                    android:layout_marginRight="12dp"
-                    android:background="@drawable/go_arrow_gray"
-                    />
             </LinearLayout>
 
             <LinearLayout
@@ -191,76 +183,6 @@
                     android:layout_marginLeft="8dp"
                     android:background="#9b9b9b"
                      />
-
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textSize="16dp"
-                        android:gravity="center_vertical|left"
-                        android:text="包餐"
-                        android:textColor="@color/secondary_text_color"
-                        android:layout_marginLeft="8dp"
-                         />
-                    <TextView
-                        android:layout_width="0dip"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical|right"
-                        android:textSize="16dp"
-                        android:textColor="@color/secondary_text_color"
-                        android:id="@+id/my_journey_meal"
-                        android:layout_marginRight="6dp"
-                        android:text="一正餐一早餐" />
-
-                </LinearLayout>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:background="#9b9b9b"
-                     />
-
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textSize="16dp"
-                        android:gravity="center_vertical|left"
-                        android:text="住宿"
-                        android:textColor="@color/secondary_text_color"
-                        android:layout_marginLeft="8dp"
-                         />
-                    <TextView
-                        android:layout_width="0dip"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical|right"
-                        android:textSize="16dp"
-                        android:textColor="@color/secondary_text_color"
-                        android:id="@+id/my_journey_stay"
-                        android:layout_marginRight="8dp"
-                        android:text="情缘酒店 120/人" />
-
-                </LinearLayout>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:background="#9b9b9b"
-                     />
-
-
 
                 <LinearLayout
                     android:layout_width="match_parent"

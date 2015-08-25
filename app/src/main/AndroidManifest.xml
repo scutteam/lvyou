@@ -164,6 +164,14 @@
             android:name=".activity.RecommendViewSpotDetailActivity"
             android:label="@string/title_activity_recommend_view_spot_detail" >
         </activity>
+        <activity
+            android:name=".activity.ShareJourneyActivity"
+            android:label="@string/title_activity_share_journey" >
+        </activity>
+        <activity
+            android:name=".activity.CallbackActivity"
+            android:label="@string/title_activity_callback" >
+        </activity>
     </application>
 
 </manifest>

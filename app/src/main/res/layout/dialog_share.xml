@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_marginLeft="56dp"
+    android:layout_marginRight="56dp"
     android:background="@drawable/share_dialog_bg">
 
     <TextView
@@ -36,13 +36,13 @@
 
         <LinearLayout
             android:id="@+id/dialog_share_wechat"
-            android:layout_width="46dp"
+            android:layout_width="56dp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="46dp"
-                android:layout_height="46dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:src="@drawable/icon_share_wechat" />
             <TextView
                 android:layout_width="match_parent"
@@ -59,13 +59,13 @@
 
         <LinearLayout
             android:id="@+id/dialog_share_qq"
-            android:layout_width="46dp"
+            android:layout_width="56dp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="46dp"
-                android:layout_height="46dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:src="@drawable/icon_share_qq" />
             <TextView
                 android:layout_width="match_parent"

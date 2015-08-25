@@ -43,5 +43,7 @@
     <string name="title_activity_comment_detail">CommentDetailActivity</string>
     <string name="title_activity_get_my_insurance">GetMyInsuranceActivity</string>
     <string name="title_activity_recommend_view_spot_detail">RecommendViewSpotDetailActivity</string>
+    <string name="title_activity_share_journey">ShareJourneyActivity</string>
+    <string name="title_activity_callback">CallbackActivity</string>
 
 </resources>

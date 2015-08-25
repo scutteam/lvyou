@@ -61,7 +61,7 @@ public class MyPlanAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, MyJourneyActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("plan", plans.get(position));
+                intent.putExtra("plan_logic_id", plans.get(position).id);
                 mContext.startActivity(intent);
             }
         });
