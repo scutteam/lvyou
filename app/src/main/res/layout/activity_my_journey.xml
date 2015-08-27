@@ -20,7 +20,7 @@
                 layout = "@layout/titlebar"/>
 
             <ImageView
-                android:id="@+id/mj_image"
+                android:id="@+id/my_journey_image"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
                 android:scaleType="centerCrop"
@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
                 android:id="@+id/my_journey_ll_top"
-                android:layout_alignBottom="@+id/mj_image"
+                android:layout_alignBottom="@+id/my_journey_image"
                 android:orientation="horizontal"
                 >
                 <LinearLayout
@@ -88,13 +88,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="32dp"
-                    android:layout_marginTop="5dp">
+                    android:layout_marginTop="8dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textSize="16dp"
+                        android:textSize="12sp"
                         android:gravity="center_vertical|left"
                         android:text="出发地点"
+                        android:padding="4dp"
                         android:textColor="@color/secondary_text_color"
                         android:layout_marginLeft="8dp" />
                     <TextView
@@ -102,9 +103,10 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_vertical|right"
-                        android:textSize="16dp"
+                        android:textSize="12sp"
                         android:textColor="@color/secondary_text_color"
                         android:id="@+id/my_journey_begin_place"
+                        android:padding="4dp"
                         android:layout_marginRight="8dp"
                         android:text="华南理工大学（大学城校区）" />
 
@@ -114,7 +116,7 @@
                     android:layout_height="1dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginLeft="8dp"
-                    android:background="#9b9b9b"
+                    android:background="@color/default_border"
                      />
 
 
@@ -124,7 +126,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textSize="16dp"
+                        android:padding="4dp"
+                        android:textSize="12sp"
                         android:gravity="center_vertical|left"
                         android:text="行程日期"
                         android:textColor="@color/secondary_text_color"
@@ -135,9 +138,10 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_vertical|right"
-                        android:textSize="16dp"
+                        android:textSize="12sp"
                         android:textColor="@color/secondary_text_color"
                         android:id="@+id/my_journey_date"
+                        android:padding="4dp"
                         android:layout_marginRight="8dp"
                         android:text="2015年8月3日-2015年8月12日" />
 
@@ -147,7 +151,7 @@
                     android:layout_height="1dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginLeft="8dp"
-                    android:background="#9b9b9b"
+                    android:background="@color/default_border"
                      />
 
 
@@ -158,9 +162,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textSize="16dp"
+                        android:textSize="12sp"
                         android:gravity="center_vertical|left"
                         android:text="成团人数"
+                        android:padding="4dp"
                         android:textColor="@color/secondary_text_color"
                         android:layout_marginLeft="8dp"
                          />
@@ -169,10 +174,11 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_vertical|right"
-                        android:textSize="16dp"
+                        android:textSize="12sp"
                         android:textColor="@color/secondary_text_color"
                         android:id="@+id/my_journey_member_num"
                         android:layout_marginRight="8dp"
+                        android:padding="4dp"
                         android:text="12人" />
 
                 </LinearLayout>
@@ -181,7 +187,7 @@
                     android:layout_height="1dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginLeft="8dp"
-                    android:background="#9b9b9b"
+                    android:background="@color/default_border"
                      />
 
                 <LinearLayout
@@ -190,9 +196,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textSize="16dp"
+                        android:textSize="12sp"
                         android:gravity="center_vertical|left"
                         android:text="游玩项目"
+                        android:padding="4dp"
                         android:textColor="@color/secondary_text_color"
                         android:layout_marginLeft="8dp"
                          />
@@ -201,7 +208,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_vertical|right"
-                        android:textSize="16dp"
+                        android:textSize="12sp"
+                        android:padding="4dp"
                         android:textColor="@color/secondary_text_color"
                         android:id="@+id/my_journey_play_item_count"
                         android:layout_marginRight="8dp"
@@ -213,7 +221,7 @@
                     android:layout_height="1dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginLeft="8dp"
-                    android:background="#9b9b9b"
+                    android:background="@color/default_border"
                      />
 
 
@@ -224,9 +232,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textSize="16dp"
+                        android:textSize="13sp"
                         android:gravity="center_vertical|left"
                         android:text="价格"
+                        android:padding="4dp"
                         android:textColor="@color/price_color"
                         android:layout_marginLeft="8dp"
                          />
@@ -235,7 +244,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_vertical|right"
-                        android:textSize="16dp"
+                        android:textSize="13sp"
+                        android:padding="4dp"
                         android:textColor="@color/price_color"
                         android:id="@+id/my_journey_price"
                         android:layout_marginRight="8dp"
@@ -246,16 +256,16 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="16dp"
                     android:background="@color/white">
                     <TextView
                         android:layout_width="0dip"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="提交订单"
-                        android:id="@+id/my_journey_state_1"
+                        android:id="@+id/my_journey_state_text_1"
                         android:gravity="center"
-                        android:textSize="17dp"
+                        android:textSize="13sp"
                         android:textIsSelectable="false"
                         android:textColor="@color/main_text_color" />
                     <ImageView
@@ -267,9 +277,9 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="制定行程"
-                        android:id="@+id/my_journey_state_2"
+                        android:id="@+id/my_journey_state_text_2"
                         android:gravity="center"
-                        android:textSize="17dp"
+                        android:textSize="13sp"
                         android:textColor="@color/image_color" />
                     <ImageView
                         android:layout_width="30dp"
@@ -280,9 +290,9 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="签约出发"
-                        android:id="@+id/my_journey_state_3"
+                        android:id="@+id/my_journey_state_text_3"
                         android:gravity="center"
-                        android:textSize="17dp"
+                        android:textSize="13sp"
                         android:textColor="@color/secondary_text_color" />
                 </LinearLayout>
 
@@ -294,7 +304,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="订单状态："
-                        android:textSize="17dp"
+                        android:textSize="16sp"
                         android:gravity="center"
                         android:textColor="@color/main_text_color"
                         android:layout_marginLeft="8dp" />
@@ -305,7 +315,7 @@
                         android:layout_marginRight="8dp"
                         android:text="等待确定行程计划"
                         android:id="@+id/my_journey_order_state"
-                        android:textSize="17dp"
+                        android:textSize="16sp"
                         android:textColor="@color/main_text_color"
                         android:gravity="center_vertical|left" />
 
@@ -315,7 +325,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="状态提示:\n在此状态下日狗无罪"
-                    android:textSize="16dp"
+                    android:textSize="14sp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp" />
             </LinearLayout>
@@ -324,11 +334,11 @@
     </ScrollView>
 
     <LinearLayout
-        android:id="@+id/mj_bottom"
+        android:id="@+id/my_journey_bottom"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:visibility="visible">
+        android:visibility="gone">
         <TextView
             android:id="@+id/my_journey_bottom_btn_1"
             android:layout_width="0dip"
@@ -341,7 +351,7 @@
             android:clickable="true"
             android:background="@color/image_color"
             android:textStyle="bold"
-            android:visibility="visible" />
+            android:visibility="gone" />
         <TextView
             android:layout_width="0dip"
             android:layout_height="match_parent"
@@ -353,15 +363,15 @@
             android:id="@+id/my_journey_bottom_btn_2"
             android:textStyle="bold"
             android:gravity="center"
-            android:visibility="visible" />
+            android:visibility="gone" />
         <TextView
-            android:id="@+id/mj_price_per_person"
+            android:id="@+id/my_journey_bottom_btn_3"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="18sp"
-            android:textColor="@color/image_color"
-            android:background="@color/ldrawer_color"
+            android:textColor="@color/ldrawer_color"
+            android:background="@color/image_color"
             android:text="320元"
             android:visibility="gone"
             android:gravity="center"

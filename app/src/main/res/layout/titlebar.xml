@@ -10,7 +10,7 @@
         android:layout_height="46dp"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="6dp"
+        android:layout_marginLeft="4dp"
         android:background="@drawable/back_arrow"/>
 
     <TextView

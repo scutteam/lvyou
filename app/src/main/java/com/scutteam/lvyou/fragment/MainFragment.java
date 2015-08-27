@@ -131,7 +131,7 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
             ImageView imageView = (ImageView) LayoutInflater.from(getActivity()).inflate(R.layout.view_pager_item,null).findViewById(R.id.iv_item);
             ImageLoader.getInstance().displayImage(advertList.get(i).pic,imageView);
             advertImageList.add(imageView);
-            
+
             ImageView page_view_indicator_image_view = new ImageView(getActivity());
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.rightMargin = 10;

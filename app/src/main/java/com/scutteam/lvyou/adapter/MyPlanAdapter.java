@@ -1,5 +1,6 @@
 package com.scutteam.lvyou.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -59,10 +60,14 @@ public class MyPlanAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, MyJourneyActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("plan_logic_id", plans.get(position).id);
-                mContext.startActivity(intent);
+                ((Activity)mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(mContext, MyJourneyActivity.class);
+                        intent.putExtra("plan_logic_id", plans.get(position).id + "");
+                        mContext.startActivity(intent);
+                    }
+                });
             }
         });
 

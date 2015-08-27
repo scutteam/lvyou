@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="56dp"
+    android:layout_marginRight="56dp"
+    android:background="@drawable/share_dialog_bg">
+
+    <TextView
+        android:id="@+id/dialog_submit_journey_plan_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="您的行程计划已提交"
+        android:textColor="@color/image_color"
+        android:textSize="16dp" />
+
+    <View
+        android:id="@+id/dialog_submit_journey_plan_divider1"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/dialog_submit_journey_plan_title"
+        android:background="@color/image_color" />
+
+    <LinearLayout
+        android:id="@+id/dialog_submit_journey_plan_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:orientation="vertical"
+        android:layout_below="@+id/dialog_submit_journey_plan_divider1">
+        <TextView
+            android:id="@+id/dialog_submit_journey_plan_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="4dp"
+            android:textSize="11sp"
+            android:textColor="@color/secondary_text_color"
+            android:text="为了设计出满意的行程方案，行程设计师可能会与您进行电话沟通，同时为了方便电子合同的生成，请您填写您的姓名与联系电话，并确保准确无误。"
+            />
+        <EditText
+            android:id="@+id/dialog_submit_journey_plan_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_get_my_insurance_et_bg"
+            android:textSize="13sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="2dp"
+            android:paddingLeft="6dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:textColor="@color/main_text_color"
+            android:hint="真实姓名"/>
+        <EditText
+            android:id="@+id/dialog_submit_journey_plan_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:paddingLeft="6dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"            android:background="@drawable/shape_get_my_insurance_et_bg"
+            android:textColor="@color/main_text_color"
+            android:hint="联系手机号"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/dialog_submit_journey_plan_divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DADADA"
+        android:layout_marginTop="12dp"
+        android:layout_below="@+id/dialog_submit_journey_plan_content"
+        />
+
+    <TextView
+        android:id="@+id/dialog_submit_journey_plan_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:gravity="center"
+        android:layout_below="@+id/dialog_submit_journey_plan_divider2"
+        android:text="确定"
+        android:padding="9dp"
+        android:textColor="@color/main_text_color"
+        />
+
+
+
+</RelativeLayout>

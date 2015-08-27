@@ -105,7 +105,7 @@ public class MyPlanFragment extends Fragment implements IXListViewListener {
     private void showPlans(JSONArray jsonArray){
         if(null == plans) {
             plans = (ArrayList<Plan>) Plan.fromJson(jsonArray);
-            adapter = new MyPlanAdapter(LvYouApplication.getInstance(), plans);
+            adapter = new MyPlanAdapter(getActivity(), plans);
             mListView.setAdapter(adapter);
         }else{
             ArrayList<Plan> planList = (ArrayList<Plan>) Plan.fromJson(jsonArray);
@@ -113,6 +113,17 @@ public class MyPlanFragment extends Fragment implements IXListViewListener {
                 plans.add(planList.get(i));
             }
             adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(null != plans) {
+            plans.clear();
+            currentPage = 0;
+            isLastPage = false;
+            getMyPlans();
         }
     }
 }
