@@ -45,5 +45,6 @@
     <string name="title_activity_recommend_view_spot_detail">RecommendViewSpotDetailActivity</string>
     <string name="title_activity_share_journey">ShareJourneyActivity</string>
     <string name="title_activity_callback">CallbackActivity</string>
+    <string name="title_activity_web_view">WebViewActivity</string>
 
 </resources>

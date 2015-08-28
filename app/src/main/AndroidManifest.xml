@@ -172,6 +172,10 @@
             android:name=".activity.CallbackActivity"
             android:label="@string/title_activity_callback" >
         </activity>
+        <activity
+            android:name=".activity.WebViewActivity"
+            android:label="@string/title_activity_web_view" >
+        </activity>
     </application>
 
 </manifest>

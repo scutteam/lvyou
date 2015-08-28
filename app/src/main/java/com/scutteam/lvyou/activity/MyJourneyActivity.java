@@ -59,6 +59,9 @@ public class MyJourneyActivity extends Activity{
     private final int STATE_6 = 6;    //底部显示评价反馈，查看保险，行程方案(state = 7)
     private final int STATE_7 = 7;    //底部显示删除订单(state = 0)
 
+    private final int REQUEST_WATCH_PLAN = 1;    //跳转到查看行程方案网页
+    private final int REQUEST_WATCH_PROTOCAL = 2;//跳转到查看合同页面
+
 
     private final int color1 = R.color.image_color;
     private final int color2 = R.color.ldrawer_color;
@@ -202,7 +205,7 @@ public class MyJourneyActivity extends Activity{
                 tvStateText2.setTextColor(getResources().getColor(color5));
                 tvStateText3.setTextColor(getResources().getColor(color5));
                 tvBottomBtn1.setOnClickListener(submitJourneyPlanListener);
-                tvBottomBtn2.setOnClickListener(modifyJorneyPlanListener);
+                tvBottomBtn2.setOnClickListener(modifyJourneyPlanListener);
                 break;
 
             case STATE_2:
@@ -220,7 +223,7 @@ public class MyJourneyActivity extends Activity{
                 tvStateText1.setTextColor(getResources().getColor(color4));
                 tvStateText2.setTextColor(getResources().getColor(color1));
                 tvStateText3.setTextColor(getResources().getColor(color5));
-                tvBottomBtn1.setOnClickListener(wathchJorneyPlanListener);
+                tvBottomBtn1.setOnClickListener(watchJourneyPlanListener);
                 break;
 
             case STATE_4:
@@ -240,7 +243,7 @@ public class MyJourneyActivity extends Activity{
                 tvStateText1.setTextColor(getResources().getColor(color4));
                 tvStateText2.setTextColor(getResources().getColor(color4));
                 tvStateText3.setTextColor(getResources().getColor(color1));
-                tvBottomBtn1.setOnClickListener(wathchJorneyPlanListener);
+                tvBottomBtn1.setOnClickListener(watchJourneyPlanListener);
                 tvBottomBtn2.setOnClickListener(watchProtocalListener);
                 tvBottomBtn3.setOnClickListener(confirmProtocalListener);
 
@@ -250,22 +253,17 @@ public class MyJourneyActivity extends Activity{
                 llBottomBtns.setVisibility(View.VISIBLE);
                 tvBottomBtn1.setVisibility(View.VISIBLE);
                 tvBottomBtn2.setVisibility(View.VISIBLE);
-                tvBottomBtn3.setVisibility(View.VISIBLE);
                 tvBottomBtn1.setText("获取保险");
                 tvBottomBtn1.setTextColor(getResources().getColor(color2));
                 tvBottomBtn1.setBackgroundColor(getResources().getColor(color1));
-                tvBottomBtn2.setText("支付订金");
+                tvBottomBtn2.setText("行程方案");
                 tvBottomBtn2.setTextColor(getResources().getColor(color1));
                 tvBottomBtn2.setBackgroundColor(getResources().getColor(color2));
-                tvBottomBtn3.setText("行程方案");
-                tvBottomBtn3.setTextColor(getResources().getColor(color2));
-                tvBottomBtn3.setBackgroundColor(getResources().getColor(color1));
                 tvStateText1.setTextColor(getResources().getColor(color4));
                 tvStateText2.setTextColor(getResources().getColor(color4));
                 tvStateText3.setTextColor(getResources().getColor(color1));
                 tvBottomBtn1.setOnClickListener(getInsuranceListener);
-                tvBottomBtn2.setOnClickListener(payListener);
-                tvBottomBtn3.setOnClickListener(wathchJorneyPlanListener);
+                tvBottomBtn2.setOnClickListener(watchJourneyPlanListener);
                 break;
 
             case STATE_6:
@@ -287,7 +285,7 @@ public class MyJourneyActivity extends Activity{
                 tvStateText3.setTextColor(getResources().getColor(color1));
                 tvBottomBtn1.setOnClickListener(callbackListener);
                 tvBottomBtn2.setOnClickListener(watchInsuranceListener);
-                tvBottomBtn3.setOnClickListener(wathchJorneyPlanListener);
+                tvBottomBtn3.setOnClickListener(watchJourneyPlanListener);
                 break;
 
             case STATE_7:
@@ -315,31 +313,48 @@ public class MyJourneyActivity extends Activity{
         }
     };
 
-    private View.OnClickListener modifyJorneyPlanListener = new View.OnClickListener() {
+    private View.OnClickListener modifyJourneyPlanListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
+            Toast.makeText(mContext, "这里实现逻辑有点乱，过几天再修改", Toast.LENGTH_SHORT).show();
         }
     };
 
-    private View.OnClickListener wathchJorneyPlanListener = new View.OnClickListener() {
+    private View.OnClickListener watchJourneyPlanListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
+            watchJourneyPlan();
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case REQUEST_WATCH_PLAN:
+                needRefresh = true;
+                initData();
+                break;
+
+            case REQUEST_WATCH_PROTOCAL:
+                break;
+
+            default:
+                break;
+        }
+    }
 
     private View.OnClickListener watchProtocalListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
+            watchProtocal();
         }
     };
 
     private View.OnClickListener confirmProtocalListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
+            confirmProtocal();
         }
     };
 
@@ -347,28 +362,28 @@ public class MyJourneyActivity extends Activity{
     private View.OnClickListener getInsuranceListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
-        }
-    };
-
-    private View.OnClickListener payListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-
+            getInsurance();
         }
     };
 
     private View.OnClickListener callbackListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
+            Intent intent = new Intent(MyJourneyActivity.this, CallbackActivity.class);
+            intent.putExtra("plan_logic_id", planLogicId);
+            intent.putExtra("dest_id", planDetail.destination_logic_id + "");
+            intent.putExtra("image_url", planDetail.head_image);
+            intent.putExtra("title", planDetail.title);
+            intent.putExtra("order_num", planDetail.order_num);
+            intent.putExtra("create_time", planDetail.create_time);
+            startActivity(intent);
         }
     };
 
     private View.OnClickListener watchInsuranceListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
+            getInsurance();
         }
     };
 
@@ -379,6 +394,118 @@ public class MyJourneyActivity extends Activity{
         }
     };
 
+    /**
+     * 获取保险
+     */
+    private void getInsurance(){
+        Intent intent = new Intent(MyJourneyActivity.this, GetInsuranceActivity.class);
+        intent.putExtra("plan_logic_id", planLogicId);
+        intent.putExtra("title", planDetail.title);
+        intent.putExtra("order_num", planDetail.order_num);
+        intent.putExtra("create_time", planDetail.create_time);
+        startActivity(intent);
+    }
+
+    /**
+     * 确认合同
+     */
+    private void confirmProtocal(){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("sessionid", LvYouApplication.getSessionId());
+        params.put("id", planLogicId);
+        client.post(Constants.URL + "/user/trip.confirm_contract.do", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                Log.i("liujie", response.toString());
+                if (0 == response.optInt("code")) {
+                    Toast.makeText(mContext, "确认成功", Toast.LENGTH_SHORT).show();
+                    needRefresh = true;
+                    initData();
+                } else {
+                    Toast.makeText(mContext, response.optString("msg"), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Log.i("liujie", responseString.toString());
+                Toast.makeText(mContext, "网络连接失败，请重试", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * 查看合同
+     */
+    private void watchProtocal(){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("sessionid", LvYouApplication.getSessionId());
+        params.put("planId", planLogicId);
+        client.post(Constants.URL + "/main/common.view_contract_url.json", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                Log.i("liujie", response.toString());
+                if (0 == response.optInt("code")) {
+                    Intent intent = new Intent(MyJourneyActivity.this, WebViewActivity.class);
+                    intent.putExtra("title", "查看合同");
+                    intent.putExtra("back_text", "关闭网页");
+                    intent.putExtra("url", response.optString("data"));
+                    startActivityForResult(intent, REQUEST_WATCH_PLAN);
+                } else {
+                    Toast.makeText(mContext, response.optString("msg"), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Log.i("liujie", responseString.toString());
+                Toast.makeText(mContext, "网络连接失败，请重试", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * 查看行程方案
+     */
+    private void watchJourneyPlan(){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("sessionid", LvYouApplication.getSessionId());
+        params.put("planId", planLogicId);
+        client.post(Constants.URL + "/main/common.trip_plan_url.json", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                Log.i("liujie", response.toString());
+                if (0 == response.optInt("code")) {
+                    Intent intent = new Intent(MyJourneyActivity.this, WebViewActivity.class);
+                    intent.putExtra("title", "查看行程方案");
+                    intent.putExtra("back_text", "关闭网页");
+                    intent.putExtra("url", response.optString("data"));
+                    startActivityForResult(intent, REQUEST_WATCH_PLAN);
+                } else {
+                    Toast.makeText(mContext, response.optString("msg"), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Log.i("liujie", responseString.toString());
+                Toast.makeText(mContext, "网络连接失败，请重试", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * 提交行程方案
+     */
     private void submitJourneyPlan(){
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();

@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/default_bg"
     tools:context="com.scutteam.lvyou.activity.CallbackActivity">
 
     <include
@@ -11,7 +12,7 @@
         android:layout_height="wrap_content" />
 
     <ImageView
-        android:id="@+id/mj_image"
+        android:id="@+id/callback_image"
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:layout_below="@+id/callback_head"
@@ -23,7 +24,7 @@
         android:id="@+id/callback_ll_top"
         android:layout_width="match_parent"
         android:layout_height="72dp"
-        android:layout_alignBottom="@+id/mj_image"
+        android:layout_alignBottom="@+id/callback_image"
         android:gravity="center_vertical|left"
         android:orientation="vertical">
 
@@ -64,30 +65,223 @@
 
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/callback_ll_stars"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:orientation="vertical"
         android:layout_below="@+id/callback_ll_top">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="42dp">
+            android:gravity="center_vertical"
+            android:layout_height="46dp">
+            <View
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                />
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:text="导游评价"
-                android:gravity="center"
+                android:textSize="17sp"
+                android:gravity="center_vertical|left"
                 />
+            <View
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
 
             <RatingBar
                 android:id="@+id/callback_guide_star"
-                style="@style/mjRatingBar"
+                style="@style/callbackRatingBar"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="24dp"
                 android:minWidth="10dip"
                 android:numStars="5"
                 android:rating="3"
+                android:layout_gravity="center_vertical"
                 android:clickable="true" />
+            <View
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                />
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:layout_height="46dp">
+            <View
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:text="包餐服务"
+                android:textSize="17sp"
+                android:gravity="center_vertical|left"                />
+            <View
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <RatingBar
+                android:id="@+id/callback_meal_star"
+                style="@style/callbackRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:minWidth="10dip"
+                android:numStars="5"
+                android:rating="3"
+                android:layout_gravity="center_vertical"
+                android:clickable="true" />
+            <View
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:layout_height="46dp">
+            <View
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:text="酒店住宿"
+                android:textSize="17sp"
+                android:gravity="center_vertical|left"
+                />
+            <View
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <RatingBar
+                android:id="@+id/callback_stay_star"
+                style="@style/callbackRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:minWidth="10dip"
+                android:numStars="5"
+                android:rating="3"
+                android:layout_gravity="center_vertical"
+                android:clickable="true" />
+            <View
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:layout_height="46dp">
+            <View
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:text="旅行社服务"
+                android:textSize="17sp"
+                android:gravity="center_vertical|left"                />
+            <View
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <RatingBar
+                android:id="@+id/callback_agency_star"
+                style="@style/callbackRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:minWidth="10dip"
+                android:numStars="5"
+                android:rating="3"
+                android:layout_gravity="center_vertical"
+                android:clickable="true" />
+            <View
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:layout_height="46dp">
+            <View
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                />
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:text="旅程整体评价"
+                android:textSize="17sp"
+                android:gravity="center_vertical|left"
+                />
+            <View
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <RatingBar
+                android:id="@+id/callback_all_star"
+                style="@style/callbackRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:minWidth="10dip"
+                android:numStars="5"
+                android:rating="3"
+                android:layout_gravity="center_vertical"
+                android:clickable="true" />
+            <View
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                />
         </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/callback_tv_111"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:layout_below="@+id/callback_ll_stars"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="14dp"
+        android:text="欢迎您为本次旅程留下感想"/>
+    <EditText
+        android:id="@+id/callback_content"
+        android:layout_below="@+id/callback_tv_111"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:gravity="top"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/shape_callback_et_bg"
+        android:layout_height="100dp" />
+    <TextView
+        android:id="@+id/callback_submit"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="提交评分与感想"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/callback_content"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
+        android:clickable="true"
+        android:background="@color/image_color"/>
+
+
 </RelativeLayout>

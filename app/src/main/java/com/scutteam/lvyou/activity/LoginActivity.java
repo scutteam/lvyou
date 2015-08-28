@@ -286,7 +286,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 try {
-                    Toast.makeText(LoginActivity.this,"获取用户信息成功",Toast.LENGTH_SHORT).show();
                     JSONObject dataObject = response.getJSONObject("data");
                     Log.i("user info", dataObject.toString());
                     LvYouApplication.setScreenName(dataObject.getString("nickName"));
@@ -313,10 +312,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
     
     public void startLogin() {
-//        String phone = mEtPhone.getText().toString();
-//        String password = mEtPassword.getText().toString();
-        String phone = "18814111130";
-        String password = "123456";
+        String phone = mEtPhone.getText().toString();
+        String password = mEtPassword.getText().toString();
+//        String phone = "18814111130";
+//        String password = "123456";
 
 
         AsyncHttpClient client = new AsyncHttpClient();
@@ -381,13 +380,13 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.tv_login:
                 startLogin();
-//                if(TextUtils.isEmpty(mEtPhone.getText())) {
-//                    Toast.makeText(LoginActivity.this,"手机号码不能为空",Toast.LENGTH_SHORT).show();
-//                } else if(TextUtils.isEmpty(mEtPassword.getText())) {
-//                    Toast.makeText(LoginActivity.this,"密码不能为空",Toast.LENGTH_SHORT).show();
-//                } else {
-//                    startLogin();
-//                }
+                if(TextUtils.isEmpty(mEtPhone.getText())) {
+                    Toast.makeText(LoginActivity.this,"手机号码不能为空",Toast.LENGTH_SHORT).show();
+                } else if(TextUtils.isEmpty(mEtPassword.getText())) {
+                    Toast.makeText(LoginActivity.this,"密码不能为空",Toast.LENGTH_SHORT).show();
+                } else {
+                    startLogin();
+                }
                 break;
             case R.id.tv_forget_password:
                 intent = new Intent();
@@ -405,7 +404,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 login(SHARE_MEDIA.SINA);
                 break;
             case R.id.ll_weixin:
-                Toast.makeText(LoginActivity.this,"准备微信登录",Toast.LENGTH_SHORT).show();
+//                login(SHARE_MEDIA.WEIXIN);
+                Toast.makeText(LoginActivity.this,"微信登录暂时未实现，过几天搞定",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ll_qq:
                 login(SHARE_MEDIA.QQ);

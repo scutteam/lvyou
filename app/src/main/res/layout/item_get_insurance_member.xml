@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="horizontal">
+        <com.scutteam.lvyou.widget.CircleImageView
+            android:id="@+id/item_get_insurance_member_avatar"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/get_my_insurance_icon"/>
+        <TextView
+            android:id="@+id/item_get_insurance_member_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:text="吹个大波波的团游"
+            android:textSize="15sp"
+            android:textColor="@color/main_text_color"
+            android:paddingLeft="10dp"
+            android:maxHeight="50dp"/>
+    </LinearLayout>
+
+</RelativeLayout>

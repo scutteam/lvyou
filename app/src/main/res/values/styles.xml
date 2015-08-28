@@ -213,6 +213,13 @@
         <item name="android:maxHeight">3dp</item>
     </style>
 
+    <style name="callbackRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/callback_rating_bar</item>
+        <item name="android:minHeight">3dp</item>
+        <item name="android:maxHeight">3dp</item>
+    </style>
+
+
     <!-- ListView -->
     <style name="listview_normal_style" parent="android:Widget.ListView">
         <item name="android:listSelector">@drawable/normal_button_selector</item>

@@ -1,0 +1,60 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.scutteam.lvyou.activity.WebViewActivity">
+
+    <RelativeLayout
+        android:id="@+id/web_view_title"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#FFFFFF">
+        <TextView
+            android:id="@+id/web_view_left_icon"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="4dp"
+            android:background="@drawable/back_arrow"/>
+
+        <TextView
+            android:id="@+id/web_view_left_text"
+            android:layout_toRightOf="@+id/web_view_left_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="#31db35"
+            android:text="关闭网页"
+            />
+
+        <TextView
+            android:id="@+id/web_view_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
+            android:textColor="#31db35"
+            android:text="Titlle"
+            />
+    </RelativeLayout>
+
+    <WebView
+        android:id="@+id/web_view_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/web_view_title">
+
+    </WebView>
+    <ProgressBar
+        style="@style/circle_progress"
+        android:id="@+id/web_view_progressbar"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>

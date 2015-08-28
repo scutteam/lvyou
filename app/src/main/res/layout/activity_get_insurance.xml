@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/default_bg"
     tools:context="com.scutteam.lvyou.activity.GetInsuranceActivity">
     <include
@@ -104,20 +104,18 @@
             android:paddingLeft="10dp"
             android:textSize="18sp"
             android:textColor="@color/main_text_color"
-            android:text="团队获取保险情况（0/12）"/>
+            android:text="团队获取保险情况(0/12)"/>
         <TextView
             android:id="@+id/get_insurance_line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/get_insurance_nums"
             android:background="@color/default_bg"/>
-        <ListView
+        <com.scutteam.lvyou.widget.me.maxwin.view.XListView
             android:layout_width="match_parent"
             android:layout_below="@+id/get_insurance_line"
-            android:layout_height="160dp"
-            android:id="@+id/get_insurance_menber">
-
-        </ListView>
+            android:layout_height="wrap_content"
+            android:id="@+id/get_insurance_member" />
         <TextView
             android:id="@+id/get_insurance_member_none"
             android:layout_width="match_parent"
@@ -125,7 +123,7 @@
             android:layout_height="80dp"
             android:text="旅游安全第一，请尽快获取保险!"
             android:textColor="@color/secondary_text_color"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:visibility="gone"
