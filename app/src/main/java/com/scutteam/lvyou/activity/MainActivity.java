@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -88,7 +89,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            
             switch (msg.what) {
                 case LOGOUT_SUCCESS:
                     LvYouApplication.setSessionId(null);
@@ -516,13 +516,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK) {
             if(fragmentManager.getFragments().get(0) instanceof  MainFragment) {
+                setTitle("首页");
                 if(System.currentTimeMillis() - mExitTime > 2000) {
                     mExitTime = System.currentTimeMillis();
-                    Toast.makeText(MainActivity.this, "两次点击退出", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "再点一次退出", Toast.LENGTH_SHORT).show();
                 } else {
                     ScreenManager.getScreenManager().AppExit(MainActivity.this);
                 }
             } else {
+                setTitle("首页");
                 switchFragment(FRAGMENT_MAIN);
             }
         }
@@ -553,5 +555,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         selectedTheme = theme;
         setTitle("目的地");
         switchFragment(FRAGMENT_DESTINATION);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.i("liujie", "here");
+        super.onBackPressed();
     }
 }

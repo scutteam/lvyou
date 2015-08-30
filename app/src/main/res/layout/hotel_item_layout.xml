@@ -17,6 +17,13 @@
             android:src="@mipmap/default_icon"
             android:scaleType="centerCrop"
             />
+        <TextView
+            android:id="@+id/tv_shade"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:alpha="0.5"
+            android:background="@color/darkGray"/>
+
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"

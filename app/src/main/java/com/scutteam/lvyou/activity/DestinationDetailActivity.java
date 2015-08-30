@@ -19,9 +19,11 @@ import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.scutteam.lvyou.R;
 import com.scutteam.lvyou.adapter.CommentAdapter;
+import com.scutteam.lvyou.application.LvYouApplication;
 import com.scutteam.lvyou.constant.Constants;
 import com.scutteam.lvyou.model.Comment;
 import com.scutteam.lvyou.model.Destination;
+import com.scutteam.lvyou.util.DensityUtil;
 import com.scutteam.lvyou.widget.me.maxwin.view.XListView;
 
 import org.apache.http.Header;
@@ -160,6 +162,10 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
         mTvCurrentPage = (TextView) mHeadView.findViewById(R.id.tv_current_page);
         mTvTotalPage = (TextView) mHeadView.findViewById(R.id.tv_total_page);
         viewPager = (ViewPager) mHeadView.findViewById(R.id.viewPager);
+        ViewGroup.LayoutParams params = viewPager.getLayoutParams();
+        params.width = DensityUtil.getScreenWidthPx(LvYouApplication.getInstance());
+        params.height = params.width * Constants.Config.IMAGE_HEIGHT / Constants.Config.IMAGE_WIDTH;
+        viewPager.setLayoutParams(params);
         mTvCommentCount = (TextView) mHeadView.findViewById(R.id.tv_comment_count);
         
         listView.addHeaderView(mHeadView);

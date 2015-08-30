@@ -105,7 +105,7 @@ public class SimpleMonthAdapter extends Adapter<SimpleMonthAdapter.ViewHolder>
 //            itemCount -= 12 - this.lastMonth.intValue() - 1;
 //        }
 
-        return 2;
+        return 24;
     }
 
     protected void init() {

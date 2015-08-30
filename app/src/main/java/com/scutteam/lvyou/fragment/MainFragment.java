@@ -1,5 +1,7 @@
 package com.scutteam.lvyou.fragment;
 
+import android.app.ActionBar;
+import android.view.ViewGroup.LayoutParams;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -30,6 +33,7 @@ import com.scutteam.lvyou.interfaces.ThemeListener;
 import com.scutteam.lvyou.model.Advert;
 import com.scutteam.lvyou.model.LvYouDest;
 import com.scutteam.lvyou.model.LvYouTheme;
+import com.scutteam.lvyou.util.DensityUtil;
 import com.scutteam.lvyou.widget.me.maxwin.view.XListView;
 
 import org.apache.http.Header;
@@ -40,7 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainFragment extends Fragment implements XListView.IXListViewListener {
-    
+
     private View view;
     private static MainFragment instance;
     private View mHeaderView;
@@ -54,15 +58,15 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
     public static final int AUTO_SCROLL_BANNER = 100005;
     public MainFragmentItemAdapter adapter;
     private PagerAdapter pagerAdapter;
-    private List<Advert>advertList = new ArrayList<Advert>();
-    private List<ImageView>advertImageList = new ArrayList<ImageView>();
+    private List<Advert> advertList = new ArrayList<Advert>();
+    private List<ImageView> advertImageList = new ArrayList<ImageView>();
     private LinearLayout mLlViewPagerLayout;
     private ThemeListener listener;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            
+
             switch (msg.what) {
                 case LOAD_VIEW_PAGER_DATA_SUCCESS:
                     setViewPagerUI();
@@ -70,17 +74,17 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
                     mListView.addHeaderView(mHeaderView);
                     break;
                 case LOAD_LIST_VIEW_DATA_SUCCESS:
-                    if(adapter == null) {
-                        initAdapter();    
+                    if (adapter == null) {
+                        initAdapter();
                     } else {
-                        refreshAdapter();   
+                        refreshAdapter();
                     }
                     break;
                 case LOAD_DATA_FAIL:
-                    Toast.makeText(getActivity(),"网络异常,请重试",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "网络异常,请重试", Toast.LENGTH_SHORT).show();
                     break;
                 case REFRESH_VIEW_PAGER_SUCCESS:
-                    
+
                     break;
                 case START_SCROLL_BANNER:
                     handler.removeMessages(AUTO_SCROLL_BANNER);
@@ -89,7 +93,7 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
                 case AUTO_SCROLL_BANNER:
                     int totalBannerSize = advertList.size();
                     int currentItem = mViewPager.getCurrentItem();
-                    if(advertList.size() <= 1) {
+                    if (advertList.size() <= 1) {
                         mViewPager.setCurrentItem(0);
                     } else {
                         mViewPager.setCurrentItem((currentItem + 1) % totalBannerSize);
@@ -104,16 +108,16 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
     };
     private List<LvYouDest> destList = new ArrayList<LvYouDest>();
     private List<LvYouTheme> themeList = new ArrayList<LvYouTheme>();
-    
+
     public static MainFragment getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new MainFragment();
         }
         return instance;
     }
-    
+
     public void refreshAdapter() {
-        adapter.refreshWithThemeListAndDestList(themeList,destList);
+        adapter.refreshWithThemeListAndDestList(themeList, destList);
         mListView.stopRefresh();
     }
 
@@ -122,14 +126,20 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
 
         handler.removeMessages(AUTO_SCROLL_BANNER);
         handler.removeMessages(START_SCROLL_BANNER);
-        
+
         super.onDestroy();
     }
 
     public void setViewPagerUI() {
-        for(int i = 0 ; i < advertList.size() ; i++) {
-            ImageView imageView = (ImageView) LayoutInflater.from(getActivity()).inflate(R.layout.view_pager_item,null).findViewById(R.id.iv_item);
-            ImageLoader.getInstance().displayImage(advertList.get(i).pic,imageView);
+        for (int i = 0; i < advertList.size(); i++) {
+            //ImageView imageView = (ImageView) LayoutInflater.from(getActivity()).inflate(R.layout.view_pager_item,null).findViewById(R.id.iv_item);
+            ImageView imageView = new ImageView(getActivity());
+            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+            imageView.setLayoutParams(params);
+            imageView.setAdjustViewBounds(true);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+            ImageLoader.getInstance().displayImage(advertList.get(i).pic, imageView);
             advertImageList.add(imageView);
 
             ImageView page_view_indicator_image_view = new ImageView(getActivity());
@@ -166,10 +176,10 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
 
         handler.sendEmptyMessage(AUTO_SCROLL_BANNER);
     }
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if(view == null) {
+        if (view == null) {
             view = inflater.inflate(R.layout.fragment_main, null);
 
             initView();
@@ -178,28 +188,32 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
         }
         return view;
     }
-    
+
     public void initHeaderViewAndListViewData() {
-        mHeaderView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_main_head_view,null);
+        mHeaderView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_main_head_view, null);
         mViewPager = (ViewPager) mHeaderView.findViewById(R.id.viewPager);
+        RelativeLayout.LayoutParams param = (RelativeLayout.LayoutParams) mViewPager.getLayoutParams();
+        param.width = DensityUtil.getScreenWidthPx(LvYouApplication.getInstance());
+        param.height = param.width * Constants.Config.IMAGE_HEIGHT / Constants.Config.IMAGE_WIDTH;
+        mViewPager.setLayoutParams(param);
         mLlViewPagerLayout = (LinearLayout) mHeaderView.findViewById(R.id.ll_view_pager_layout);
-        
+
         initViewPagerData();
         initListViewData();
     }
-    
+
     public void initListViewData() {
         initThemeData();//等theme的数据获取完后 获取dest的数据
     }
-    
+
     public void initThemeData() {
         AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("user-agent","Android");
-        client.get(getActivity(), Constants.URL + "main/theme.home_list.json",new JsonHttpResponseHandler() {
+        client.addHeader("user-agent", "Android");
+        client.get(getActivity(), Constants.URL + "main/theme.home_list.json", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-
+                Log.i("liujie", response.toString());
                 try {
                     JSONArray dataArray = response.getJSONArray("data");
                     themeList = LvYouTheme.insertWithArray(dataArray);
@@ -221,10 +235,10 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
             }
         });
     }
-    
+
     public void initDestData() {
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(getActivity(), Constants.URL + "main/dest.home_list.json",new JsonHttpResponseHandler() {
+        client.get(getActivity(), Constants.URL + "main/dest.home_list.json", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
@@ -252,32 +266,32 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
             }
         });
     }
-    
+
     public void initAdapter() {
-        adapter = new MainFragmentItemAdapter(LvYouApplication.getInstance(),destList,themeList);
+        adapter = new MainFragmentItemAdapter(LvYouApplication.getInstance(), destList, themeList);
         mListView.setAdapter(adapter);
     }
-    
+
     public void initViewPagerData() {
         //等api接口出来 实现这个部分 生成ViewPager数据，目前先用死数据
-        
+
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(getActivity(),Constants.URL + "main/advert.mobile_list.json",new JsonHttpResponseHandler(){
+        client.get(getActivity(), Constants.URL + "main/advert.mobile_list.json", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
 
                 try {
-                    int code  = response.getInt("code");
-                    if(code == 0) {
+                    int code = response.getInt("code");
+                    if (code == 0) {
                         JSONArray dataArray = response.getJSONArray("data");
                         advertList = Advert.insertWithArray(dataArray);
 
-                        if(advertList != null && advertList.size() > 0) {
+                        if (advertList != null && advertList.size() > 0) {
                             handler.sendEmptyMessage(LOAD_VIEW_PAGER_DATA_SUCCESS);
                         }
                     } else {
-                        Toast.makeText(getActivity(),response.getString("msg"),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), response.getString("msg"), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -290,10 +304,10 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
             }
         });
     }
-    
+
     public void initView() {
         mListView = (XListView) view.findViewById(R.id.listView);
-        mListView.setPullLoadEnable(false);   
+        mListView.setPullLoadEnable(false);
     }
 
     public void setListener(ThemeListener Llistener) {
@@ -330,15 +344,15 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int new_position = position - 1 - 1;
-                if(new_position < themeList.size()) {
+                if (new_position < themeList.size()) {
                     LvYouTheme theme = themeList.get(new_position); //减去一个viewpager 和一个xListviewHeader
 
                     listener.onThemeItenClick(theme);
-                } else if(new_position >= themeList.size()){
+                } else if (new_position >= themeList.size()) {
                     int dest_position = new_position - 2;
 
                     Intent intent = new Intent();
-                    intent.putExtra("destination_id",destList.get(dest_position).dest_id);
+                    intent.putExtra("destination_id", destList.get(dest_position).dest_id);
                     intent.setClass(getActivity(), MakeJourneyActivity.class);
                     startActivity(intent);
                 }
@@ -347,12 +361,12 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
     }
 
     public void setSelect(int position) {
-        for(int i = 0 ; i < mLlViewPagerLayout.getChildCount(); i++) {
-            ((ImageView)mLlViewPagerLayout.getChildAt(i)).setImageDrawable(getResources().getDrawable(R.mipmap.tagvewpager_point01));
+        for (int i = 0; i < mLlViewPagerLayout.getChildCount(); i++) {
+            ((ImageView) mLlViewPagerLayout.getChildAt(i)).setImageDrawable(getResources().getDrawable(R.mipmap.tagvewpager_point01));
         }
-        ((ImageView)mLlViewPagerLayout.getChildAt(position)).setImageDrawable(getResources().getDrawable(R.mipmap.tagvewpager_point02));
+        ((ImageView) mLlViewPagerLayout.getChildAt(position)).setImageDrawable(getResources().getDrawable(R.mipmap.tagvewpager_point02));
     }
-    
+
     @Override
     public void onRefresh() {
         refresh();
@@ -371,19 +385,19 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
     public void refreshViewPagerData() {
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(getActivity(),Constants.URL + "main/advert.mobile_list.json",new JsonHttpResponseHandler(){
+        client.get(getActivity(), Constants.URL + "main/advert.mobile_list.json", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
 
-                Log.e("response",response.toString());
+                Log.e("response", response.toString());
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
 
-                Log.e("response_fail",responseString);
+                Log.e("response_fail", responseString);
             }
         });
 
