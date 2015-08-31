@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.scutteam.lvyou.application.LvYouApplication;
 import com.scutteam.lvyou.constant.Constants;
 import com.scutteam.lvyou.model.Comment;
 import com.scutteam.lvyou.model.Destination;
+import com.scutteam.lvyou.model.LvYouDest;
 import com.scutteam.lvyou.util.DensityUtil;
 import com.scutteam.lvyou.widget.me.maxwin.view.XListView;
 
@@ -33,12 +35,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DestinationDetailActivity extends Activity implements XListView.IXListViewListener, View.OnClickListener {
-    
+
     private Long destination_id = 0L;
-    private ArrayList<String>viewSpotStringList = new ArrayList<String>();
+    private ArrayList<String> viewSpotStringList = new ArrayList<String>();
     private String long_intro;
-    private List<Comment>commentList = new ArrayList<Comment>();
-    private List<Comment>newCommentList = new ArrayList<Comment>();
+    private List<Comment> commentList = new ArrayList<Comment>();
+    private List<Comment> newCommentList = new ArrayList<Comment>();
     private int current_page;
     private int total_page;
     private int total_items;
@@ -55,20 +57,20 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            
+
             switch (msg.what) {
                 case LOAD_COMMENT_SUCCESS:
-                    if(current_page == total_page) {
+                    if (current_page == total_page) {
                         listView.setPullLoadEnable(false);
                     } else {
                         listView.setPullLoadEnable(true);
                     }
-                    mTvCommentCount.setText("用户评论("+total_items+")");
+                    mTvCommentCount.setText("用户评论(" + total_items + ")");
                     initAdapter();
 
                     break;
                 case LOAD_MORE_COMMENT_SUCCESS:
-                    if(current_page == total_page) {
+                    if (current_page == total_page) {
                         listView.setPullLoadEnable(false);
                     } else {
                         listView.setPullLoadEnable(true);
@@ -86,8 +88,8 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
     public TextView mTvCurrentPage;
     public TextView mTvTotalPage;
     public ViewPager viewPager;
-    public List<ImageView>imageViews = new ArrayList<ImageView>();
-    
+    public List<ImageView> imageViews = new ArrayList<ImageView>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,16 +100,16 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
         initHeadView();
         initListener();
     }
-    
+
     public void initAdapter() {
-        adapter = new CommentAdapter(DestinationDetailActivity.this,commentList);
-        
-        
+        adapter = new CommentAdapter(DestinationDetailActivity.this, commentList);
+
+
         listView.setAdapter(adapter);
     }
-    
+
     public void initData() {
-        destination_id = getIntent().getLongExtra("destination_id",0L);
+        destination_id = getIntent().getLongExtra("destination_id", 0L);
         viewSpotStringList = getIntent().getStringArrayListExtra("viewSpotList");
         long_intro = getIntent().getStringExtra("long_intro");
 
@@ -115,16 +117,16 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
 
         initCommentData();
     }
-    
+
     public void initCommentData() {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-        params.put("kw.destId",destination_id);
-        client.get(DestinationDetailActivity.this, Constants.URL + "main/comment.dest_page_list.json",params,new JsonHttpResponseHandler() {
+        params.put("kw.destId", destination_id);
+        client.get(DestinationDetailActivity.this, Constants.URL + "main/comment.dest_page_list.json", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                
+
                 try {
                     JSONObject dataObject = response.getJSONObject("data");
                     commentList = Comment.insertWithArray(dataObject.getJSONArray("items"));
@@ -132,8 +134,8 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
                     total_page = dataObject.getInt("totalPages");
                     total_items = dataObject.getInt("totalItems");
                     handler.sendEmptyMessage(LOAD_COMMENT_SUCCESS);
-                    
-                } catch (Exception e){
+
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -144,7 +146,7 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
             }
         });
     }
-    
+
     public void initView() {
         listView = (XListView) findViewById(R.id.listView);
         listView.setPullRefreshEnable(false);
@@ -154,7 +156,7 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
 
 
     public void initHeadView() {
-        mHeadView = LayoutInflater.from(DestinationDetailActivity.this).inflate(R.layout.destination_detail_head_layout,null);
+        mHeadView = LayoutInflater.from(DestinationDetailActivity.this).inflate(R.layout.destination_detail_head_layout, null);
         mTvIntro = (TextView) mHeadView.findViewById(R.id.tv_intro);
         mTvDestinationName = (TextView) mHeadView.findViewById(R.id.tv_destination_name);
         mRBDestinationStar = (RatingBar) mHeadView.findViewById(R.id.rb_destination_star);
@@ -167,29 +169,38 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
         params.height = params.width * Constants.Config.IMAGE_HEIGHT / Constants.Config.IMAGE_WIDTH;
         viewPager.setLayoutParams(params);
         mTvCommentCount = (TextView) mHeadView.findViewById(R.id.tv_comment_count);
-        
+
         listView.addHeaderView(mHeadView);
-
-        mTvTitle.setText(destination.title);
-        mTvDestinationName.setText(destination.title);
         mTvIntro.setText(long_intro);
-        mRBDestinationStar.setRating(Float.parseFloat(destination.score.toString()));
-        mTvDestinationScore.setText(destination.score.toString());
-        mTvTotalPage.setText(viewSpotStringList.size()+"");
-
+        if (null != destination) {
+            mTvTitle.setText(destination.title);
+            mTvDestinationName.setText(destination.title);
+            mRBDestinationStar.setRating(Float.parseFloat(destination.score.toString()));
+            mTvDestinationScore.setText(destination.score.toString());
+        }else{
+            LvYouDest lvYouDest = LvYouDest.findDestById(destination_id);
+            if(null != lvYouDest){
+                mTvTitle.setText(lvYouDest.title);
+                mTvDestinationName.setText(lvYouDest.title);
+                mRBDestinationStar.setRating((float)lvYouDest.score);
+                mTvDestinationScore.setText(lvYouDest.score + "");
+            }
+        }
+        mTvTotalPage.setText(viewSpotStringList.size() + "");
     }
-    
+
     public void initListener() {
         mIvBack.setOnClickListener(this);
         listView.setXListViewListener(this);
 
-        for(int i = 0 ; i < viewSpotStringList.size(); i++) {
+        for (int i = 0; i < viewSpotStringList.size(); i++) {
             ImageView imageView = new ImageView(DestinationDetailActivity.this);
-            ImageLoader.getInstance().displayImage(viewSpotStringList.get(i),imageView);
+            ImageLoader.getInstance().displayImage(viewSpotStringList.get(i), imageView);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            imageView.setAdjustViewBounds(true);
             imageViews.add(imageView);
         }
-        
+
         PagerAdapter pagerAdapter = new PagerAdapter() {
             @Override
             public int getCount() {
@@ -212,17 +223,17 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
                 ((ViewPager) container).removeView(imageViews.get(position));
             }
         };
-        
-        
+
+
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i2) {
-                
+
             }
 
             @Override
             public void onPageSelected(int i) {
-                mTvCurrentPage.setText((i+1)+"");
+                mTvCurrentPage.setText((i + 1) + "");
                 viewPager.setCurrentItem(i);
             }
 
@@ -231,26 +242,26 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
 
             }
         });
-        
+
         viewPager.setAdapter(pagerAdapter);
     }
 
     @Override
     public void onRefresh() {
-        
+
     }
 
     @Override
     public void onLoadMore() {
         loadMore();
     }
-    
+
     public void loadMore() {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-        params.put("kw.destId",destination_id);
-        params.put("pr.page",current_page);
-        client.get(DestinationDetailActivity.this, Constants.URL + "main/comment.dest_page_list.json",params,new JsonHttpResponseHandler() {
+        params.put("kw.destId", destination_id);
+        params.put("pr.page", current_page);
+        client.get(DestinationDetailActivity.this, Constants.URL + "main/comment.dest_page_list.json", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
@@ -259,11 +270,11 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
                     JSONObject dataObject = response.getJSONObject("data");
                     newCommentList = Comment.insertWithArray(dataObject.getJSONArray("items"));
                     total_page = dataObject.getInt("totalPages");
-                    current_page ++;
+                    current_page++;
 
                     handler.sendEmptyMessage(LOAD_MORE_COMMENT_SUCCESS);
 
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
