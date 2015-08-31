@@ -1,6 +1,7 @@
 package com.scutteam.lvyou.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,7 +85,6 @@ public class MainFragmentItemAdapter extends BaseAdapter {
         } else {
             //读theme数据
             LvYouTheme theme = themeList.get(position);
-
             ImageLoader.getInstance().displayImage(theme.cover_pic,viewHolder.mIvBackground);
             viewHolder.mTvTitle.setText(theme.title);
             viewHolder.mTvShortIntroOrNumOfDestination.setText(theme.dest_num + "个目的地");
