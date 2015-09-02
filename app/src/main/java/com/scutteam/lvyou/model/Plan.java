@@ -74,6 +74,6 @@ public class Plan implements Serializable{
 
     private static String getFormatDateFromLong(Long longTime){
         Date date = new Date(longTime);
-        return (date.getYear() + 1990) + "年" + (date.getMonth() + 1) + "月" + date.getDate() + "日";
+        return (date.getYear() + 1900) + "年" + (date.getMonth() + 1) + "月" + date.getDate() + "日";
     }
 }

@@ -63,7 +63,7 @@ public class HotelAdapter extends BaseAdapter {
         final Hotel hotel = hotelList.get(position);
         viewHolder.mTvIntro.setText(hotel.intro);
         viewHolder.mTvName.setText(hotel.level_name);
-        viewHolder.mTvPrice.setText(hotel.price+"元/人");
+        viewHolder.mTvPrice.setText(hotel.price+"元/间");
         viewHolder.mRbScore.setRating(Float.parseFloat(hotel.score.toString()));
         viewHolder.mTvScore.setText(hotel.score.toString());
         ImageLoader.getInstance().displayImage(hotel.pic,viewHolder.mIvBackground);

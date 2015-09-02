@@ -62,7 +62,7 @@ public class LvYouDest extends Model {
         try {
             Long dest_id = 0L;
             if(dataObject.has("id")) {
-                dest_id = dataObject.getLong("id");
+                dest_id = dataObject.optLong("id");
             }
             LvYouDest dest = findDestById(dest_id);
             if(dest == null) {
@@ -71,25 +71,25 @@ public class LvYouDest extends Model {
             dest.dest_id = dest_id;
             
             if(dataObject.has("coverPic")) {
-                dest.cover_pic = Constants.IMAGE_URL + dataObject.getString("coverPic");
+                dest.cover_pic = Constants.IMAGE_URL + dataObject.optString("coverPic");
             }
             if(dataObject.has("isHot")) {
-                dest.is_hot = dataObject.getBoolean("isHot");
+                dest.is_hot = dataObject.optBoolean("isHot");
             }
             if(dataObject.has("label")) {
-                dest.label = dataObject.getString("label");
+                dest.label = dataObject.optString("label");
             }
             if(dataObject.has("local")) {
-                dest.local = dataObject.getString("local");
+                dest.local = dataObject.optString("local");
             }
             if(dataObject.has("score")) {
-                dest.score = dataObject.getDouble("score");
+                dest.score = dataObject.optDouble("score");
             }
             if(dataObject.has("shortIntro")) {
-                dest.short_intro = dataObject.getString("shortIntro");
+                dest.short_intro = dataObject.optString("shortIntro");
             }
             if(dataObject.has("title")) {
-                dest.title = dataObject.getString("title");
+                dest.title = dataObject.optString("title");
             }
             
             dest.save();

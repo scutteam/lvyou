@@ -1,7 +1,5 @@
 package com.scutteam.lvyou.fragment;
 
-import android.app.ActionBar;
-import android.view.ViewGroup.LayoutParams;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -108,6 +107,7 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
     };
     private List<LvYouDest> destList = new ArrayList<LvYouDest>();
     private List<LvYouTheme> themeList = new ArrayList<LvYouTheme>();
+    private List<Integer>themeDestCountList = new ArrayList<Integer>();
 
     public static MainFragment getInstance() {
         if (instance == null) {
@@ -185,6 +185,11 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
             initView();
             initHeaderViewAndListViewData();
             initListener();
+        } else {
+           for(int i = 0 ; i <themeDestCountList.size() ;i++) {
+               themeList.get(i).dest_num = themeDestCountList.get(i);
+           }
+            adapter.notifyDataSetChanged();
         }
         return view;
     }
@@ -217,6 +222,11 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
                 try {
                     JSONArray dataArray = response.getJSONArray("data");
                     themeList = LvYouTheme.insertWithArray(dataArray);
+                    
+                    for(int i = 0 ; i < themeList.size() ; i++) {
+                        LvYouTheme theme = themeList.get(i);
+                        themeDestCountList.add(theme.dest_num);
+                    }
 
                     initDestData();
 
@@ -389,6 +399,8 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
+                
+                
 
                 Log.e("response", response.toString());
             }

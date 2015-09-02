@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +36,8 @@ import java.util.List;
 public class DestinationDetailActivity extends Activity implements XListView.IXListViewListener, View.OnClickListener {
 
     private Long destination_id = 0L;
-    private ArrayList<String> viewSpotStringList = new ArrayList<String>();
+    private  String[] top_pic_list;
+    private String top_pic;
     private String long_intro;
     private List<Comment> commentList = new ArrayList<Comment>();
     private List<Comment> newCommentList = new ArrayList<Comment>();
@@ -110,8 +110,10 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
 
     public void initData() {
         destination_id = getIntent().getLongExtra("destination_id", 0L);
-        viewSpotStringList = getIntent().getStringArrayListExtra("viewSpotList");
+        top_pic = getIntent().getStringExtra("top_pic");
         long_intro = getIntent().getStringExtra("long_intro");
+        
+        top_pic_list = top_pic.split(";");
 
         destination = Destination.findDestinationById(destination_id);
 
@@ -186,16 +188,16 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
                 mTvDestinationScore.setText(lvYouDest.score + "");
             }
         }
-        mTvTotalPage.setText(viewSpotStringList.size() + "");
+        mTvTotalPage.setText(top_pic_list.length + "");
     }
 
     public void initListener() {
         mIvBack.setOnClickListener(this);
         listView.setXListViewListener(this);
 
-        for (int i = 0; i < viewSpotStringList.size(); i++) {
+        for (int i = 0; i < top_pic_list.length; i++) {
             ImageView imageView = new ImageView(DestinationDetailActivity.this);
-            ImageLoader.getInstance().displayImage(viewSpotStringList.get(i), imageView);
+            ImageLoader.getInstance().displayImage(Constants.IMAGE_URL + top_pic_list[i], imageView);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             imageView.setAdjustViewBounds(true);
             imageViews.add(imageView);
@@ -204,7 +206,7 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
         PagerAdapter pagerAdapter = new PagerAdapter() {
             @Override
             public int getCount() {
-                return viewSpotStringList.size();
+                return top_pic_list.length;
             }
 
             @Override

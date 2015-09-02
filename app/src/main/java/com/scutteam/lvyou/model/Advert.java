@@ -3,7 +3,6 @@ package com.scutteam.lvyou.model;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
-import com.activeandroid.query.Select;
 import com.scutteam.lvyou.constant.Constants;
 
 import org.json.JSONArray;
@@ -55,10 +54,7 @@ public class Advert extends Model{
             if(dataObject.has("id")) {
                 advert_id = dataObject.getLong("id");
             }
-            Advert advert = findAdvertById(advert_id);
-            if(advert == null) {
-                advert = new Advert();
-            }
+            Advert advert = new Advert();
             advert.advert_id = advert_id;
             if(dataObject.has("title")) {
                 advert.title = dataObject.getString("title");
@@ -78,9 +74,5 @@ public class Advert extends Model{
             e.printStackTrace();
         }
         return null;
-    }
-
-    public static Advert findAdvertById(Long id) {
-        return new Select().from(Advert.class).where("advert_id = ?",id).executeSingle();
     }
 }

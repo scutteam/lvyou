@@ -38,6 +38,7 @@ import com.umeng.socialize.controller.listener.SocializeListeners;
 import com.umeng.socialize.exception.SocializeException;
 import com.umeng.socialize.sso.QZoneSsoHandler;
 import com.umeng.socialize.sso.UMQQSsoHandler;
+import com.umeng.socialize.weixin.controller.UMWXHandler;
 
 import org.apache.http.Header;
 import org.json.JSONObject;
@@ -136,11 +137,12 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     public void initUmeng() {
         addQZoneQQPlatform();
+        addWeiXinPlatform();
     }
 
     private void addQZoneQQPlatform() {
-        String appId = "100424468";
-        String appKey = "c7394704798a158208a74ab60104f0ba";
+        String appId = Constants.Account.QQ_APP_ID;
+        String appKey = Constants.Account.QQ_APP_KEY;
         // 添加QQ支持, 并且设置QQ分享内容的target url
         UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(LoginActivity.this,
                 appId, appKey);
@@ -150,6 +152,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         // 添加QZone平台
         QZoneSsoHandler qZoneSsoHandler = new QZoneSsoHandler(LoginActivity.this, appId, appKey);
         qZoneSsoHandler.addToSocialSDK();
+    }
+    
+    private void addWeiXinPlatform() {
+        String appId = Constants.Account.WECHAT_APP_ID;
+        String appSecret = Constants.Account.WECHAT_KEY;
+// 添加微信平台
+        UMWXHandler wxHandler = new UMWXHandler(LoginActivity.this,appId,appSecret);
+        wxHandler.addToSocialSDK();
     }
     
     public void initView() {
@@ -338,14 +348,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                         Toast.makeText(LoginActivity.this,"登录成功,正在获取用户信息",Toast.LENGTH_SHORT).show();
                         LvYouApplication.setSessionId(session_data);
                         getLoginInfo();
-                    } else if(code == 1) {
-                        Toast.makeText(LoginActivity.this,"手机号码不存在",Toast.LENGTH_SHORT).show();
-                        mEtPhone.setText("");
-                    } else if(code == 2) {
-                        Toast.makeText(LoginActivity.this,"密码错误",Toast.LENGTH_SHORT).show();
-                        mEtPassword.setText("");
-                    } else if(code == 9) {
-                        Toast.makeText(LoginActivity.this,"发现异常,请稍后重试",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(LoginActivity.this,response.getString("msg"),Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -379,7 +383,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.tv_login:
-                startLogin();
                 if(TextUtils.isEmpty(mEtPhone.getText())) {
                     Toast.makeText(LoginActivity.this,"手机号码不能为空",Toast.LENGTH_SHORT).show();
                 } else if(TextUtils.isEmpty(mEtPassword.getText())) {
@@ -404,8 +407,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 login(SHARE_MEDIA.SINA);
                 break;
             case R.id.ll_weixin:
-//                login(SHARE_MEDIA.WEIXIN);
-                Toast.makeText(LoginActivity.this,"微信登录暂时未实现，过几天搞定",Toast.LENGTH_SHORT).show();
+                login(SHARE_MEDIA.WEIXIN);
+//                Toast.makeText(LoginActivity.this,"微信登录暂时未实现，过几天搞定",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ll_qq:
                 login(SHARE_MEDIA.QQ);
@@ -428,8 +431,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void onError(SocializeException e, SHARE_MEDIA platform) {
-                Toast.makeText(LoginActivity.this, "网络连接故障,请稍候再试...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
+            
 
             @Override
             public void onComplete(Bundle value, SHARE_MEDIA platform) {
@@ -445,6 +449,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void onCancel(SHARE_MEDIA platform) {
+                Toast.makeText(LoginActivity.this, "授权退出", Toast.LENGTH_SHORT).show();
             }
         });
     }

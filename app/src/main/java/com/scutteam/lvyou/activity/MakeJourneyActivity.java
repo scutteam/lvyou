@@ -6,12 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -328,7 +325,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                 for (int i = 0; i < viewSpotList.size(); i++) {
                     viewSpotStringList.add(viewSpotList.get(i).cover_pic);
                 }
-                intent.putStringArrayListExtra("viewSpotList", viewSpotStringList);
+                intent.putExtra("top_pic", top_pic);
                 intent.putExtra("long_intro", long_intro);
                 intent.putExtra("destination_id", destination_id);
                 startActivity(intent);
@@ -403,7 +400,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
 
                         Intent intent1 = new Intent();
                         intent1.setClass(MakeJourneyActivity.this, LoginActivity.class);
-                        intent1.putExtra("is_back", true);
+//                        intent1.putExtra("is_back", true); 这样就可以返回了
                         intent1.putExtra("is_request_login", true);
                         startActivityForResult(intent1, Constants.REQUEST_LOGIN);
                     }
