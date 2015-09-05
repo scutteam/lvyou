@@ -22,6 +22,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.scutteam.lvyou.R;
+import com.scutteam.lvyou.activity.SimpleHUD.PairProgressHUD;
 import com.scutteam.lvyou.adapter.ViewSpotShowAdapter;
 import com.scutteam.lvyou.application.LvYouApplication;
 import com.scutteam.lvyou.constant.Constants;
@@ -144,6 +145,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                     } else {
                         loadUi();   
                     }
+                    PairProgressHUD.dismiss();
                     break;
                 case CALCULATE_DATA_SUCCESS:
                     mTvCalculate.setVisibility(View.GONE);
@@ -179,6 +181,8 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     }
 
     private void initData() {
+        PairProgressHUD.showLoading(MakeJourneyActivity.this,"请稍候");
+        
         request_to_modify = getIntent().getBooleanExtra("request_to_modify",false);
         modifyPlace = getIntent().getStringExtra("place");
         modifyPlaceId = getIntent().getLongExtra("placeId",0L);

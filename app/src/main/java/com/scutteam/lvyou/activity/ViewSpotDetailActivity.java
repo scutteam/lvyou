@@ -70,7 +70,7 @@ public class ViewSpotDetailActivity extends Activity implements XListView.IXList
 
             switch (msg.what) {
                 case LOAD_COMMENT_SUCCESS:
-                    mTvCommentCount.setText("用户评论("+total_items+")");
+                    mTvCommentCount.setText("用户评论（"+total_items+"）");
                     initAdapter();
 
                     break;
@@ -101,6 +101,7 @@ public class ViewSpotDetailActivity extends Activity implements XListView.IXList
     public TextView mTvAddViewSpot;
     public TextView mTvType;
     public TextView mTvPlayTime;
+    public TextView tv_destination_short_intro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +137,12 @@ public class ViewSpotDetailActivity extends Activity implements XListView.IXList
         mRBDestinationStar.setRating((float)score);
         mTvDestinationScore.setText(score+"");
         mTvTotalPage.setText(viewSpotStringList.length+"");
+        if(price > 0) {
+            tv_destination_short_intro.setText(price +"元/人");
+        } else {
+            tv_destination_short_intro.setText("免费景点");
+        }
+        
 
 
         for(int i = 0 ; i < viewSpotStringList.length; i++) {
@@ -282,6 +289,7 @@ public class ViewSpotDetailActivity extends Activity implements XListView.IXList
         mTvCommentCount = (TextView) mHeadView.findViewById(R.id.tv_comment_count);
         mTvType = (TextView) mHeadView.findViewById(R.id.tv_type);
         mTvPlayTime = (TextView) mHeadView.findViewById(R.id.tv_play_time);
+        tv_destination_short_intro = (TextView) mHeadView.findViewById(R.id.tv_destination_short_intro);
 
         ViewGroup.LayoutParams params = viewPager.getLayoutParams();
         params.width = DensityUtil.getScreenWidthPx(LvYouApplication.getInstance());

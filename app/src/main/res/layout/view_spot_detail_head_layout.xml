@@ -49,11 +49,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_destination_name"
                 android:id="@+id/tv_destination_short_intro"
-                android:text="16个学生团去过"
+                android:text="免费景点"
                 android:paddingLeft="@dimen/layout_padding_small"
-                android:visibility="gone"
+                android:layout_alignParentBottom="true"
+                android:paddingBottom="5dp"
                 style="@style/text_white_normal_size_style"
                 />
             <TextView
@@ -104,8 +104,8 @@
         android:layout_width="match_parent"
         android:layout_marginLeft="@dimen/layout_margin_small"
         android:layout_marginRight="@dimen/layout_margin_small"
-        android:layout_height="@dimen/line_height"
-        android:background="@color/default_bg"
+        android:layout_height="1dp"
+        android:background="#dfdfdf"
         />
     <TextView
         android:layout_width="match_parent"
@@ -122,8 +122,8 @@
         android:layout_width="match_parent"
         android:layout_marginLeft="@dimen/layout_margin_small"
         android:layout_marginRight="@dimen/layout_margin_small"
-        android:layout_height="@dimen/line_height"
-        android:background="@color/default_bg"
+        android:layout_height="1dp"
+        android:background="#dfdfdf"
         />
     <TextView
         android:layout_width="match_parent"
@@ -139,6 +139,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="50dp"
+        android:lineSpacingExtra="7dp"
         android:paddingRight="@dimen/layout_padding_small"
         android:paddingBottom="@dimen/layout_padding_small"
         android:id="@+id/tv_intro"
@@ -147,13 +148,13 @@
         android:layout_width="match_parent"
         android:layout_marginLeft="@dimen/layout_margin_small"
         android:layout_marginRight="@dimen/layout_margin_small"
-        android:layout_height="@dimen/line_height"
-        android:background="@color/default_bg"
+        android:layout_height="1dp"
+        android:background="#dfdfdf"
         />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="用户评论(3)"
+        android:text="用户评论（3）"
         android:gravity="center_vertical"
         android:id="@+id/tv_comment_count"
         android:drawablePadding="@dimen/layout_padding_tiny"
@@ -168,6 +169,6 @@
         android:layout_marginLeft="@dimen/layout_margin_small"
         android:layout_marginRight="@dimen/layout_margin_small"
         android:layout_height="@dimen/line_height"
-        android:background="@color/default_bg"
+        android:background="#dfdfdf"
         />
 </LinearLayout>
