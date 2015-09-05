@@ -8,6 +8,7 @@ import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -70,6 +71,15 @@ public class WebViewActivity extends Activity {
         };
         tvBackIcon.setOnClickListener(listener);
         tvBackText.setOnClickListener(listener);
+        wvContent.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+                view.loadUrl(url);   //在当前的webview中跳转到新的url
+
+                return true;
+            }
+        });
     }
 
     private void showWebView() {

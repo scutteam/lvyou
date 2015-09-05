@@ -7,8 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="65dp">
         <com.scutteam.lvyou.widget.CircleImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
             android:layout_centerVertical="true"
             android:id="@+id/civ_avatar"
             android:layout_marginLeft="@dimen/layout_margin_small"
@@ -16,16 +16,17 @@
         <RatingBar
             android:id="@+id/rb_score"
             style="@style/mjRatingBar"
-            android:layout_toRightOf="@id/civ_avatar"
             android:layout_width="wrap_content"
-            android:isIndicator="true"
-            android:layout_height="30dp"
-            android:paddingTop="@dimen/layout_padding_tiny"
-            android:layout_marginLeft="@dimen/layout_margin_tiny"
-            android:layout_gravity="center_vertical"
+            android:layout_height="12dp"
+            android:layout_marginLeft="3dp"
+            android:layout_toRightOf="@id/civ_avatar"
             android:numStars="5"
-            android:rating="4"
+            android:layout_marginTop="4dp"
+            android:clickable="false"
+            android:isIndicator="true"
+            android:layout_alignTop="@+id/civ_avatar"
             />
+
         <TextView
             android:layout_toRightOf="@id/civ_avatar"
             android:layout_width="wrap_content"

@@ -20,31 +20,36 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_destination_name"
                 android:text="凤凰古城"
+                android:layout_marginLeft="12dp"
+                android:textSize="16sp"
                 android:padding="@dimen/layout_padding_small"
                 style="@style/text_white_xlarge_size_style"
+                android:layout_centerVertical="true"
                 />
+
             <RatingBar
                 android:id="@+id/rb_destination_star"
                 style="@style/mjRatingBar"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginLeft="@dimen/layout_margin_small"
-                android:layout_gravity="center_vertical"
+                android:layout_height="12dp"
+                android:layout_marginLeft="3dp"
+                android:layout_toRightOf="@+id/tv_destination_name"
                 android:numStars="5"
+                android:clickable="false"
                 android:isIndicator="true"
-                android:rating="4"
-                android:layout_toRightOf="@id/tv_destination_name"
-                android:paddingTop="@dimen/layout_padding_small"
+                android:layout_centerVertical="true"
                 />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:id="@+id/tv_destination_score"
-                android:text="3.9"
                 android:layout_toRightOf="@id/rb_destination_star"
                 android:gravity="center"
                 android:paddingLeft="@dimen/layout_padding_small"
+                android:textSize="16sp"
                 style="@style/text_white_large_size_style"
+                android:layout_centerVertical="true"
                 />
             <TextView
                 android:layout_width="wrap_content"

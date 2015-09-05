@@ -26,14 +26,14 @@
                 />
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="72dp"
+                android:layout_height="62dp"
                 android:id="@+id/ll_top_layout"
                 android:layout_alignBottom="@+id/mj_image"
                 android:orientation="horizontal"
                 >
                 <LinearLayout
                     android:layout_width="0dip"
-                    android:layout_height="72dp"
+                    android:layout_height="62dp"
                     android:orientation="vertical"
                     android:layout_weight="1">
                     <LinearLayout
@@ -47,14 +47,14 @@
                             android:gravity="left|center_vertical"
                             android:textColor="@color/white"
                             android:layout_marginLeft="12dp"
-                            android:textSize="24sp"
-                            android:textStyle="bold"
+                            android:textSize="16sp"
+                            android:text="华南皇家理工大学"
                             />
                         <RatingBar
                             android:id="@+id/mj_destination_star"
                             style="@style/mjRatingBar"
                             android:layout_width="wrap_content"
-                            android:layout_height="24dp"
+                            android:layout_height="12sp"
                             android:layout_marginLeft="3dp"
                             android:layout_gravity="center_vertical"
                             android:numStars="5"
@@ -67,7 +67,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:layout_marginLeft="3dp"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:textColor="@color/white"
                             android:gravity="left|center_vertical"/>
 
@@ -76,11 +76,12 @@
                     <TextView
                         android:id="@+id/mj_destination_describe"
                         android:layout_width="match_parent"
-                        android:layout_height="36dp"
-                        android:gravity="left|center_vertical"
+                        android:layout_height="26dp"
+                        android:gravity="left|top"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:textSize="18sp"
+                        android:textSize="12sp"
+                        android:text="这是一个部分江苏恐怖腐败吧福布斯发布 i 素吧 佛塑把 vui 不认识非比如说奔赴人生吧"
                         android:layout_marginLeft="12dp"
                         android:textColor="@color/white"
                         />
@@ -106,7 +107,7 @@
                 android:clickable="true"
                 android:background="@drawable/selector_mj_tv"
                 android:gravity="center"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 />
 
             <LinearLayout
@@ -139,7 +140,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:layout_weight="1"
-                    android:textSize="16sp"/>
+                    android:textSize="14sp"/>
                 <TextView
                     android:layout_width="1dp"
                     android:layout_height="32dp"
@@ -173,7 +174,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="出发日期"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:gravity="center"
                     android:textColor="@color/image_color"
                     android:clickable="true"
@@ -189,7 +190,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="返程日期"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textColor="@color/image_color"
                     android:gravity="center"
                     android:clickable="true"
@@ -224,7 +225,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="包餐"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:gravity="center"
                         android:textColor="@color/main_text_color"
                         />
@@ -237,7 +238,7 @@
                         android:layout_width="0dip"
                         android:layout_height="match_parent"
                         android:layout_weight="5"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:gravity="left|center_vertical"
                         android:layout_marginLeft="20dp"
                         />
@@ -261,7 +262,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="交通"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:gravity="center"
                         android:textColor="@color/main_text_color"
                         />
@@ -274,7 +275,7 @@
                         android:layout_width="0dip"
                         android:layout_height="match_parent"
                         android:layout_weight="5"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:gravity="left|center_vertical"
                         android:layout_marginLeft="20dp"
                         />
@@ -299,7 +300,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="导游"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:gravity="center"
                         android:textColor="@color/main_text_color"
                         />
@@ -312,7 +313,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="5"
                         android:id="@+id/tv_guide"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:gravity="left|center_vertical"
                         android:layout_marginLeft="20dp"
                         />
@@ -338,7 +339,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="保险"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:gravity="center"
                         android:textColor="@color/main_text_color"
                         />
@@ -352,7 +353,7 @@
                         android:layout_weight="5"
                         android:layout_gravity="center"
                         android:id="@+id/tv_insurance"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:gravity="left|center_vertical"
                         android:layout_marginLeft="20dp"
                         />
@@ -386,7 +387,7 @@
                         android:gravity="center"
                         android:text="请选住宿"
                         android:textColor="@color/main_text_color"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
                     <TextView
                         android:layout_width="56dp"
                         android:layout_height="56dp"
@@ -405,7 +406,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textColor="@color/main_text_color"
                         android:text="住宿"/>
                     <TextView
@@ -470,7 +471,7 @@
                     android:gravity="center"
                     android:textColor="@color/main_text_color"
                     android:text="请选择游玩项目"
-                    android:textSize="16sp"/>
+                    android:textSize="14sp"/>
                 <TextView
                     android:layout_width="56dp"
                     android:layout_height="56dp"

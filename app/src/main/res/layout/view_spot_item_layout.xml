@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:id="@+id/iv_background"
-            android:src="@mipmap/default_icon"
+            android:src="@mipmap/default_icon_new"
             android:scaleType="centerCrop"
             />
         <TextView
@@ -31,28 +31,32 @@
             android:src="@mipmap/select_hotel_icon"
             android:background="@drawable/hotel_item_layout_unselected"
             />
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_alignBottom="@id/iv_background"
-            android:layout_height="wrap_content">
+            android:orientation="vertical"
+            android:layout_height="64dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="36dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_name"
                 android:textColor="@color/white"
-                android:padding="@dimen/layout_padding_tiny"
+                android:paddingLeft="10dp"
                 android:text="经济型酒店"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 />
             <RatingBar
                 android:id="@+id/rb_score"
                 style="@style/mjRatingBar"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="12dp"
                 android:layout_gravity="center_vertical"
                 android:numStars="5"
                 android:max="5"
-                android:paddingTop="@dimen/layout_padding_tiny"
                 android:layout_toRightOf="@id/tv_name"
                 android:rating="4"
                 android:isIndicator="true"
@@ -63,21 +67,21 @@
                 android:layout_toRightOf="@id/rb_score"
                 android:id="@+id/tv_score"
                 android:text="3.9"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/white"
-                android:padding="@dimen/layout_padding_tiny"
                 />
+            </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="28dp"
                 android:layout_below="@id/tv_name"
                 android:textColor="@color/white"
                 android:id="@+id/tv_price"
-                android:textSize="16sp"
-                android:paddingBottom="@dimen/layout_padding_small"
-                android:paddingLeft="@dimen/layout_padding_small"
-                android:paddingRight="@dimen/layout_padding_small"
+                android:textSize="14sp"
+                android:text="babcuiebdcvbsdb"
+                android:paddingLeft="10dp"
+                android:gravity="top"
                 />
-        </RelativeLayout>
+        </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

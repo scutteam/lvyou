@@ -1,110 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
-    android:paddingTop="15dp"
-    android:layout_height="wrap_content">
-    
+    android:paddingTop="15dp">
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="@drawable/hotel_item_background"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/hotel_item_background">
+
         <ImageView
+            android:id="@+id/iv_background"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:id="@+id/iv_background"
-            android:src="@mipmap/default_icon"
             android:scaleType="centerCrop"
-            />
+            android:src="@mipmap/default_icon_new" />
+
         <TextView
             android:id="@+id/tv_shade"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:alpha="0.5"
-            android:background="@color/darkGray"/>
+            android:background="@color/darkGray" />
 
         <ImageView
+            android:id="@+id/iv_is_select"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:id="@+id/iv_is_select"
             android:layout_alignParentRight="true"
-            android:src="@mipmap/select_hotel_icon"
             android:background="@drawable/hotel_item_layout_unselected"
-            />
+            android:src="@mipmap/select_hotel_icon" />
+
         <TextView
+            android:id="@+id/tv_intro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/iv_background"
-            android:paddingTop="@dimen/layout_padding_small"
+            android:background="@color/white"
             android:paddingBottom="@dimen/layout_padding_small"
             android:paddingLeft="@dimen/layout_padding_normal"
             android:paddingRight="@dimen/layout_padding_normal"
+            android:paddingTop="@dimen/layout_padding_small"
             android:text="hsakdhajhdhsajdjsahjdhsajhdkahskjdjasjdlkhsaklhk"
-            android:background="@color/white"
-            android:textSize="16sp"
-            android:id="@+id/tv_intro"
-            />
-        <RelativeLayout
+            android:textSize="13sp" />
+
+        <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="64dp"
             android:layout_alignBottom="@id/iv_background"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_name"
-                android:textColor="@color/white"
-                android:padding="10dp"
-                android:text="经济型酒店"
-                android:textSize="18sp"
-                />
-            <RatingBar
-                android:id="@+id/rb_score"
-                style="@style/mjRatingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_gravity="center_vertical"
-                android:numStars="5"
-                android:max="5"
-                android:paddingTop="@dimen/layout_padding_tiny"
-                android:layout_toRightOf="@id/tv_name"
-                android:rating="4"
-                android:isIndicator="true"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/rb_score"
-                android:id="@+id/tv_score"
-                android:text="3.9"
-                android:textSize="14sp"
-                android:textColor="@color/white"
-                android:padding="@dimen/layout_padding_tiny"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_name"
-                android:text="成交价"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:id="@+id/tv_money"
-                android:paddingBottom="@dimen/layout_padding_small"
-                android:paddingLeft="10dp"
-                android:paddingRight="@dimen/layout_padding_small"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_name"
-                android:textColor="@color/white"
-                android:id="@+id/tv_price"
-                android:textSize="16sp"
-                android:layout_toRightOf="@id/tv_money"
-                android:paddingBottom="@dimen/layout_padding_small"
-                android:paddingLeft="@dimen/layout_padding_small"
-                android:paddingRight="@dimen/layout_padding_small"
-                />
-        </RelativeLayout>
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="经济型酒店"
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="16sp" />
+
+                <RatingBar
+                    android:id="@+id/rb_score"
+                    style="@style/mjRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="12dp"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toRightOf="@id/tv_name"
+                    android:isIndicator="true"
+                    android:max="5"
+                    android:numStars="5"
+                    android:rating="4" />
+
+                <TextView
+                    android:id="@+id/tv_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/rb_score"
+                    android:text="3.9"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="top"
+                android:layout_height="28dp">
+
+                <TextView
+                    android:id="@+id/tv_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_name"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="@dimen/layout_padding_small"
+                    android:text="成交价"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_name"
+                    android:layout_toRightOf="@id/tv_money"
+                    android:paddingLeft="@dimen/layout_padding_small"
+                    android:paddingRight="@dimen/layout_padding_small"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>
