@@ -25,6 +25,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.scutteam.lvyou.R;
 import com.scutteam.lvyou.activity.MakeJourneyActivity;
+import com.scutteam.lvyou.activity.SimpleHUD.PairProgressHUD;
 import com.scutteam.lvyou.adapter.MainFragmentItemAdapter;
 import com.scutteam.lvyou.application.LvYouApplication;
 import com.scutteam.lvyou.constant.Constants;
@@ -71,6 +72,7 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
                     setViewPagerUI();
                     //viewPager数据加载完毕,加到listview的headView中
                     mListView.addHeaderView(mHeaderView);
+                    PairProgressHUD.dismiss();
                     break;
                 case LOAD_LIST_VIEW_DATA_SUCCESS:
                     if (adapter == null) {
@@ -203,6 +205,7 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
         mViewPager.setLayoutParams(param);
         mLlViewPagerLayout = (LinearLayout) mHeaderView.findViewById(R.id.ll_view_pager_layout);
 
+        PairProgressHUD.showLoading(getActivity(),"请稍等");
         initViewPagerData();
         initListViewData();
     }

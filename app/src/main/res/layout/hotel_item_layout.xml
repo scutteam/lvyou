@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_name"
                 android:textColor="@color/white"
-                android:padding="@dimen/layout_padding_tiny"
+                android:padding="10dp"
                 android:text="经济型酒店"
                 android:textSize="18sp"
                 />
@@ -77,7 +77,7 @@
                 android:layout_toRightOf="@id/rb_score"
                 android:id="@+id/tv_score"
                 android:text="3.9"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:textColor="@color/white"
                 android:padding="@dimen/layout_padding_tiny"
                 />
@@ -90,7 +90,7 @@
                 android:textSize="16sp"
                 android:id="@+id/tv_money"
                 android:paddingBottom="@dimen/layout_padding_small"
-                android:paddingLeft="@dimen/layout_margin_tiny"
+                android:paddingLeft="10dp"
                 android:paddingRight="@dimen/layout_padding_small"
                 />
             <TextView
