@@ -29,8 +29,8 @@ public class Comment extends Model {
     @Column(name = "total_comment")
     public String total_comment;
 
-    @Column(name = "create_time")
-    public String create_time;
+    @Column(name = "comment_date")
+    public String comment_date;
 
     public static List<Comment> insertWithArray(JSONArray dataArray) {
         try {
@@ -64,8 +64,8 @@ public class Comment extends Model {
             if(dataObject.has("totalComment")) {
                 comment.total_comment = dataObject.optString("totalComment");
             }
-            if(dataObject.has("createTime")) {
-                comment.create_time = dataObject.optString("createTime");
+            if(dataObject.has("commentDate")) {
+                comment.comment_date = dataObject.optString("commentDate");
             }
             
             return comment;

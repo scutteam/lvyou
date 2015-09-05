@@ -25,6 +25,22 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <!-- Dialog -->
+    <style name="SimpleHUD" parent="@android:style/Theme.Dialog">
+        <!-- 边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <!-- 背景 -->
+        <item name="android:windowBackground">@drawable/simplehud_bg</item>
+        <!-- 无标题 -->
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <style name="text_bold_black_normal_size_style" parent="Theme.AppTheme.TextAppearance">
         <item name="android:textSize">@dimen/text_size_normal</item>
         <item name="android:textStyle">bold</item>

@@ -77,7 +77,7 @@
         <data android:scheme="tencent1104819796" />
 
         <activity
-            android:name=".umeng.wxapi.WXEntryActivity"
+            android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"

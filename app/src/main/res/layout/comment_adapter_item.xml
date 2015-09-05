@@ -29,10 +29,10 @@
             android:layout_toRightOf="@id/civ_avatar"
             android:layout_width="wrap_content"
             android:layout_below="@id/rb_score"
-            android:layout_marginTop="@dimen/layout_padding_small"
+            android:layout_marginTop="@dimen/layout_margin_tiny"
             android:id="@+id/tv_name"
-            android:maxLength="20"
-            android:ellipsize="end"
+            android:singleLine="true"
+            android:maxLength="25"
             android:layout_marginLeft="@dimen/layout_margin_tiny"
             android:layout_height="wrap_content" />
         <TextView
@@ -41,6 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_time"
+            android:singleLine="true"
             android:layout_marginTop="@dimen/layout_margin_tiny"
             android:paddingLeft="@dimen/layout_padding_large"
             />

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,9 +23,14 @@ import com.scutteam.lvyou.constant.Constants;
 import com.scutteam.lvyou.dialog.DialogListener;
 import com.scutteam.lvyou.dialog.SubmitJourneyPlanDialog;
 import com.scutteam.lvyou.model.PlanDetail;
+import com.scutteam.lvyou.model.ViewSpot;
 
 import org.apache.http.Header;
 import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyJourneyActivity extends Activity{
 
@@ -68,10 +75,31 @@ public class MyJourneyActivity extends Activity{
     private final int color5 = R.color.secondary_text_color;
 
     private boolean isFirstIn = true;
+    private long hotelId;
     private String planLogicId;
     private PlanDetail planDetail;
     private boolean needRefresh = false;
     private long destId = 0L;
+    private long placeId = 0L;
+    private String contactName;
+    private String contactTel;
+    private String startDate;
+    private String endDate;
+    private List<ViewSpot> viewSpotList = new ArrayList<ViewSpot>();
+    
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            
+            switch (msg.what) {
+                case GET_VIEW_SPOT_DATA_SUCCESS:
+                    startModifyJourney();
+                    break;
+            }
+        }
+    };
+    private static final int GET_VIEW_SPOT_DATA_SUCCESS = 888;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -316,18 +344,62 @@ public class MyJourneyActivity extends Activity{
     private View.OnClickListener modifyJourneyPlanListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-//            Intent intent = new Intent();
-//            intent.setClass(MyJourneyActivity.this,MakeJourneyActivity.class);
-//            intent.putExtra("destination_id",destId);
-//            intent.putExtra("place",planDetail.place);
-//            intent.putExtra("peopleNum",planDetail.member_num);
-//            intent.putExtra("request_to_modify",true);
-//            intent.putExtra("startDate",planDetail.start_date);
-//            intent.putExtra("endDate",planDetail.end_date);
-//            intent.putExtra("hotel",planDetail.hotel_name);
-//            startActivity(intent);
+            AsyncHttpClient client = new AsyncHttpClient();
+            RequestParams params = new RequestParams();
+            params.put("id",planLogicId);
+            client.get(MyJourneyActivity.this,Constants.URL + "user/trip.edit.json",params,new JsonHttpResponseHandler() {
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    super.onSuccess(statusCode, headers, response);
+
+                    try {
+                        
+                        int code = response.getInt("code");
+                        if(code == 0) {
+                            JSONObject dataObject = response.getJSONObject("data");
+                            hotelId = dataObject.optLong("hotelId");
+                            placeId = dataObject.optLong("placeId");
+                            contactName = dataObject.optString("contactName");
+                            contactTel = dataObject.optString("contactTel");
+                            startDate = dataObject.optString("startDate");
+                            endDate = dataObject.optString("endDate");
+                            viewSpotList = ViewSpot.insertWithArray(dataObject.getJSONArray("viewspotList"));
+                            
+                            handler.sendEmptyMessage(GET_VIEW_SPOT_DATA_SUCCESS);
+                        }
+                        
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    super.onFailure(statusCode, headers, responseString, throwable);
+                }
+            });
         }
     };
+    
+    public void startModifyJourney() {
+            Intent intent = new Intent();
+            intent.setClass(MyJourneyActivity.this,MakeJourneyActivity.class);
+            intent.putExtra("destination_id", destId);
+            intent.putExtra("place",planDetail.place);
+            intent.putExtra("peopleNum",planDetail.member_num);
+            intent.putExtra("request_to_modify",true);
+            intent.putExtra("startDate",startDate);
+            intent.putExtra("endDate",endDate);
+            intent.putExtra("hotel",planDetail.hotel_name);
+            intent.putExtra("hotelId",hotelId);
+            intent.putExtra("placeId",placeId);
+            intent.putExtra("contactName",contactName);
+            intent.putExtra("contactTel",contactTel);
+            intent.putExtra("view_spot_list",(Serializable)viewSpotList);
+            intent.putExtra("planId",planLogicId);
+            startActivity(intent);
+    }
 
     private View.OnClickListener watchJourneyPlanListener = new View.OnClickListener() {
         @Override

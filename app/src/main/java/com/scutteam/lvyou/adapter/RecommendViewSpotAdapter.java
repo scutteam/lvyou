@@ -8,7 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.scutteam.lvyou.R;
+import com.scutteam.lvyou.constant.Constants;
 import com.scutteam.lvyou.interfaces.RecommendViewSpotItemListener;
 import com.scutteam.lvyou.model.Recommendtrip;
 
@@ -24,6 +26,7 @@ public class RecommendViewSpotAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private RecommendViewSpotItemListener listener;
+    public String top_pic;
     
     public void setListener(RecommendViewSpotItemListener listener) {
         this.listener = listener;
@@ -70,9 +73,10 @@ public class RecommendViewSpotAdapter extends BaseAdapter {
         viewHolder.mTvSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.recommendViewSpotItemClick(trip);
+            listener.recommendViewSpotItemClick(trip);
             }
         });
+        ImageLoader.getInstance().displayImage(Constants.IMAGE_URL + top_pic.split(";")[0],viewHolder.mIvBackground);
         return convertView;
     }
 

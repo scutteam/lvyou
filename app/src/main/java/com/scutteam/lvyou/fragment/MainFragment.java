@@ -359,7 +359,7 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
 
                     listener.onThemeItenClick(theme);
                 } else if (new_position >= themeList.size()) {
-                    int dest_position = new_position - 2;
+                    int dest_position = new_position - themeList.size();
 
                     Intent intent = new Intent();
                     intent.putExtra("destination_id", destList.get(dest_position).dest_id);

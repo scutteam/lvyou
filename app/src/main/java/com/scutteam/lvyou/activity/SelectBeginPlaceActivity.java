@@ -119,13 +119,13 @@ public class SelectBeginPlaceActivity extends Activity {
         });
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(mContext, Constants.URL + "main/place.gz_hot.json",
+        client.get(mContext, Constants.URL + "main/place.gz_list.json",
                 new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 if(0 == response.optInt("code")){
-                    JSONArray datas = response.optJSONObject("data").optJSONArray("placeList");
+                    JSONArray datas = response.optJSONArray("data");
                     for(int i = 0; i < datas.length(); i++){
                         try {
                             String showText = null;

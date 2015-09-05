@@ -107,6 +107,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     private static final int REFRESH_DATA_SUCCESS = 666666;
     private static final int CALCULATE_DATA_SUCCESS = 666667;
     private static final int LOAD_RECOMMEND_DATA_SUCCESS = 666668;
+    private static final int CALCULATE_DATA_AND_READY_TO_SUBMIT = 666669;
 
     private LinearLayout mj_play_item;
 
@@ -119,8 +120,12 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     public TextView mj_play_item_nums;
     private String begin_place;
     private long begin_place_id;
+    private String contactName;
+    private String contactTel;
+    private String planId;
 
     private int playDay;
+    private boolean request_to_modify = false;
 
     public ArrayList<ViewSpot> recommendViewSpotList = new ArrayList<ViewSpot>();
 
@@ -133,7 +138,11 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
 
             switch (msg.what) {
                 case REFRESH_DATA_SUCCESS:
-                    refreshUi();
+                    if(!request_to_modify) {
+                        refreshUi();    
+                    } else {
+                        loadUi();   
+                    }
                     break;
                 case CALCULATE_DATA_SUCCESS:
                     mTvCalculate.setVisibility(View.GONE);
@@ -143,9 +152,20 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                 case LOAD_RECOMMEND_DATA_SUCCESS:
                     refreshSelectRecommendUI();
                     break;
+                case CALCULATE_DATA_AND_READY_TO_SUBMIT:
+                    submitJourney();
+                    break;
             }
         }
     };
+    private String modifyPlace;
+    private int modifyPeopleNum;
+    private String modifyStartDate;
+    private String modifyEndDate;
+    private String modifyHotel;
+    private long modifyHotelId;
+    private long modifyPlaceId;
+    private List<ViewSpot>modifyViewSpotList = new ArrayList<ViewSpot>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,6 +178,19 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     }
 
     private void initData() {
+        request_to_modify = getIntent().getBooleanExtra("request_to_modify",false);
+        modifyPlace = getIntent().getStringExtra("place");
+        modifyPlaceId = getIntent().getLongExtra("placeId",0L);
+        modifyPeopleNum = getIntent().getIntExtra("peopleNum", minNum);
+        modifyStartDate = getIntent().getStringExtra("startDate");
+        modifyEndDate = getIntent().getStringExtra("endDate");
+        modifyHotel = getIntent().getStringExtra("hotel");
+        modifyHotelId = getIntent().getLongExtra("hotelId", 0L);
+        contactName = getIntent().getStringExtra("contactName");
+        contactTel = getIntent().getStringExtra("contactTel");
+        planId = getIntent().getStringExtra("planId");
+        modifyViewSpotList = (List<ViewSpot>) getIntent().getSerializableExtra("view_spot_list");
+        
         destination_id = getIntent().getLongExtra("destination_id", 0L);
 
         AsyncHttpClient client = new AsyncHttpClient();
@@ -248,6 +281,75 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         destinationImage.setLayoutParams(params);
 
         mj_plat_item_list = (ListView) findViewById(R.id.mj_plat_item_list);
+    }
+    
+    public void loadUi() {
+        String[] TopPicStringList = top_pic.split(";");
+        if (TopPicStringList != null && TopPicStringList.length > 0) {
+            ImageLoader.getInstance().displayImage(Constants.IMAGE_URL + TopPicStringList[0], destinationImage);
+        }
+        
+        //出发地方
+        begin_place = modifyPlace;
+        begin_place_id = modifyPlaceId;
+        if (null != begin_place) {
+            selectBeginPlace.setText(begin_place);
+        }
+        //上面的ui
+        destinationName.setText(title);
+        destinationStar.setRating(Float.parseFloat(score.toString()));
+        destinationRatingNum.setText(score.toString());
+        destinationDetail.setText(short_intro);
+        //人员
+        memberNums = modifyPeopleNum;
+        showMemberNums.setText(modifyPeopleNum + "人成团");
+        //出发日期 返程日期
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        String modifyStartDateString = sdf.format(new Date(Long.parseLong(modifyStartDate)));
+        String modifyEndDateString = sdf.format(new Date(Long.parseLong(modifyEndDate)));
+        String [] startDateArray = modifyStartDateString.split("-");
+        tvBeginDay.setText(startDateArray[0] + "年" + getTrueMonthOrDay(startDateArray[1]) + "月" + getTrueMonthOrDay(startDateArray[2]) + "日");
+        String [] endDateArray = modifyEndDateString.split("-");
+        tvReturnDay.setText(endDateArray[0] + "年" + getTrueMonthOrDay(endDateArray[1]) + "月" + getTrueMonthOrDay(endDateArray[2]) + "日");
+        startDate = modifyStartDateString;
+        endDate = modifyEndDateString;
+        
+        //更新包餐(yes) 交通 导游(yes) 保险(yes)
+        mj_detail_food.setText(mealList.get(0).intro);
+        mTvGuide.setText(guideList.get(0).level_name);
+        mTvInsurance.setText(insuranceList.get(0).insurance_type + "\n" + insuranceList.get(1).insurance_type);
+        mj_detail_transport.setText(vehicleList.get(0).vehicle_name);
+        
+        //酒店
+        for (int i = 0; i < hotelList.size(); i++) {
+            hotelList.get(i).is_select = 0;
+        }
+        if (modifyHotelId != 0L) {
+            for (int i = 0; i < hotelList.size(); i++) {
+                if (hotelList.get(i).hotel_id == modifyHotelId) {
+                    refreshHotelUI(hotelList.get(i));
+                    break;
+                }
+            }
+        } else {
+            refreshHotelUI();//真正没走过这里
+        }
+
+        for(int i = 0 ; i < modifyViewSpotList.size(); i++) {
+            for(int j = 0 ; j < viewSpotList.size(); j++) {
+                long view_spot_id = viewSpotList.get(j).view_spot_id;
+                if(modifyViewSpotList.get(i).view_spot_id == view_spot_id) {
+                    viewSpotList.get(j).is_select = 1;
+                    viewSpotSelectedList.add(viewSpotList.get(j));
+                }
+            }
+        }
+
+        refreshViewSpotUI();
+    }
+    
+    public String getTrueMonthOrDay(String string) {
+        return (Integer.parseInt(string) >= 10) ? string : string.substring(1,2);
     }
 
     public void refreshUi() {
@@ -375,6 +477,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                 intent.putExtra("selectedViewSpot", (Serializable) viewSpotSelectedList);
                 intent.putExtra("viewSpot", (Serializable) viewSpotList);
                 intent.putExtra("id", destination_id);
+                intent.putExtra("top_pic",top_pic);
                 intent.setClass(MakeJourneyActivity.this, ViewSpotActivity.class);
                 startActivityForResult(intent, Constants.REQUEST_SELECT_VIEW_SPOT);
                 break;
@@ -402,13 +505,16 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                     Toast.makeText(MakeJourneyActivity.this, "未选择游玩项目", Toast.LENGTH_SHORT).show();
                 } else {
                     if (LvYouApplication.getSessionId() != null) {
-                        submitJourney();
+                        if(average_price > 0) {
+                            submitJourney();
+                        } else {
+                            calculatePriceAndSubmitJourney();
+                        }
                     } else {
                         Toast.makeText(MakeJourneyActivity.this, "未登录,正在跳转至登录界面", Toast.LENGTH_SHORT).show();
 
                         Intent intent1 = new Intent();
                         intent1.setClass(MakeJourneyActivity.this, LoginActivity.class);
-//                        intent1.putExtra("is_back", true); 这样就可以返回了
                         intent1.putExtra("is_request_login", true);
                         startActivityForResult(intent1, Constants.REQUEST_LOGIN);
                     }
@@ -418,7 +524,6 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                 break;
         }
     }
-
 
     public void submitJourney() {
         AsyncHttpClient client = new AsyncHttpClient();
@@ -438,6 +543,9 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         params.put("plan.startDate", startDate);
         params.put("plan.endDate", endDate);
         params.put("plan.unitPrice", average_price);
+        if(request_to_modify) {
+            params.put("plan.id", planId);
+        }
         String view_spot_string = "";
         for (int i = 0; i < viewSpotSelectedList.size(); i++) {
             if (i == viewSpotSelectedList.size() - 1) {
@@ -617,9 +725,57 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                 refreshViewSpotUI();
                 break;
             case Constants.RESULT_LOGIN:
-                submitJourney();
+                calculatePriceAndSubmitJourney();
                 break;
         }
+    }
+    
+    public void calculatePriceAndSubmitJourney() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("total.placeId", begin_place_id);
+        params.put("total.destId", destination_id);
+        params.put("total.hotelId", selectedHotel.hotel_id);
+        params.put("total.guideId", guideList.get(0).guide_id);
+        params.put("total.mealId", mealList.get(0).meal_id);
+        params.put("total.vehicleId", vehicleList.get(0).vehicle_id);
+        params.put("total.peopleNum", memberNums);
+        params.put("total.startDate", startDate);
+        params.put("total.endDate", endDate);
+        String view_spot_string = "";
+        for (int i = 0; i < viewSpotSelectedList.size(); i++) {
+            if (i == viewSpotSelectedList.size() - 1) {
+                view_spot_string += viewSpotSelectedList.get(i).view_spot_id;
+            } else {
+                view_spot_string += viewSpotSelectedList.get(i).view_spot_id + ",";
+            }
+        }
+        params.put("total.vsIds", view_spot_string);
+
+        client.post(MakeJourneyActivity.this, Constants.URL + "main/dest.total_price.do", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                try {
+                    int code = response.getInt("code");
+                    if (code == 0) {
+                        average_price = response.getDouble("data");
+
+                        handler.sendEmptyMessage(CALCULATE_DATA_AND_READY_TO_SUBMIT);
+                    } else {
+                        Toast.makeText(MakeJourneyActivity.this, response.getString("msg"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
     }
 
     public void getRecommendViewSpotData(Long trip_id) {

@@ -1,6 +1,7 @@
 package com.scutteam.lvyou.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,9 +15,11 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.scutteam.lvyou.R;
 import com.scutteam.lvyou.adapter.RecommendViewSpotDetailAdapter;
 import com.scutteam.lvyou.constant.Constants;
+import com.scutteam.lvyou.dialog.SelectRecommendAlertDialog;
 import com.scutteam.lvyou.model.Recommendtrip;
 import com.scutteam.lvyou.model.ViewSpot;
 
@@ -24,6 +27,7 @@ import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,10 +40,14 @@ public class RecommendViewSpotDetailActivity extends Activity implements View.On
     private List<ViewSpot> viewSpotList = new ArrayList<ViewSpot>();
     private RecommendViewSpotDetailAdapter adapter;
     private View mHeadView;
+    private String top_pic;
     
     private TextView tv_dest;
+    private TextView tv_select;
     private TextView tv_dest_title;
     private TextView tv_play_num;
+    private ImageView iv_background;
+    private SelectRecommendAlertDialog dialog;
     
     private Handler handler = new Handler() {
         @Override
@@ -68,6 +76,7 @@ public class RecommendViewSpotDetailActivity extends Activity implements View.On
     }
     
     public void initData() {
+        top_pic = getIntent().getStringExtra("top_pic");
         recommendtrip = (Recommendtrip) getIntent().getSerializableExtra("RecommendTrip");
     }
     
@@ -84,12 +93,39 @@ public class RecommendViewSpotDetailActivity extends Activity implements View.On
         tv_dest = (TextView) mHeadView.findViewById(R.id.tv_dest);
         tv_dest_title = (TextView) mHeadView.findViewById(R.id.tv_dest_title);
         tv_play_num = (TextView) mHeadView.findViewById(R.id.tv_play_num);
+        iv_background = (ImageView) mHeadView.findViewById(R.id.iv_background);
+        tv_select = (TextView) mHeadView.findViewById(R.id.tv_select);
 
+        ImageLoader.getInstance().displayImage(Constants.IMAGE_URL + top_pic.split(";")[0],iv_background);
         tv_dest.setText(recommendtrip.dest);
         tv_dest_title.setText(recommendtrip.trip_title);
         tv_play_num.setText(recommendtrip.play_num + "个游玩项目");
         
         listView.addHeaderView(mHeadView);
+
+        tv_select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog = new SelectRecommendAlertDialog(RecommendViewSpotDetailActivity.this,R.style.TransparentDialog);
+                dialog.show();
+                dialog.mTvYes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        Intent intent = new Intent();
+                        intent.putExtra("trip",(Serializable)recommendtrip);
+                        setResult(Constants.RESULT_GET_RECOMMENT_DETAIL,intent);
+                        finish();
+                    }
+                });
+                dialog.mTvNo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
     }
     
     public void initAdapter() {

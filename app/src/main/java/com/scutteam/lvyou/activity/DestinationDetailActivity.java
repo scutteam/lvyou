@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -173,7 +174,7 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
         mTvCommentCount = (TextView) mHeadView.findViewById(R.id.tv_comment_count);
 
         listView.addHeaderView(mHeadView);
-        mTvIntro.setText(long_intro);
+        mTvIntro.setText(Html.fromHtml(long_intro));
         if (null != destination) {
             mTvTitle.setText(destination.title);
             mTvDestinationName.setText(destination.title);

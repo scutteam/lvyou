@@ -123,30 +123,32 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         } else {
             mIvArrowRight.setVisibility(View.GONE);
         }
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Intent intent = getIntent();
-        if(null != intent) {
-            int destinationFragment = intent.getIntExtra("destination_fragment", FRAGMENT_MAIN);
-            if(null != mDrawerLayout){
-                if(destinationFragment == FRAGMENT_PLAN){
-                    mDrawerLayout.closeDrawer(Gravity.LEFT);
-                    String sessionid = LvYouApplication.getSessionId();
-                    if(sessionid!=null && sessionid.length() > 0) {
-                        setTitle("我的行程");
-                        switchFragment(FRAGMENT_PLAN);
-                    } else {
-                        intent = new Intent();
-                        intent.setClass(MainActivity.this,LoginActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.push_left_in,R.anim.push_right_out);
-                    }
-                }
-            }
+//        Intent intent = getIntent();
+//        if(null != intent) {
+//            int destinationFragment = intent.getIntExtra("destination_fragment", FRAGMENT_MAIN);
+//            if(null != mDrawerLayout){
+//                if(destinationFragment == FRAGMENT_PLAN){
+//                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+//                    String sessionid = LvYouApplication.getSessionId();
+//                    if(sessionid!=null && sessionid.length() > 0) {
+//                        setTitle("我的行程");
+//                        switchFragment(FRAGMENT_PLAN);
+//                    } else {
+//                        intent = new Intent();
+//                        intent.setClass(MainActivity.this,LoginActivity.class);
+//                        startActivity(intent);
+//                        overridePendingTransition(R.anim.push_left_in,R.anim.push_right_out);
+//                    }
+//                }
+//            }
+//        }
+        int destionationFragment = getIntent().getIntExtra("destination_fragment",FRAGMENT_MAIN);
+        if(destionationFragment == FRAGMENT_PLAN) {
+            setTitle("我的行程");
+            switchFragment(FRAGMENT_PLAN);
         }
+        
     }
 
     @Override
@@ -224,7 +226,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         switch (state) {
             case FRAGMENT_MAIN:
                 transaction = fragmentManager.beginTransaction();
-                transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_right_out);
+                transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_left_out);
                 transaction.replace(R.id.content,mainFragment);
                 transaction.commit();
 
@@ -248,7 +250,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     destinationFragment = new DestinationFragment();
                 }
                 transaction = fragmentManager.beginTransaction();
-                transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_right_out);
+                transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_left_out);
                 transaction.replace(R.id.content,destinationFragment);
                 transaction.commit();
 
@@ -258,7 +260,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 //先判断用户是否登录
                 MyPlanFragment myPlanFragment = new MyPlanFragment();
                 transaction = fragmentManager.beginTransaction();
-                transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_right_out);
+                transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_left_out);
                 transaction.replace(R.id.content,myPlanFragment);
                 transaction.commit();
 
@@ -277,7 +279,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             case FRAGMENT_ABOUT_APP:
                 aboutAppFragment = AboutAppFragment.getInstance();
                 transaction = fragmentManager.beginTransaction();
-                transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_right_out);
+                transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_left_out);
                 transaction.replace(R.id.content,aboutAppFragment);
                 transaction.commit();
 
@@ -286,7 +288,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             case FRAGMENT_ABOUT_INSURANCE:
                 aboutInsuranceFragment = AboutInsuranceFragment.getInstance();
                 transaction = fragmentManager.beginTransaction();
-                transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_right_out);
+                transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_left_out);
                 transaction.replace(R.id.content,aboutInsuranceFragment);
                 transaction.commit();
 

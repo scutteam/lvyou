@@ -13,7 +13,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_alignBottom="@id/viewPager"
-            android:layout_height="70dp">
+            android:layout_height="50dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -44,16 +44,6 @@
                 android:gravity="center"
                 android:paddingLeft="@dimen/layout_padding_small"
                 style="@style/text_white_large_size_style"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_destination_name"
-                android:id="@+id/tv_destination_short_intro"
-                android:text="16个学生团去过"
-                android:paddingLeft="@dimen/layout_padding_small"
-                android:visibility="gone"
-                style="@style/text_white_normal_size_style"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -91,7 +81,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="概述:"
+        android:text="概述："
         android:gravity="center_vertical"
         android:drawablePadding="@dimen/layout_padding_tiny"
         android:textSize="15sp"

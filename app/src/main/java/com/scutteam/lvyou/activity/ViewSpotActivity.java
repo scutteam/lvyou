@@ -41,6 +41,7 @@ public class ViewSpotActivity extends FragmentActivity implements View.OnClickLi
     private ImageView mIvSelected;
     private ImageView mIvRecommend;
     private Long destination_id;
+    private String top_pic;
     
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
     
@@ -60,6 +61,7 @@ public class ViewSpotActivity extends FragmentActivity implements View.OnClickLi
         selectedViewSpotList = (ArrayList<ViewSpot>) getIntent().getSerializableExtra("selectedViewSpot");
         viewSpotList = (ArrayList<ViewSpot>) getIntent().getSerializableExtra("viewSpot");
         destination_id = getIntent().getLongExtra("id",0L);
+        top_pic = getIntent().getStringExtra("top_pic");
     }
     
     public void initView() {
@@ -82,6 +84,7 @@ public class ViewSpotActivity extends FragmentActivity implements View.OnClickLi
         selectViewSpotFragment.adapter = new ViewSpotAdapter(ViewSpotActivity.this,selectedViewSpotList);
         recommendViewSpotFragment = new RecommendViewSpotFragment();
         Bundle bundle = new Bundle();
+        bundle.putString("top_pic",top_pic);
         bundle.putLong("id",destination_id);
         recommendViewSpotFragment.setArguments(bundle);
 

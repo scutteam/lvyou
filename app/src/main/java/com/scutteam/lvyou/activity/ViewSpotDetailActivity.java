@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.scutteam.lvyou.R;
+import com.scutteam.lvyou.activity.SimpleHUD.PairProgressHUD;
 import com.scutteam.lvyou.adapter.CommentAdapter;
 import com.scutteam.lvyou.application.LvYouApplication;
 import com.scutteam.lvyou.constant.Constants;
@@ -49,6 +51,7 @@ public class ViewSpotDetailActivity extends Activity implements XListView.IXList
     private double score;
     private String title;
     private String [] viewSpotStringList;
+    private String label;
 
     private int total_items;
     private XListView listView;
@@ -124,12 +127,12 @@ public class ViewSpotDetailActivity extends Activity implements XListView.IXList
     }
     
     public void setHeaderUI() {
-        mTvType.setText("景点类型:后台还没有数据");
+        mTvType.setText("景点类型:"+label);
         mTvPlayTime.setText("游玩时间:"+play_duration);
 
         mTvTitle.setText(title);
         mTvDestinationName.setText(title);
-        mTvIntro.setText(intro);
+        mTvIntro.setText(Html.fromHtml(intro));
         mRBDestinationStar.setRating((float)score);
         mTvDestinationScore.setText(score+"");
         mTvTotalPage.setText(viewSpotStringList.length+"");
@@ -185,9 +188,12 @@ public class ViewSpotDetailActivity extends Activity implements XListView.IXList
         });
 
         viewPager.setAdapter(pagerAdapter);
+        
+        PairProgressHUD.dismiss();
     }
     
     public void initHeadData() {
+        PairProgressHUD.showLoading(ViewSpotDetailActivity.this,"请稍候");
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("id",view_spot_id);
@@ -207,6 +213,7 @@ public class ViewSpotDetailActivity extends Activity implements XListView.IXList
                         price = dataObject.getInt("price");
                         score = dataObject.getDouble("score");
                         title = dataObject.getString("title");
+                        label = dataObject.getString("label");
                         viewSpotStringList = dataObject.getString("topPic").split(";");
                         
                         handler.sendEmptyMessage(LOAD_HEAD_DATA_SUCCESS);
