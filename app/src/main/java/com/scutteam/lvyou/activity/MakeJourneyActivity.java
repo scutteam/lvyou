@@ -26,6 +26,7 @@ import com.scutteam.lvyou.adapter.ViewSpotShowAdapter;
 import com.scutteam.lvyou.application.LvYouApplication;
 import com.scutteam.lvyou.constant.Constants;
 import com.scutteam.lvyou.dialog.DialogListener;
+import com.scutteam.lvyou.dialog.EditMemberNumDialog;
 import com.scutteam.lvyou.dialog.SelectDayDialog;
 import com.scutteam.lvyou.model.Guide;
 import com.scutteam.lvyou.model.Hotel;
@@ -383,6 +384,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         minusMemberNums.setOnClickListener(this);
         plusMemberNums.setOnClickListener(this);
         selectBeginPlace.setOnClickListener(this);
+        showMemberNums.setOnClickListener(this);
         mj_stay.setOnClickListener(this);
         mLlTopLayout.setOnClickListener(this);
         tvBeginDay.setOnClickListener(this);
@@ -428,6 +430,20 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                 } else {
                     Toast.makeText(mContext, "至多" + maxNum + "人成团", Toast.LENGTH_SHORT).show();
                 }
+                break;
+            case R.id.mj_member_num:
+                EditMemberNumDialog editMemberNumDialog = new EditMemberNumDialog(mContext);
+                editMemberNumDialog.setMaxNum(maxNum);
+                editMemberNumDialog.setMinNum(minNum);
+                editMemberNumDialog.setDialogListener(new DialogListener() {
+                    @Override
+                    public void refreshActivity(Object data) {
+                        String memberNumString = (String)data;
+                        memberNums = Integer.parseInt(memberNumString);
+                        showMemberNums.setText(memberNumString + "人成团");
+                    }
+                });
+                editMemberNumDialog.show();
                 break;
             case R.id.ll_top_layout:
                 intent = new Intent(MakeJourneyActivity.this, DestinationDetailActivity.class);
@@ -486,7 +502,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                     Toast.makeText(MakeJourneyActivity.this, "未选择出发地点", Toast.LENGTH_SHORT).show();
                 } else if (startDate == null || endDate == null) {
                     Toast.makeText(MakeJourneyActivity.this, "未选择出发日期", Toast.LENGTH_SHORT).show();
-                } else if (selectedHotel == null) {
+                } else if (!(minDay == 1 && maxDay == 1) && selectedHotel == null) {
                     Toast.makeText(MakeJourneyActivity.this, "未选择住宿", Toast.LENGTH_SHORT).show();
                 } else if (viewSpotSelectedList.size() == 0) {
                     Toast.makeText(MakeJourneyActivity.this, "未选择游玩项目", Toast.LENGTH_SHORT).show();
@@ -499,7 +515,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                     Toast.makeText(MakeJourneyActivity.this, "未选择出发地点", Toast.LENGTH_SHORT).show();
                 } else if (startDate == null || endDate == null) {
                     Toast.makeText(MakeJourneyActivity.this, "未选择出发日期", Toast.LENGTH_SHORT).show();
-                } else if (selectedHotel == null) {
+                } else if (!(minDay == 1 && maxDay == 1) && selectedHotel == null) {
                     Toast.makeText(MakeJourneyActivity.this, "未选择住宿", Toast.LENGTH_SHORT).show();
                 } else if (viewSpotSelectedList.size() == 0) {
                     Toast.makeText(MakeJourneyActivity.this, "未选择游玩项目", Toast.LENGTH_SHORT).show();
@@ -589,7 +605,11 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         RequestParams params = new RequestParams();
         params.put("total.placeId", begin_place_id);
         params.put("total.destId", destination_id);
-        params.put("total.hotelId", selectedHotel.hotel_id);
+        if(minDay == 1 && maxDay == 1){
+            params.put("total.hotelId", 0);
+        }else {
+            params.put("total.hotelId", selectedHotel.hotel_id);
+        }
         params.put("total.guideId", guideList.get(0).guide_id);
         params.put("total.mealId", mealList.get(0).meal_id);
         params.put("total.vehicleId", vehicleList.get(0).vehicle_id);
@@ -735,7 +755,11 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         RequestParams params = new RequestParams();
         params.put("total.placeId", begin_place_id);
         params.put("total.destId", destination_id);
-        params.put("total.hotelId", selectedHotel.hotel_id);
+        if(minDay == 1 && maxDay == 1){
+            params.put("total.hotelId", 0);
+        }else {
+            params.put("total.hotelId", selectedHotel.hotel_id);
+        }
         params.put("total.guideId", guideList.get(0).guide_id);
         params.put("total.mealId", mealList.get(0).meal_id);
         params.put("total.vehicleId", vehicleList.get(0).vehicle_id);
