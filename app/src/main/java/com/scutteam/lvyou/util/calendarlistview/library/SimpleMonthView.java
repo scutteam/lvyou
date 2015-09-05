@@ -286,7 +286,7 @@ public class SimpleMonthView extends View {
 
             if (!this.isPrevDayEnabled.booleanValue() && this.prevDay(day, this.today) && this.today.month == this.mMonth && this.today.year == this.mYear) {
                 this.mMonthNumPaint.setColor(this.mPreviousDayColor);
-                this.mMonthNumPaint.setTypeface(Typeface.defaultFromStyle(2));
+//                this.mMonthNumPaint.setTypeface(Typeface.defaultFromStyle(2));
             }
 
             canvas.drawText(String.format("%d", new Object[]{Integer.valueOf(day)}), (float) x, (float) y, this.mMonthNumPaint);

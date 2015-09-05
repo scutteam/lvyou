@@ -9,12 +9,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/iv_background"
         android:scaleType="fitXY"
+        android:adjustViewBounds="true"
         />
     <LinearLayout
         android:layout_width="300dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:layout_height="100dp">
         <TextView
             android:layout_width="match_parent"
@@ -29,9 +31,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="11个目的地"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:gravity="center"
-            android:maxLines="2"
+            android:maxLines="1"
             android:ellipsize="end"
             android:id="@+id/tv_short_intro_or_num_of_destination"
             android:textColor="@color/white"
@@ -45,6 +47,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:id="@+id/tv_mark"
+        android:maxLines="1"
         android:textColor="@color/white"
         android:paddingBottom="@dimen/layout_padding_small"
         android:layout_marginTop="@dimen/layout_margin_small"

@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -220,7 +221,7 @@ public class DestinationFragment extends Fragment implements XListView.IXListVie
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-
+                Log.i("liujie", response.toString());
                 try {
                     int code = response.getInt("code");
                     if(code == 0) {
@@ -251,13 +252,13 @@ public class DestinationFragment extends Fragment implements XListView.IXListVie
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         if(id != 0L) {
-            params.put("kw.themId",id);
+            params.put("kw.themeId",id);
         }
         client.get(getActivity(),Constants.URL + "main/dest.page_list.json",params,new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-
+                Log.i("liujie", response.toString());
                 try {
                     int code = response.getInt("code");
                     if(code == 0) {

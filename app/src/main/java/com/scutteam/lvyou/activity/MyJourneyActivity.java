@@ -3,7 +3,6 @@ package com.scutteam.lvyou.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +20,6 @@ import com.scutteam.lvyou.application.LvYouApplication;
 import com.scutteam.lvyou.constant.Constants;
 import com.scutteam.lvyou.dialog.DialogListener;
 import com.scutteam.lvyou.dialog.SubmitJourneyPlanDialog;
-import com.scutteam.lvyou.model.Plan;
 import com.scutteam.lvyou.model.PlanDetail;
 
 import org.apache.http.Header;
@@ -73,6 +71,7 @@ public class MyJourneyActivity extends Activity{
     private String planLogicId;
     private PlanDetail planDetail;
     private boolean needRefresh = false;
+    private long destId = 0L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +100,7 @@ public class MyJourneyActivity extends Activity{
                     Log.i("liujie", response.toString());
                     if (0 == response.optInt("code")) {
                         planDetail = PlanDetail.fromJson(response.optJSONObject("data"));
+                        destId = planDetail.destination_logic_id;
                         initView(planDetail);
                     } else {
                         Toast.makeText(mContext, response.optString("msg"), Toast.LENGTH_SHORT).show();
@@ -316,7 +316,16 @@ public class MyJourneyActivity extends Activity{
     private View.OnClickListener modifyJourneyPlanListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Toast.makeText(mContext, "这里实现逻辑有点乱，过几天再修改", Toast.LENGTH_SHORT).show();
+//            Intent intent = new Intent();
+//            intent.setClass(MyJourneyActivity.this,MakeJourneyActivity.class);
+//            intent.putExtra("destination_id",destId);
+//            intent.putExtra("place",planDetail.place);
+//            intent.putExtra("peopleNum",planDetail.member_num);
+//            intent.putExtra("request_to_modify",true);
+//            intent.putExtra("startDate",planDetail.start_date);
+//            intent.putExtra("endDate",planDetail.end_date);
+//            intent.putExtra("hotel",planDetail.hotel_name);
+//            startActivity(intent);
         }
     };
 

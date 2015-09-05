@@ -199,6 +199,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:id="@+id/ll_weibo"
+                android:visibility="gone"
                 android:orientation="vertical"
                 android:layout_height="80dp">
                 <ImageView

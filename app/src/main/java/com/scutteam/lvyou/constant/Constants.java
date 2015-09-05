@@ -53,4 +53,9 @@ public class Constants {
         public static final String WECHAT_APP_ID = "wx3df763a18258c764";
         public static final String WECHAT_KEY = "7f8421f48f3553895454a55efcfeee1e";
     }
+
+    public static class Config{
+        public static final int IMAGE_WIDTH = 480;
+        public static final int IMAGE_HEIGHT = 360;
+    }
 }

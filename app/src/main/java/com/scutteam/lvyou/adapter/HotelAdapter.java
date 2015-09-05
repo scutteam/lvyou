@@ -11,7 +11,10 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.scutteam.lvyou.R;
+import com.scutteam.lvyou.application.LvYouApplication;
+import com.scutteam.lvyou.constant.Constants;
 import com.scutteam.lvyou.model.Hotel;
+import com.scutteam.lvyou.util.DensityUtil;
 
 import java.util.ArrayList;
 
@@ -60,14 +63,16 @@ public class HotelAdapter extends BaseAdapter {
         final Hotel hotel = hotelList.get(position);
         viewHolder.mTvIntro.setText(hotel.intro);
         viewHolder.mTvName.setText(hotel.level_name);
-        viewHolder.mTvPrice.setText(hotel.price+"元/人");
+        viewHolder.mTvPrice.setText(hotel.price+"元/间");
         viewHolder.mRbScore.setRating(Float.parseFloat(hotel.score.toString()));
         viewHolder.mTvScore.setText(hotel.score.toString());
         ImageLoader.getInstance().displayImage(hotel.pic,viewHolder.mIvBackground);
         if(hotel.is_select == 1) {
             viewHolder.mIvIsSelect.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.hotel_item_layout_selected));
+            viewHolder.mTvShade.setAlpha(0);
         } else {
             viewHolder.mIvIsSelect.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.hotel_item_layout_unselected));
+            viewHolder.mTvShade.setAlpha((float)0.5);
         }
 
         viewHolder.mIvIsSelect.setOnClickListener(new View.OnClickListener() {
@@ -92,6 +97,7 @@ public class HotelAdapter extends BaseAdapter {
         private TextView mTvScore;
         private TextView mTvPrice;
         private TextView mTvIntro;
+        private TextView mTvShade;
         
         public ViewHolder(View view) {
             mIvBackground = (ImageView) view.findViewById(R.id.iv_background);
@@ -101,6 +107,12 @@ public class HotelAdapter extends BaseAdapter {
             mTvScore = (TextView) view.findViewById(R.id.tv_score);
             mTvPrice = (TextView) view.findViewById(R.id.tv_price);
             mTvIntro = (TextView) view.findViewById(R.id.tv_intro);
+            mTvShade = (TextView)view.findViewById(R.id.tv_shade);
+            ViewGroup.LayoutParams params = mIvBackground.getLayoutParams();
+            params.width = DensityUtil.getScreenWidthPx(LvYouApplication.getInstance());
+            params.height = params.width * Constants.Config.IMAGE_HEIGHT / Constants.Config.IMAGE_WIDTH;
+            mIvBackground.setLayoutParams(params);
+            mTvShade.setLayoutParams(params);
         }
     }
 }
