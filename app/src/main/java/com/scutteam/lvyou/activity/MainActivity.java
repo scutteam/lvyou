@@ -226,7 +226,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         switch (state) {
             case FRAGMENT_MAIN:
                 transaction = fragmentManager.beginTransaction();
-                transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_right_out);
+                transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_left_out);
                 transaction.replace(R.id.content,mainFragment);
                 transaction.commit();
 
@@ -250,7 +250,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     destinationFragment = new DestinationFragment();
                 }
                 transaction = fragmentManager.beginTransaction();
-                transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_right_out);
+                transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_left_out);
                 transaction.replace(R.id.content,destinationFragment);
                 transaction.commit();
 
@@ -260,7 +260,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 //先判断用户是否登录
                 MyPlanFragment myPlanFragment = new MyPlanFragment();
                 transaction = fragmentManager.beginTransaction();
-                transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_right_out);
+                transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_left_out);
                 transaction.replace(R.id.content,myPlanFragment);
                 transaction.commit();
 
@@ -279,7 +279,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             case FRAGMENT_ABOUT_APP:
                 aboutAppFragment = AboutAppFragment.getInstance();
                 transaction = fragmentManager.beginTransaction();
-                transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_right_out);
+                transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_left_out);
                 transaction.replace(R.id.content,aboutAppFragment);
                 transaction.commit();
 
@@ -288,7 +288,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             case FRAGMENT_ABOUT_INSURANCE:
                 aboutInsuranceFragment = AboutInsuranceFragment.getInstance();
                 transaction = fragmentManager.beginTransaction();
-                transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_right_out);
+                transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_left_out);
                 transaction.replace(R.id.content,aboutInsuranceFragment);
                 transaction.commit();
 

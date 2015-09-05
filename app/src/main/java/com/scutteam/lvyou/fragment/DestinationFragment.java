@@ -22,6 +22,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.scutteam.lvyou.R;
 import com.scutteam.lvyou.activity.MakeJourneyActivity;
+import com.scutteam.lvyou.activity.SimpleHUD.PairProgressHUD;
 import com.scutteam.lvyou.adapter.DestinationItemAdapter;
 import com.scutteam.lvyou.adapter.SelectDestinationTypeAdapter;
 import com.scutteam.lvyou.constant.Constants;
@@ -82,6 +83,7 @@ public class DestinationFragment extends Fragment implements XListView.IXListVie
                         adapter.refreshWithDestinationList(destinationList);
                     }
                     mListView.stopRefresh();
+                    PairProgressHUD.dismiss();
                     break;
                 case LOAD_MORE_LISTVIEW_DATA_SUCCESS:
                     destinationList.addAll(newDestinationList);
@@ -249,6 +251,7 @@ public class DestinationFragment extends Fragment implements XListView.IXListVie
     }
     
     public void initListViewData(Long id) {
+        PairProgressHUD.showLoading(getActivity(),"请稍候");
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         if(id != 0L) {
