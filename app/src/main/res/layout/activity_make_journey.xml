@@ -485,6 +485,12 @@
                 android:layout_below="@id/mj_play_item"
                 android:background="@drawable/shape_mj_text_bg"
                 ></ListView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:layout_below="@+id/mj_plat_item_list"
+                android:background="@null"
+                />
         </RelativeLayout>
     </ScrollView>
     <LinearLayout
