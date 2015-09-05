@@ -16,7 +16,6 @@ import com.scutteam.lvyou.widget.CircleImageView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -87,15 +86,11 @@ public class CommentAdapter extends BaseAdapter {
 
         viewHolder.mStarBar.setRating(Float.parseFloat(comment.total_score.toString()));
         viewHolder.mTvComment.setText(comment.total_comment);
-        viewHolder.mTvName.setText(comment.cust);
+        viewHolder.mTvName.setText("by "+comment.cust);
 
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-        String new_time = "";
-        if(comment.create_time != null) {
-            new_time = sdf.format(new Date(Long.parseLong(comment.create_time)));
-        }
 
-        viewHolder.mTvTime.setText(new_time);
+        viewHolder.mTvTime.setText(comment.comment_date);
         
         return convertView;
     }

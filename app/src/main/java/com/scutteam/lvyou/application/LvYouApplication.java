@@ -79,7 +79,7 @@ public class LvYouApplication extends Application {
         real_name = null;
         sex = null;
         phone = null;
-        
+        user_id = null;
     }
 
     public static void setSessionId(String session_id) {

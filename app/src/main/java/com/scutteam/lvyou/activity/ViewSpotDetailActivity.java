@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,7 +130,7 @@ public class ViewSpotDetailActivity extends Activity implements XListView.IXList
 
         mTvTitle.setText(title);
         mTvDestinationName.setText(title);
-        mTvIntro.setText(intro);
+        mTvIntro.setText(Html.fromHtml(intro));
         mRBDestinationStar.setRating((float)score);
         mTvDestinationScore.setText(score+"");
         mTvTotalPage.setText(viewSpotStringList.length+"");

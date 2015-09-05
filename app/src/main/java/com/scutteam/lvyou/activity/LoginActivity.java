@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -60,8 +59,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private LinearLayout mLlWeibo;
     private LinearLayout mLlWeiXin;
     private LinearLayout mLlQQ;
+    private String sessionId;
     private LinearLayout mLlLoginCenter;
     private int mEtPhoneFirstY; //一开始的y
+    private int type = 0;
+    private String user_id;
     private int mEtPhoneSecondY; //消失了上半部分的y
     private boolean isEtPhoneFocusBefore = false;
     private boolean isEtPasswordFocusBefore = false;
@@ -82,32 +84,130 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     
     public static final int LOGIN_SUCCESS = 10000;
     public static final int LOGIN_FAIL = 10001;
+    public static final int BIND_FAIL = 10002;
+    public static final int BIND_SUCCESS = 10003;
+    public static final int GET_SESSIONID_SUCCESS = 100004;
+    public static final int GET_USER_ID_SUCCESS = 100005;
+    private String openId;
     public Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            
+            Intent intent = null;
             switch (msg.what) {
+                case BIND_SUCCESS:
+                    getSessionId();
+                    break;
                 case LOGIN_SUCCESS:
                     if(!is_request_login) {
                         //准备登录
-                        Intent intent = new Intent();
+                        intent = new Intent();
                         intent.setClass(LoginActivity.this,MainActivity.class);
                         startActivity(intent);
-                        overridePendingTransition(R.anim.push_left_in,R.anim.push_right_out);    
+                        overridePendingTransition(R.anim.push_left_in,R.anim.push_right_out);
                     } else {
                         setResult(Constants.RESULT_LOGIN);
                         finish();
                     }
-
                     break;
                 case LOGIN_FAIL:
+                    break;
+                case BIND_FAIL:
+                    //接下来绑定账号
+                    intent = new Intent();
+                    intent.setClass(LoginActivity.this,BindAccountActivity.class);
+                    intent.putExtra("type",type);
+                    intent.putExtra("screen_name",screen_name);
+                    intent.putExtra("profile_image_url",profile_image_url);
+                    intent.putExtra("openId",openId);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.push_left_in,R.anim.push_right_out);
+                    break;
+                case GET_SESSIONID_SUCCESS:
+                    getUserId();
+                    break;
+                case GET_USER_ID_SUCCESS:
+                    if(!is_request_login) {
+                        //准备登录
+                        intent = new Intent();
+                        intent.setClass(LoginActivity.this,MainActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.push_left_in,R.anim.push_right_out);
+                    } else {
+                        setResult(Constants.RESULT_LOGIN);
+                        finish();
+                    }
                     break;
                 default:
                     break;
             }
         }
     };
+    
+    public void getUserId() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("sessionid",sessionId);
+        client.post(LoginActivity.this, Constants.URL + "user/mobilelogin.info.do",params,new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                try {
+                    int code = response.getInt("code");
+                    if(code == 0) {
+                        JSONObject dataObject = response.getJSONObject("data");
+
+                        user_id = dataObject.getString("id");
+                        LvYouApplication.setUserId(user_id);
+                        handler.sendEmptyMessage(GET_USER_ID_SUCCESS);
+                    } else  {
+                        Toast.makeText(LoginActivity.this,response.getString("msg"),Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
+    }
+    
+    public void getSessionId() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("type",type);
+        params.put("openId",openId);
+        params.put("nickName",screen_name);
+        params.put("faceUrl",profile_image_url);
+        client.post(LoginActivity.this, Constants.URL + "user/mobilelogin.bind_login.do", params, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    int code = response.getInt("code");
+                    if(code == 0) {
+                        sessionId = response.getString("data");
+                        LvYouApplication.setSessionId(sessionId);
+
+                        handler.sendEmptyMessage(GET_SESSIONID_SUCCESS);
+                    } else {
+                        Toast.makeText(LoginActivity.this,response.getString("msg"),Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
+    }
      
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -297,7 +397,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 super.onSuccess(statusCode, headers, response);
                 try {
                     JSONObject dataObject = response.getJSONObject("data");
-                    Log.i("user info", dataObject.toString());
                     LvYouApplication.setScreenName(dataObject.getString("nickName"));
                     LvYouApplication.setUserId(dataObject.getString("id"));
                     if(!dataObject.getString("faceIcon").equals("null")) {
@@ -340,7 +439,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 super.onSuccess(statusCode, headers, response);
                 
                 try {
-                    Log.e("response",response.toString());
                     int code = response.getInt("code");
                     String session_data = response.getString("data");
                     
@@ -360,7 +458,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
                 Toast.makeText(mContext, "登录失败，请重试" ,Toast.LENGTH_SHORT).show();
-                Log.e("response_fail",responseString);
             }
         });
     }
@@ -440,6 +537,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 
                 Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                 String uid = value.getString("uid");
+                openId = value.getString("openid");
                 if (!TextUtils.isEmpty(uid)) {
                     getUserInfo(platform);
                 } else {
@@ -469,22 +567,58 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     if(platform == SHARE_MEDIA.SINA) {
                         screen_name = String.valueOf(info.get("screen_name"));
                         profile_image_url = String.valueOf(info.get("profile_image_url"));
+                        type = 3;
                     } else if(platform == SHARE_MEDIA.QQ) {
                         screen_name = String.valueOf(info.get("screen_name"));
                         profile_image_url = String.valueOf(info.get("profile_image_url"));
+                        type = 2;
                     } else if(platform == SHARE_MEDIA.WEIXIN) {
-
+                        type = 1;
+                        screen_name = String.valueOf(info.get("screen_name"));
+                        profile_image_url = String.valueOf(info.get("profile_image_url"));
                     }
                     
                     LvYouApplication.setImageProfileUrl(profile_image_url);
                     LvYouApplication.setScreenName(screen_name);
-
-                    //接下来绑定账号
-                    Intent intent = new Intent();
-                    intent.setClass(LoginActivity.this,BindAccountActivity.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.push_left_in,R.anim.push_right_out);
+                    
+                    checkIsBindAccount();
                 }
+            }
+        });
+    }
+    
+    public void checkIsBindAccount() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("openId",openId);
+            client.post(LoginActivity.this,Constants.URL + "user/mobilelogin.is_bind.do",params,new JsonHttpResponseHandler(){
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                try {
+                    int code = response.getInt("code");
+                    if(code == 0) {
+                        Boolean bindIsSuccess = response.getBoolean("data");
+                        if(bindIsSuccess) {
+                            handler.sendEmptyMessage(BIND_SUCCESS);                            
+                        } else {
+                            handler.sendEmptyMessage(BIND_FAIL);
+                        }
+                    } else {
+                        
+                        Toast.makeText(LoginActivity.this,response.getString("msg"),Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } 
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
             }
         });
     }

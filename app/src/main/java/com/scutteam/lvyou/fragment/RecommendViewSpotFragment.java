@@ -39,6 +39,7 @@ public class RecommendViewSpotFragment extends Fragment implements RecommendView
     private View view;
     private XListView mListView;
     private Long destination_id;
+    public String top_pic;
     public RecommendViewSpotAdapter adapter;
     public SelectRecommendAlertDialog dialog;
     private List<Recommendtrip> recommendtripList = new ArrayList<Recommendtrip>();
@@ -64,6 +65,7 @@ public class RecommendViewSpotFragment extends Fragment implements RecommendView
             view = inflater.inflate(R.layout.recomment_view_post_fragment,null);
 
             destination_id = getArguments().getLong("id",0L);
+            top_pic = getArguments().getString("top_pic");
             initData();
             initView();
             initListener();
@@ -73,6 +75,7 @@ public class RecommendViewSpotFragment extends Fragment implements RecommendView
     
     public void initAdapter() {
         adapter = new RecommendViewSpotAdapter(getActivity(),recommendtripList);
+        adapter.top_pic = top_pic;
         adapter.setListener(this);
     }
     
@@ -110,12 +113,27 @@ public class RecommendViewSpotFragment extends Fragment implements RecommendView
                 Recommendtrip recommendtrip = recommendtripList.get(position - mListView.getHeaderViewsCount());
                 Intent intent = new Intent();
                 intent.putExtra("RecommendTrip",(Serializable)recommendtrip);
+                intent.putExtra("top_pic",top_pic);
                 intent.setClass(getActivity(), RecommendViewSpotDetailActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, Constants.REQUEST_GET_RECOMMENT_DETAIL);
             }
         });
     }
-    
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        
+        if(resultCode == Constants.RESULT_GET_RECOMMENT_DETAIL) {
+            Recommendtrip trip = (Recommendtrip) data.getSerializableExtra("trip");
+            Intent intent = new Intent();
+            intent.putExtra("trip",(Serializable)trip);
+            getActivity().setResult(Constants.RESULT_SELECT_RECOMMEND_TRIP,intent);
+
+            getActivity().finish();
+        }
+    }
+
     public void initView() {
         mListView = (XListView) view.findViewById(R.id.listView);
         mListView.setPullRefreshEnable(false);

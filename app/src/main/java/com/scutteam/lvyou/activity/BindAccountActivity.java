@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -16,6 +17,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.scutteam.lvyou.R;
+import com.scutteam.lvyou.application.LvYouApplication;
 import com.scutteam.lvyou.constant.Constants;
 import com.scutteam.lvyou.util.ScreenManager;
 
@@ -35,6 +37,12 @@ public class BindAccountActivity extends Activity implements View.OnClickListene
     private TextView mTvGetCaptcha;
     private TextView mTvBind;
     private ImageButton mIbtnBack;
+    private int type;
+    private String screen_name;
+    private String profile_image_url;
+    private String openId;
+    private String sessionId;
+    private String customerId;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -61,6 +69,12 @@ public class BindAccountActivity extends Activity implements View.OnClickListene
                     startActivity(intent);
                     overridePendingTransition(R.anim.push_left_in,R.anim.push_right_out);
                     break;
+                case GET_SESSIONID_SUCCESS:
+                    getUserInfo();
+                    break;
+                case GET_USER_INFO:
+                    finalBindAccount();
+                    break;
             }
         }
     };
@@ -68,6 +82,8 @@ public class BindAccountActivity extends Activity implements View.OnClickListene
     private static final int DEFAULT_CAPTCHA_UPDATE_TIME = 60;
     private static final int GET_CAPTCHA_SUCCESS = 61;
     private static final int BIND_ACCOUNT_SUCCESS = 62;
+    private static final int GET_SESSIONID_SUCCESS = 63;
+    private static final int GET_USER_INFO = 64;
     private int now_captcha_update_time = 0;
     private Timer timer;
     
@@ -77,8 +93,16 @@ public class BindAccountActivity extends Activity implements View.OnClickListene
         setContentView(R.layout.activity_bind_account);
 
         ScreenManager.getScreenManager().addActivity(BindAccountActivity.this);
+        initData();
         initView();
         initListener();
+    }
+    
+    public void initData() {
+        type = getIntent().getIntExtra("type",0);
+        screen_name = getIntent().getStringExtra("screen_name");
+        profile_image_url = getIntent().getStringExtra("profile_image_url");
+        openId = getIntent().getStringExtra("openId");
     }
 
     @Override
@@ -187,19 +211,86 @@ public class BindAccountActivity extends Activity implements View.OnClickListene
     public void bindAccount() {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
+        params.put("type",type);
+        params.put("openId",openId);
+        params.put("nickName",screen_name);
+        params.put("faceUrl",profile_image_url);
+        client.post(BindAccountActivity.this, Constants.URL + "user/mobilelogin.bind_login.do", params, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                Log.e("zhaohong",response.toString());
+                try {
+                    int code = response.getInt("code");
+                    if(code == 0) {
+                        sessionId = response.getString("data");
+                        LvYouApplication.setSessionId(sessionId);
+
+                        handler.sendEmptyMessage(GET_SESSIONID_SUCCESS);
+                    } else {
+                        Toast.makeText(BindAccountActivity.this,response.getString("msg"),Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
+    }
+    
+    public void getUserInfo() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("sessionid", sessionId);
+        client.post(BindAccountActivity.this,Constants.URL + "user/mobilelogin.info.do",params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    JSONObject dataObject = response.getJSONObject("data");
+                    int code = response.getInt("code");
+                    if(code == 0) {
+                        customerId = dataObject.getString("id");
+                        
+                        handler.sendEmptyMessage(GET_USER_INFO);
+                    } else {
+                        Toast.makeText(BindAccountActivity.this,response.getString("msg"),Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
+    }
+    
+    public void finalBindAccount() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("sessionid",sessionId);
         params.put("verifyCode",mEtCaptcha.getText().toString());
+        params.put("customer.id",customerId);
         params.put("customer.phone", mEtPhone.getText().toString());
         params.put("customer.password", mEtPassword.getText().toString());
         client.post(BindAccountActivity.this, Constants.URL + "user/personal.bind.do", params, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                
+
                 try {
                     int code = response.getInt("code");
                     if(code == 0) {
                         Toast.makeText(BindAccountActivity.this,"第三方账号绑定成功",Toast.LENGTH_SHORT).show();
-                        
+
                         handler.sendEmptyMessage(BIND_ACCOUNT_SUCCESS);
                     } else {
                         Toast.makeText(BindAccountActivity.this,response.getString("msg"),Toast.LENGTH_SHORT).show();

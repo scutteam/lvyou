@@ -1,7 +1,6 @@
 package com.scutteam.lvyou.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,7 +14,6 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.scutteam.lvyou.R;
-import com.scutteam.lvyou.activity.MyJourneyActivity;
 import com.scutteam.lvyou.adapter.MyPlanAdapter;
 import com.scutteam.lvyou.application.LvYouApplication;
 import com.scutteam.lvyou.constant.Constants;
@@ -68,8 +66,6 @@ public class MyPlanFragment extends Fragment implements IXListViewListener {
     }
 
     public void getMyPlans() {
-        Log.i("user id", LvYouApplication.getUserId() + "");
-        Log.i("session id", LvYouApplication.getSessionId());
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("sessionid", LvYouApplication.getSessionId());

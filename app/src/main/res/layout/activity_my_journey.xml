@@ -25,7 +25,6 @@
                 android:layout_height="72dp"
                 android:scaleType="centerCrop"
                 android:layout_below="@+id/mj_title"
-                android:src="@drawable/tupian43"
                 />
             <LinearLayout
                 android:layout_width="match_parent"

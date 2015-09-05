@@ -1,5 +1,5 @@
 
-package com.scutteam.lvyou.umeng.wxapi;
+package com.scutteam.lvyou.wxapi;
 
 import com.umeng.socialize.weixin.view.WXCallbackActivity;
 
