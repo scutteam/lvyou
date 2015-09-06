@@ -32,7 +32,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyJourneyActivity extends Activity{
+public class MyJourneyActivity extends Activity {
 
     private Context mContext;
 
@@ -86,12 +86,12 @@ public class MyJourneyActivity extends Activity{
     private String startDate;
     private String endDate;
     private List<ViewSpot> viewSpotList = new ArrayList<ViewSpot>();
-    
+
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            
+
             switch (msg.what) {
                 case GET_VIEW_SPOT_DATA_SUCCESS:
                     startModifyJourney();
@@ -144,7 +144,8 @@ public class MyJourneyActivity extends Activity{
             });
         }
     }
-    private void findView(){
+
+    private void findView() {
         ivHeadImage = (ImageView) findViewById(R.id.my_journey_image);
         tvTitle = (TextView) findViewById(R.id.my_journey_title);
         tvOrderNum = (TextView) findViewById(R.id.my_journey_order_num);
@@ -160,13 +161,13 @@ public class MyJourneyActivity extends Activity{
         tvBottomBtn2 = (TextView) findViewById(R.id.my_journey_bottom_btn_2);
         tvBottomBtn3 = (TextView) findViewById(R.id.my_journey_bottom_btn_3);
         llBottomBtns = (LinearLayout) findViewById(R.id.my_journey_bottom);
-        tvStateText1 = (TextView)findViewById(R.id.my_journey_state_text_1);
-        tvStateText2 = (TextView)findViewById(R.id.my_journey_state_text_2);
-        tvStateText3 = (TextView)findViewById(R.id.my_journey_state_text_3);
+        tvStateText1 = (TextView) findViewById(R.id.my_journey_state_text_1);
+        tvStateText2 = (TextView) findViewById(R.id.my_journey_state_text_2);
+        tvStateText3 = (TextView) findViewById(R.id.my_journey_state_text_3);
     }
 
     private void initView(PlanDetail plan) {
-        if(isFirstIn) {
+        if (isFirstIn) {
             TextView title = (TextView) findViewById(R.id.center_text);
             title.setText("我的行程:" + plan.title);
             findViewById(R.id.left_icon).setOnClickListener(new View.OnClickListener() {
@@ -193,17 +194,17 @@ public class MyJourneyActivity extends Activity{
         tvState.setText(plan.state_text);
         tvStateHint.setText(plan.status_tips);
 
-        if(plan.state == 0) {
+        if (plan.state == 0) {
             refreshBottomButton(STATE_7);
-        }else if(plan.state == 7){
+        } else if (plan.state == 7) {
             refreshBottomButton(STATE_6);
-        }else{
+        } else {
             refreshBottomButton(plan.state);
         }
 
     }
 
-    private void backToMyPlanFragment(){
+    private void backToMyPlanFragment() {
         finish();
     }
 
@@ -346,17 +347,17 @@ public class MyJourneyActivity extends Activity{
         public void onClick(View view) {
             AsyncHttpClient client = new AsyncHttpClient();
             RequestParams params = new RequestParams();
-            params.put("id",planLogicId);
-            client.get(MyJourneyActivity.this,Constants.URL + "user/trip.edit.json",params,new JsonHttpResponseHandler() {
+            params.put("id", planLogicId);
+            client.get(MyJourneyActivity.this, Constants.URL + "user/trip.edit.json", params, new JsonHttpResponseHandler() {
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     super.onSuccess(statusCode, headers, response);
 
                     try {
-                        
+
                         int code = response.getInt("code");
-                        if(code == 0) {
+                        if (code == 0) {
                             JSONObject dataObject = response.getJSONObject("data");
                             hotelId = dataObject.optLong("hotelId");
                             placeId = dataObject.optLong("placeId");
@@ -365,10 +366,10 @@ public class MyJourneyActivity extends Activity{
                             startDate = dataObject.optString("startDate");
                             endDate = dataObject.optString("endDate");
                             viewSpotList = ViewSpot.insertWithArray(dataObject.getJSONArray("viewspotList"));
-                            
+
                             handler.sendEmptyMessage(GET_VIEW_SPOT_DATA_SUCCESS);
                         }
-                        
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -381,24 +382,24 @@ public class MyJourneyActivity extends Activity{
             });
         }
     };
-    
+
     public void startModifyJourney() {
-            Intent intent = new Intent();
-            intent.setClass(MyJourneyActivity.this,MakeJourneyActivity.class);
-            intent.putExtra("destination_id", destId);
-            intent.putExtra("place",planDetail.place);
-            intent.putExtra("peopleNum",planDetail.member_num);
-            intent.putExtra("request_to_modify",true);
-            intent.putExtra("startDate",startDate);
-            intent.putExtra("endDate",endDate);
-            intent.putExtra("hotel",planDetail.hotel_name);
-            intent.putExtra("hotelId",hotelId);
-            intent.putExtra("placeId",placeId);
-            intent.putExtra("contactName",contactName);
-            intent.putExtra("contactTel",contactTel);
-            intent.putExtra("view_spot_list",(Serializable)viewSpotList);
-            intent.putExtra("planId",planLogicId);
-            startActivity(intent);
+        Intent intent = new Intent();
+        intent.setClass(MyJourneyActivity.this, MakeJourneyActivity.class);
+        intent.putExtra("destination_id", destId);
+        intent.putExtra("place", planDetail.place);
+        intent.putExtra("peopleNum", planDetail.member_num);
+        intent.putExtra("request_to_modify", true);
+        intent.putExtra("startDate", startDate);
+        intent.putExtra("endDate", endDate);
+        intent.putExtra("hotel", planDetail.hotel_name);
+        intent.putExtra("hotelId", hotelId);
+        intent.putExtra("placeId", placeId);
+        intent.putExtra("contactName", contactName);
+        intent.putExtra("contactTel", contactTel);
+        intent.putExtra("view_spot_list", (Serializable) viewSpotList);
+        intent.putExtra("planId", planLogicId);
+        startActivity(intent);
     }
 
     private View.OnClickListener watchJourneyPlanListener = new View.OnClickListener() {
@@ -411,7 +412,7 @@ public class MyJourneyActivity extends Activity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST_WATCH_PLAN:
                 needRefresh = true;
                 initData();
@@ -478,7 +479,7 @@ public class MyJourneyActivity extends Activity{
     /**
      * 获取保险
      */
-    private void getInsurance(){
+    private void getInsurance() {
         Intent intent = new Intent(MyJourneyActivity.this, GetInsuranceActivity.class);
         intent.putExtra("plan_logic_id", planLogicId);
         intent.putExtra("title", planDetail.title);
@@ -490,7 +491,7 @@ public class MyJourneyActivity extends Activity{
     /**
      * 确认合同
      */
-    private void confirmProtocal(){
+    private void confirmProtocal() {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("sessionid", LvYouApplication.getSessionId());
@@ -521,7 +522,7 @@ public class MyJourneyActivity extends Activity{
     /**
      * 查看合同
      */
-    private void watchProtocal(){
+    private void watchProtocal() {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("sessionid", LvYouApplication.getSessionId());
@@ -554,7 +555,7 @@ public class MyJourneyActivity extends Activity{
     /**
      * 查看行程方案
      */
-    private void watchJourneyPlan(){
+    private void watchJourneyPlan() {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("sessionid", LvYouApplication.getSessionId());
@@ -587,47 +588,20 @@ public class MyJourneyActivity extends Activity{
     /**
      * 提交行程方案
      */
-    private void submitJourneyPlan(){
-        AsyncHttpClient client = new AsyncHttpClient();
-        RequestParams params = new RequestParams();
-        params.put("sessionid", LvYouApplication.getSessionId());
-        params.put("id", planLogicId);
-        client.post(Constants.URL + "/user/trip.submit_plan.do", params, new JsonHttpResponseHandler() {
+    private void submitJourneyPlan() {
+        final SubmitJourneyPlanDialog dialog = new SubmitJourneyPlanDialog(mContext, planDetail.id + "", new DialogListener() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-                Log.i("liujie", response.toString());
-                if (0 == response.optInt("code")) {
-                    final SubmitJourneyPlanDialog dialog = new SubmitJourneyPlanDialog(mContext, planDetail.id + "", new DialogListener() {
-                        @Override
-                        public void refreshActivity(Object data) {
-                            String result = (String) data;
-                            if ("0".equals(result)) {
-                                Toast.makeText(mContext, "提交行程方案成功", Toast.LENGTH_SHORT).show();
-                                needRefresh = true;
-                                initData();
-                            } else {
-                                Toast.makeText(mContext, "提交失败，请重试", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                    ((Activity)mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            dialog.show();
-                        }
-                    });
+            public void refreshActivity(Object data) {
+                String result = (String) data;
+                if ("0".equals(result)) {
+                    Toast.makeText(mContext, "提交行程方案成功", Toast.LENGTH_SHORT).show();
+                    needRefresh = true;
+                    initData();
                 } else {
-                    Toast.makeText(mContext, response.optString("msg"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "提交失败，请重试", Toast.LENGTH_SHORT).show();
                 }
             }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
-                Log.i("liujie", responseString.toString());
-                Toast.makeText(mContext, "网络连接失败，请重试", Toast.LENGTH_SHORT).show();
-            }
         });
+        dialog.show();
     }
 }
