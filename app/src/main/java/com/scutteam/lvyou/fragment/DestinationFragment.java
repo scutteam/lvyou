@@ -342,7 +342,7 @@ public class DestinationFragment extends Fragment implements XListView.IXListVie
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         if(theme_id != 0L) {
-            params.put("kw.themId",theme_id);
+            params.put("kw.themeId",theme_id);
         }
         params.put("pr.page",current_page + 1);
         client.get(getActivity(),Constants.URL + "main/dest.page_list.json",params,new JsonHttpResponseHandler(){

@@ -1,15 +1,16 @@
 package com.scutteam.lvyou.activity;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.ImageView;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.scutteam.lvyou.R;
 import com.scutteam.lvyou.constant.Constants;
 import com.scutteam.lvyou.util.SpUtils;
-import android.os.Handler;
 
 public class SplashActivity extends Activity {
     private ImageView iv;
@@ -36,13 +37,14 @@ public class SplashActivity extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (isFirstLaunch) {
-                    Intent intent = new Intent(SplashActivity.this, WelcomeActivity.class);
-                    startActivity(intent);
-                }  else {
+               // isFirstLaunch = false;
+               // if (isFirstLaunch) {
+                    //Intent intent = new Intent(SplashActivity.this, WelcomeActivity.class);
+                    //startActivity(intent);
+               // }  else {
                     Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                     startActivity(intent);
-                }
+               // }
                 finish();
             }
         }, postTime);
