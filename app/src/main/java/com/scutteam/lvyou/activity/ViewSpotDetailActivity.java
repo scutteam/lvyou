@@ -53,6 +53,8 @@ public class ViewSpotDetailActivity extends Activity implements XListView.IXList
     private String [] viewSpotStringList;
     private String label;
 
+    public int selectNum;
+    public int limitNum;
     private int total_items;
     private XListView listView;
     private TextView mTvTitle;
@@ -116,11 +118,14 @@ public class ViewSpotDetailActivity extends Activity implements XListView.IXList
 
     public void initAdapter() {
         adapter = new CommentAdapter(ViewSpotDetailActivity.this,commentList);
-
+        adapter.isShowComment = false;
+        
         listView.setAdapter(adapter);
     }
 
     public void initData() {
+        limitNum = getIntent().getIntExtra("limitNum",0);
+        selectNum = getIntent().getIntExtra("selectNum",0);
         view_spot_id = getIntent().getLongExtra("view_spot_id",0L);
         
         initHeadData();
@@ -363,10 +368,15 @@ public class ViewSpotDetailActivity extends Activity implements XListView.IXList
                 startActivity(intent);
                 break;
             case R.id.tv_add_view_spot:
-                intent = new Intent();
-                intent.putExtra("view_spot_id",view_spot_id);
-                setResult(Constants.RESULT_GET_VIEW_SPOT_DETAIL,intent);
-                finish();
+                if(selectNum < limitNum) {
+                    intent = new Intent();
+                    intent.putExtra("view_spot_id",view_spot_id);
+                    setResult(Constants.RESULT_GET_VIEW_SPOT_DETAIL,intent);
+                    finish();
+                } else {
+                    Toast.makeText(ViewSpotDetailActivity.this,"所选景点数量超过上限",Toast.LENGTH_SHORT).show();
+                }
+
                 break;
         }
     }

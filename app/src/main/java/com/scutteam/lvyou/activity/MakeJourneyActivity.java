@@ -102,6 +102,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
     private int maxNum;
     private int minNum;
     private boolean is_hot;
+    public int selectNum;
 
     private int memberNums = 6;                           //默认6人成团
     public static final int SBP_REQUEST_CODE = 999;       //onActivityResult中回调的code，对应选择出发地点（Select Begin Place）
@@ -502,6 +503,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                 intent.putExtra("id", destination_id);
                 intent.putExtra("top_pic", top_pic);
                 intent.putExtra("limitNum", limitNum);
+                intent.putExtra("selectNum", selectNum);
                 intent.setClass(MakeJourneyActivity.this, ViewSpotActivity.class);
                 startActivityForResult(intent, Constants.REQUEST_SELECT_VIEW_SPOT);
                 break;
@@ -749,7 +751,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                         }
                     }
                 }
-
+                selectNum = viewSpotSelectedList.size();
                 refreshViewSpotUI();
                 break;
             case Constants.RESULT_LOGIN:

@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -446,6 +447,13 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                         Toast.makeText(LoginActivity.this,"登录成功,正在获取用户信息",Toast.LENGTH_SHORT).show();
                         LvYouApplication.setSessionId(session_data);
                         getLoginInfo();
+
+                        SharedPreferences sharedPreferences = getSharedPreferences("lvyou",Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("phone",mEtPhone.getText().toString());
+                        editor.putString("password",mEtPassword.getText().toString());
+                        editor.commit();
+                        
                     } else {
                         Toast.makeText(LoginActivity.this,response.getString("msg"),Toast.LENGTH_SHORT).show();
                     }
