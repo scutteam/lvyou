@@ -78,6 +78,7 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
                     if (adapter == null) {
                         initAdapter();
                     } else {
+                        Log.i("liujie","wocao");
                         refreshAdapter();
                     }
                     break;
@@ -183,16 +184,16 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_main, null);
-
             initView();
             initHeaderViewAndListViewData();
             initListener();
-        } else {
-           for(int i = 0 ; i <themeDestCountList.size() ;i++) {
-               themeList.get(i).dest_num = themeDestCountList.get(i);
-           }
-            adapter.notifyDataSetChanged();
         }
+//        else {
+//           for(int i = 0 ; i <themeDestCountList.size() ;i++) {
+//               themeList.get(i).dest_num = themeDestCountList.get(i);
+//           }
+//            adapter.notifyDataSetChanged();
+//        }
         return view;
     }
 
@@ -221,7 +222,6 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                Log.i("liujie", response.toString());
                 try {
                     JSONArray dataArray = response.getJSONArray("data");
                     themeList = LvYouTheme.insertWithArray(dataArray);
@@ -359,7 +359,6 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
                 int new_position = position - 1 - 1;
                 if (new_position < themeList.size()) {
                     LvYouTheme theme = themeList.get(new_position); //减去一个viewpager 和一个xListviewHeader
-
                     listener.onThemeItenClick(theme);
                 } else if (new_position >= themeList.size()) {
                     int dest_position = new_position - themeList.size();

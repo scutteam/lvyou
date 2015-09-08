@@ -1,5 +1,6 @@
 package com.scutteam.lvyou.application;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
@@ -9,6 +10,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.scutteam.lvyou.util.ActivityManagerUtils;
 
 public class LvYouApplication extends Application {
 
@@ -96,6 +98,18 @@ public class LvYouApplication extends Application {
 
     public static Context getInstance() {
         return context;
+    }
+
+    public void addActivity(Activity ac) {
+        ActivityManagerUtils.getInstance().addActivity(ac);
+    }
+
+    public void removeActivity(Activity ac) {
+        ActivityManagerUtils.getInstance().removeActivity(ac);
+    }
+
+    public void exit() {
+        ActivityManagerUtils.getInstance().removeAllActivity();
     }
 
     @Override

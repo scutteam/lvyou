@@ -53,9 +53,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private TextView mTvAbout;
     private TextView mTvLogout;
     private TextView mTvTitle;
-    
+
     private DrawerLayout mDrawerLayout;
-    
+
     private ImageView mIvDrawer;
 
     private long mExitTime = 0L;
@@ -63,7 +63,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private String profile_image_url;
     private FragmentManager fragmentManager;
     private FragmentTransaction transaction;
-    
+
     private MainFragment mainFragment;
     private DestinationFragment destinationFragment;
     private AboutAppFragment aboutAppFragment;
@@ -76,17 +76,17 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public static final int FRAGMENT_ABOUT_APP = 1005;
     public static final int FRAGMENT_ABOUT_INSURANCE = 1006;
     public static final int LOGOUT_SUCCESS = 1005;
-    
+
     public Drawable mainDrawable;
     public Drawable destinationDrawable;
     public Drawable planDrawable;
     public Drawable userDrawable;
     private ImageView mIvArrowRight;
-    
+
     private UserFragment userFragment;
     private LvYouTheme selectedTheme;
 
-    
+
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -98,15 +98,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     editor.putString("phone","");
                     editor.putString("password","");
                     editor.commit();
-                    
+
                     LvYouApplication.setSessionId(null);
                     LvYouApplication.clearAllInfo();
-                    
+
                     mTvLogout.setVisibility(View.GONE);
                     mCivAvatar.setImageDrawable(getResources().getDrawable(R.mipmap.default_icon_new));
                     mTvName.setText("点击登录");
                     mIvArrowRight.setVisibility(View.GONE);
-                    
+
                     switchFragment(FRAGMENT_MAIN);
                     break;
                 default:
@@ -119,7 +119,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         ScreenManager.getScreenManager().addActivity(MainActivity.this);
         initData();
         initMainFragment();
@@ -156,16 +156,17 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             setTitle("我的行程");
             switchFragment(FRAGMENT_PLAN);
         }
-        
+
     }
 
     @Override
     protected void onDestroy() {
+        Log.i("liujie", "onDestroy");
         ScreenManager.getScreenManager().finishActivity(MainActivity.this);
-        
+
         super.onDestroy();
     }
-    
+
     public void initData() {
         screen_name = LvYouApplication.getScreenName();
         profile_image_url = LvYouApplication.getImageProfileUrl();
@@ -174,7 +175,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         String phone = sharedPreferences.getString("phone","");
         String password = sharedPreferences.getString("password","");
         Log.e("haha","phone = "+phone+" password="+password);
-        
+
         if(phone.length() > 0 && password.length() > 0) {
             startLogin(phone,password);
         }
@@ -215,7 +216,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         });
     }
-    
+
     public void getLoginInfo() {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
@@ -236,7 +237,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     screen_name = LvYouApplication.getScreenName();
                     profile_image_url = LvYouApplication.getImageProfileUrl();
                     initLeftDrawer();
-                    
+
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -248,7 +249,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         });
     }
-    
+
     public void initMainFragment() {
         mainFragment = new MainFragment();
         mainFragment.setListener(this);
@@ -258,7 +259,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         transaction.replace(R.id.content,mainFragment);
         transaction.commit();
     }
-    
+
     public void initView() {
         mTvTitle = (TextView) findViewById(R.id.tv_title);
         mIvArrowRight = (ImageView) findViewById(R.id.iv_arrow_right);
@@ -277,27 +278,27 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         mIvDrawer = (ImageView) findViewById(R.id.iv_drawer);
     }
-    
+
     public void initListener() {
-        
+
         mTvMain.setOnClickListener(this);
         mTvDestination.setOnClickListener(this);
         mTvMyPlan.setOnClickListener(this);
         mRlAvatarLayout.setOnClickListener(this);
 //        mTvUser.setOnClickListener(this);
-        
+
         mTvInsurance.setOnClickListener(this);
         mTvAbout.setOnClickListener(this);
-        
+
         mTvLogout.setOnClickListener(this);
 
         mIvDrawer.setOnClickListener(this);
     }
-    
+
     public void initLeftDrawer() {
         mTvName.setText(screen_name);
         if(profile_image_url!=null && profile_image_url.length() > 0 && !profile_image_url.equals("null")) {
-            ImageLoader.getInstance().displayImage(profile_image_url,mCivAvatar);    
+            ImageLoader.getInstance().displayImage(profile_image_url,mCivAvatar);
         } else {
             ImageLoader.getInstance().displayImage(Constants.URL + "image/default_face.jpg", mCivAvatar);
         }
@@ -307,7 +308,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void setTitle(String title) {
         mTvTitle.setText(title);
     }
-    
+
     public void switchFragment(int state) {
         switch (state) {
             case FRAGMENT_MAIN:
@@ -384,7 +385,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
         }
     }
-    
+
     public void changeLeftDrawerItem(int state) {
         switch (state) {
             case FRAGMENT_MAIN:
@@ -497,7 +498,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
         }
     }
-    
+
     @Override
     public void onClick(View v) {
         Intent intent;
@@ -579,7 +580,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
         }
     }
-    
+
     public void logOut() {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
@@ -588,7 +589,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                
+
                 Toast.makeText(MainActivity.this,"注销成功",Toast.LENGTH_SHORT).show();
                 mHandler.sendEmptyMessage(LOGOUT_SUCCESS);
             }
@@ -599,7 +600,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         });
     }
-    
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK) {
@@ -622,10 +623,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        
+
         if(resultCode == Constants.MODIFY_NAME_SUCCESS) {
             LvYouApplication.setScreenName(data.getStringExtra("nickName"));
-            
+
             userFragment.refreshUI();
         } else if (resultCode == Constants.MODIFY_REAL_NAME_SUCCESS) {
             LvYouApplication.setReal_name(data.getStringExtra("realName"));
