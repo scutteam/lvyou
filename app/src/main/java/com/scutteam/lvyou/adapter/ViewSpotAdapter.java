@@ -94,13 +94,17 @@ public class ViewSpotAdapter extends BaseAdapter {
              if(limitNum == 0) {
                  listener.WhenViewSpotSelectIconClick(viewSpot);    
              } else {
-
-                 selectNum ++;
-                 if(selectNum <= limitNum) {
-                     listener.WhenViewSpotSelectIconClick(viewSpot);
+                 if(viewSpot.is_select == 0) {
+                     selectNum ++;
+                     if(selectNum <= limitNum) {
+                         listener.WhenViewSpotSelectIconClick(viewSpot);
+                     } else {
+                         selectNum --;
+                         Toast.makeText(context,"所选的景点数目超过上限",Toast.LENGTH_SHORT).show();
+                     }
                  } else {
                      selectNum --;
-                     Toast.makeText(context,"所选的景点数目超过上限",Toast.LENGTH_SHORT).show();
+                     listener.WhenViewSpotSelectIconClick(viewSpot);
                  }
              }
             }

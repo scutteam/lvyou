@@ -26,6 +26,8 @@ public class AllViewSpotFragment extends Fragment {
     private XListView listView;
     public ViewSpotAdapter adapter;
     private View view;
+    public int selectNum;
+    public int limitNum;
     public ArrayList<ViewSpot>viewSpotList = new ArrayList<ViewSpot>();
 
     @Nullable
@@ -56,6 +58,8 @@ public class AllViewSpotFragment extends Fragment {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), ViewSpotDetailActivity.class);
                 intent.putExtra("view_spot_id",viewSpot.view_spot_id);
+                intent.putExtra("selectNum",selectNum);
+                intent.putExtra("limitNum",limitNum);
                 startActivityForResult(intent, Constants.REQUEST_GET_VIEW_SPOT_DETAIL);
             }
         });

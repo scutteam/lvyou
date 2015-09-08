@@ -22,6 +22,8 @@ public class SelectViewSpotFragment extends Fragment{
     private View view;
     private XListView listView;
     public ViewSpotAdapter adapter;
+    public int selectNum;
+    public int limitNum;
     public ArrayList<ViewSpot> selectedViewSpotList = new ArrayList<ViewSpot>();
     
     @Nullable

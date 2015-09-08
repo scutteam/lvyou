@@ -14,7 +14,6 @@ import com.scutteam.lvyou.constant.Constants;
 import com.scutteam.lvyou.model.Comment;
 import com.scutteam.lvyou.widget.CircleImageView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +25,7 @@ public class CommentAdapter extends BaseAdapter {
     private Context context;
     private List<Comment> commentList = new ArrayList<Comment>();
     private LayoutInflater layoutInflater;
+    public Boolean isShowComment = true;
 
     public CommentAdapter(Context context, List<Comment> commentList) {
         this.context = context;
@@ -88,9 +88,14 @@ public class CommentAdapter extends BaseAdapter {
         viewHolder.mTvComment.setText(comment.total_comment);
         viewHolder.mTvName.setText("by "+comment.cust);
 
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        if(!isShowComment) {
+            viewHolder.mTvTime.setText(comment.comment_date);
+            viewHolder.mTvTime.setVisibility(View.GONE);
+        } else {
+            viewHolder.mTvTime.setText(comment.comment_date);
+            viewHolder.mTvTime.setVisibility(View.VISIBLE);
+        }
 
-        viewHolder.mTvTime.setText(comment.comment_date);
         
         return convertView;
     }

@@ -31,7 +31,7 @@
             android:layout_toRightOf="@id/civ_avatar"
             android:layout_width="wrap_content"
             android:layout_below="@id/rb_score"
-            android:layout_marginTop="@dimen/layout_margin_tiny"
+            android:layout_marginTop="10dp"
             android:id="@+id/tv_name"
             android:textColor="@color/captcha_selected_color"
             android:singleLine="true"
@@ -48,7 +48,7 @@
             android:textColor="@color/captcha_selected_color"
             android:singleLine="true"
             android:textSize="12sp"
-            android:layout_marginTop="@dimen/layout_margin_tiny"
+            android:layout_marginTop="10dp"
             android:paddingLeft="@dimen/layout_padding_large"
             />
     </RelativeLayout>

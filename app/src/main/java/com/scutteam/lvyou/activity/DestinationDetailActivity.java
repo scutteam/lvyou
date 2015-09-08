@@ -105,7 +105,6 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
     public void initAdapter() {
         adapter = new CommentAdapter(DestinationDetailActivity.this, commentList);
 
-
         listView.setAdapter(adapter);
     }
 

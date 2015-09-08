@@ -107,7 +107,7 @@
                 android:clickable="true"
                 android:background="@drawable/selector_mj_tv"
                 android:gravity="center"
-                android:textSize="14sp"
+                android:textSize="15sp"
                 />
 
             <LinearLayout
@@ -140,7 +140,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:layout_weight="1"
-                    android:textSize="14sp"/>
+                    android:textSize="15sp"/>
                 <TextView
                     android:layout_width="1dp"
                     android:layout_height="32dp"
@@ -174,7 +174,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="出发日期"
-                    android:textSize="14sp"
+                    android:textSize="15sp"
                     android:gravity="center"
                     android:textColor="@color/image_color"
                     android:clickable="true"
@@ -190,7 +190,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="返程日期"
-                    android:textSize="14sp"
+                    android:textSize="15sp"
                     android:textColor="@color/image_color"
                     android:gravity="center"
                     android:clickable="true"
@@ -225,7 +225,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="包餐"
-                        android:textSize="14sp"
+                        android:textSize="15sp"
                         android:gravity="center"
                         android:textColor="@color/main_text_color"
                         />
@@ -238,7 +238,7 @@
                         android:layout_width="0dip"
                         android:layout_height="match_parent"
                         android:layout_weight="5"
-                        android:textSize="14sp"
+                        android:textSize="15sp"
                         android:gravity="left|center_vertical"
                         android:layout_marginLeft="20dp"
                         />
@@ -262,7 +262,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="交通"
-                        android:textSize="14sp"
+                        android:textSize="15sp"
                         android:gravity="center"
                         android:textColor="@color/main_text_color"
                         />
@@ -275,7 +275,7 @@
                         android:layout_width="0dip"
                         android:layout_height="match_parent"
                         android:layout_weight="5"
-                        android:textSize="14sp"
+                        android:textSize="15sp"
                         android:gravity="left|center_vertical"
                         android:layout_marginLeft="20dp"
                         />
@@ -300,7 +300,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="导游"
-                        android:textSize="14sp"
+                        android:textSize="15sp"
                         android:gravity="center"
                         android:textColor="@color/main_text_color"
                         />
@@ -313,7 +313,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="5"
                         android:id="@+id/tv_guide"
-                        android:textSize="14sp"
+                        android:textSize="15sp"
                         android:gravity="left|center_vertical"
                         android:layout_marginLeft="20dp"
                         />
@@ -339,7 +339,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="保险"
-                        android:textSize="14sp"
+                        android:textSize="15sp"
                         android:gravity="center"
                         android:textColor="@color/main_text_color"
                         />
@@ -353,7 +353,7 @@
                         android:layout_weight="5"
                         android:layout_gravity="center"
                         android:id="@+id/tv_insurance"
-                        android:textSize="14sp"
+                        android:textSize="15sp"
                         android:gravity="left|center_vertical"
                         android:layout_marginLeft="20dp"
                         />

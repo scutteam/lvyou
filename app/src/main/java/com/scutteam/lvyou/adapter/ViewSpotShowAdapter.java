@@ -87,10 +87,11 @@ public class ViewSpotShowAdapter extends BaseAdapter {
                 ((MakeJourneyActivity)context).viewSpotSelectedList.remove(viewSpot);
                 ((MakeJourneyActivity)context).changeCalculateUI();
                 if(((MakeJourneyActivity)context).viewSpotSelectedList.size() > 0) {
-                    ((MakeJourneyActivity)context).mj_play_item_nums.setText("已选择"+((MakeJourneyActivity)context).viewSpotSelectedList.size()+"个游玩项目");    
+                    ((MakeJourneyActivity)context).mj_play_item_nums.setText("已选择"+((MakeJourneyActivity)context).viewSpotSelectedList.size()+"个游玩项目");
                 } else {
                     ((MakeJourneyActivity)context).mj_play_item_nums.setText("请选择游玩项目");
                 }
+                ((MakeJourneyActivity)context).selectNum = ((MakeJourneyActivity)context).viewSpotSelectedList.size();
                 
                 viewSpotList.remove(viewSpot);
                         

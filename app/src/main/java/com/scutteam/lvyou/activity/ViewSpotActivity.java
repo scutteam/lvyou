@@ -43,6 +43,7 @@ public class ViewSpotActivity extends FragmentActivity implements View.OnClickLi
     private Long destination_id;
     private String top_pic;
     private int limitNum;
+    private int selectNum;
     
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
     
@@ -60,6 +61,7 @@ public class ViewSpotActivity extends FragmentActivity implements View.OnClickLi
     
     public void initData() {
         limitNum = getIntent().getIntExtra("limitNum",0);
+        selectNum = getIntent().getIntExtra("selectNum",0);
         selectedViewSpotList = (ArrayList<ViewSpot>) getIntent().getSerializableExtra("selectedViewSpot");
         viewSpotList = (ArrayList<ViewSpot>) getIntent().getSerializableExtra("viewSpot");
         destination_id = getIntent().getLongExtra("id",0L);
@@ -82,10 +84,16 @@ public class ViewSpotActivity extends FragmentActivity implements View.OnClickLi
         allViewSpotFragment.viewSpotList = viewSpotList;
         allViewSpotFragment.adapter = new ViewSpotAdapter(ViewSpotActivity.this,viewSpotList);
         allViewSpotFragment.adapter.limitNum = limitNum;
+        allViewSpotFragment.adapter.selectNum = selectNum;
+        allViewSpotFragment.selectNum = selectNum;
+        allViewSpotFragment.limitNum = limitNum;
         selectViewSpotFragment = new SelectViewSpotFragment();
         selectViewSpotFragment.selectedViewSpotList = selectedViewSpotList;
         selectViewSpotFragment.adapter = new ViewSpotAdapter(ViewSpotActivity.this,selectedViewSpotList);
         selectViewSpotFragment.adapter.limitNum = limitNum;
+        selectViewSpotFragment.adapter.selectNum = selectNum;
+        selectViewSpotFragment.selectNum = selectNum;
+        selectViewSpotFragment.limitNum = limitNum;
         recommendViewSpotFragment = new RecommendViewSpotFragment();
         Bundle bundle = new Bundle();
         bundle.putString("top_pic",top_pic);
@@ -240,6 +248,9 @@ public class ViewSpotActivity extends FragmentActivity implements View.OnClickLi
         selectViewSpotFragment.selectedViewSpotList = selectedViewSpotList;
         selectViewSpotFragment.adapter.notifyDataSetChanged();
         allViewSpotFragment.adapter.notifyDataSetChanged();
+        selectViewSpotFragment.adapter.selectNum = selectedViewSpotList.size();
+        allViewSpotFragment.adapter.selectNum = selectedViewSpotList.size();
+        
     }
 
     @Override
@@ -253,6 +264,8 @@ public class ViewSpotActivity extends FragmentActivity implements View.OnClickLi
             selectViewSpotFragment.selectedViewSpotList = selectedViewSpotList;
             selectViewSpotFragment.adapter.notifyDataSetChanged();
             allViewSpotFragment.adapter.notifyDataSetChanged();
+            selectViewSpotFragment.adapter.selectNum = selectedViewSpotList.size();
+            allViewSpotFragment.adapter.selectNum = selectedViewSpotList.size();
         }
     }
 }

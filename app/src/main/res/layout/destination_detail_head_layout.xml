@@ -21,7 +21,7 @@
                 android:id="@+id/tv_destination_name"
                 android:text="凤凰古城"
                 android:layout_marginLeft="12dp"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:padding="@dimen/layout_padding_small"
                 style="@style/text_white_xlarge_size_style"
                 android:layout_centerVertical="true"
@@ -97,7 +97,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="50dp"
+        android:paddingLeft="40dp"
         android:lineSpacingExtra = "6dp"
         android:paddingRight="@dimen/layout_padding_small"
         android:paddingBottom="@dimen/layout_padding_small"

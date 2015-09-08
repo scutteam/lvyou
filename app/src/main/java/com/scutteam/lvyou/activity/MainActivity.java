@@ -1,6 +1,8 @@
 package com.scutteam.lvyou.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -91,6 +93,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             super.handleMessage(msg);
             switch (msg.what) {
                 case LOGOUT_SUCCESS:
+                    SharedPreferences sharedPreferences = getSharedPreferences("lvyou",Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("phone","");
+                    editor.putString("password","");
+                    editor.commit();
+                    
                     LvYouApplication.setSessionId(null);
                     LvYouApplication.clearAllInfo();
                     
@@ -161,8 +169,86 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void initData() {
         screen_name = LvYouApplication.getScreenName();
         profile_image_url = LvYouApplication.getImageProfileUrl();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("lvyou", Context.MODE_PRIVATE);
+        String phone = sharedPreferences.getString("phone","");
+        String password = sharedPreferences.getString("password","");
+        Log.e("haha","phone = "+phone+" password="+password);
+        
+        if(phone.length() > 0 && password.length() > 0) {
+            startLogin(phone,password);
+        }
     }
 
+    public void startLogin(String phone,String password) {
+        AsyncHttpClient client = new AsyncHttpClient();
+//        client.addHeader("user-agent", "Android");
+//        httpRequest.header("user-agent", "Android");
+        RequestParams params = new RequestParams();
+        params.put("phone",phone);
+        params.put("pwd",password);
+        client.post(MainActivity.this,Constants.URL+"user/mobilelogin.login.do",params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                try {
+                    int code = response.getInt("code");
+                    String session_data = response.getString("data");
+
+                    if(code == 0) {
+                        Toast.makeText(MainActivity.this,"登录成功,正在获取用户信息",Toast.LENGTH_SHORT).show();
+                        LvYouApplication.setSessionId(session_data);
+                        getLoginInfo();
+                    } else {
+                        Toast.makeText(MainActivity.this,response.getString("msg"),Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Toast.makeText(MainActivity.this, "登录失败，请重试" ,Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    
+    public void getLoginInfo() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("sessionid",LvYouApplication.getSessionId());
+        client.post(MainActivity.this,Constants.URL + "user/mobilelogin.info.do",params,new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    JSONObject dataObject = response.getJSONObject("data");
+                    LvYouApplication.setScreenName(dataObject.getString("nickName"));
+                    LvYouApplication.setUserId(dataObject.getString("id"));
+                    if(!dataObject.getString("faceIcon").equals("null")) {
+                        LvYouApplication.setImageProfileUrl(Constants.IMAGE_URL + dataObject.getString("faceIcon"));
+                    } else {
+                        LvYouApplication.setImageProfileUrl(null);
+                    }
+                    screen_name = LvYouApplication.getScreenName();
+                    profile_image_url = LvYouApplication.getImageProfileUrl();
+                    initLeftDrawer();
+                    
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
+    }
+    
     public void initMainFragment() {
         mainFragment = new MainFragment();
         mainFragment.setListener(this);
@@ -328,7 +414,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 mTvMain.setCompoundDrawables(mainDrawable, null, null, null); //设置左图标
                 mTvMain.setTextColor(getResources().getColor(R.color.main_text_color));
 
-                destinationDrawable = getResources().getDrawable(R.mipmap.destination);
+                destinationDrawable = getResources().getDrawable(R.mipmap.destination_selected);
                 destinationDrawable.setBounds(0, 0, destinationDrawable.getMinimumWidth(), destinationDrawable.getMinimumHeight());
                 mTvDestination.setCompoundDrawables(destinationDrawable, null, null, null); //设置左图标
                 mTvDestination.setTextColor(getResources().getColor(R.color.image_color));
