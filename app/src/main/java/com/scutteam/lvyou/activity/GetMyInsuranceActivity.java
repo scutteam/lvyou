@@ -22,6 +22,7 @@ import com.scutteam.lvyou.widget.CircleImageView;
 import com.umeng.socialize.utils.Log;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -93,6 +94,38 @@ public class GetMyInsuranceActivity extends Activity implements View.OnClickList
         tvPlanId.setText("订单号: " + orderNum);
         imageLoader.displayImage(LvYouApplication.getImageProfileUrl(), civAvatar);
         tvUserName.setText(LvYouApplication.getScreenName());
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("sessionid", LvYouApplication.getSessionId());
+        client.get(Constants.URL + "/main/insurance.list.json", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                android.util.Log.i("liujie", response.toString());
+                if (0 == response.optInt("code")) {
+                    JSONArray ja = response.optJSONArray("data");
+                    String insuranceMessage = "";
+                    if(null != ja) {
+                        for (int i = 0; i < ja.length(); i++) {
+                            insuranceMessage += ja.optJSONObject(i).optString("company") + "(" + ja.optJSONObject(i).optString("insuranceType") + ")\n";
+                        }
+                        tvInsuranceDetail.setText(insuranceMessage);
+                    }
+                } else {
+                    Toast.makeText(mContext, response.optString("msg"), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                android.util.Log.i("liujie", responseString.toString());
+                Toast.makeText(mContext, "网络连接失败，请重试", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 
     private void initListener() {

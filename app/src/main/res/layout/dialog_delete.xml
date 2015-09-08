@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="56dp"
+    android:layout_marginRight="56dp"
+    android:background="@drawable/share_dialog_bg">
+
+    <TextView
+        android:id="@+id/dialog_delete_plan_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="提示"
+        android:textColor="#FF0000"
+        android:textSize="18dp" />
+
+    <View
+        android:id="@+id/dialog_delete_plan_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/dialog_delete_plan_title"
+        android:background="#FF0000" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/dialog_delete_plan_content"
+        android:layout_below="@+id/dialog_delete_plan_divider"
+        android:text="确认删除行程订单?"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:textColor="@color/secondary_text_color"
+        android:layout_height="94dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_below="@+id/dialog_delete_plan_content"
+        android:layout_height="46dp">
+
+        <TextView
+            android:id="@+id/dialog_delete_plan_sure"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/main_text_color"
+            android:background="@drawable/selector_mj_tv"
+            android:text="确认"/>
+        <View
+            android:layout_width="1px"
+            android:layout_marginBottom="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_height="match_parent"
+            android:background="@color/secondary_text_color"
+            />
+
+        <TextView
+            android:id="@+id/dialog_delete_plan_cancel"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/main_text_color"
+            android:background="@drawable/selector_mj_tv"
+            android:text="取消"/>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

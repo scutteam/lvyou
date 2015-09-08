@@ -9,9 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.scutteam.lvyou.R;
 import com.scutteam.lvyou.activity.MyJourneyActivity;
+import com.scutteam.lvyou.dialog.DeletePlanDialog;
+import com.scutteam.lvyou.dialog.DialogListener;
 import com.scutteam.lvyou.model.Plan;
 
 import java.util.ArrayList;
@@ -68,6 +71,26 @@ public class MyPlanAdapter extends BaseAdapter {
                         mContext.startActivity(intent);
                     }
                 });
+            }
+        });
+
+        convertView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Toast.makeText(mContext, "onLongClick", Toast.LENGTH_SHORT).show();
+                if(plans.get(position).state == 0 || plans.get(position).state == 1){
+                    DeletePlanDialog dialog = new DeletePlanDialog(mContext, new DialogListener() {
+                        @Override
+                        public void refreshActivity(Object data) {
+                            plans.remove(position);
+                            MyPlanAdapter.this.notifyDataSetChanged();
+                        }
+                    });
+                    dialog.setPlanLogicId(plans.get(position).id + "");
+                    dialog.show();
+
+                }
+                return true;
             }
         });
 

@@ -47,7 +47,7 @@
                             android:gravity="left|center_vertical"
                             android:textColor="@color/white"
                             android:layout_marginLeft="12dp"
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:text="华南皇家理工大学"
                             />
                         <RatingBar
@@ -67,7 +67,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:layout_marginLeft="3dp"
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:textColor="@color/white"
                             android:gravity="left|center_vertical"/>
 
