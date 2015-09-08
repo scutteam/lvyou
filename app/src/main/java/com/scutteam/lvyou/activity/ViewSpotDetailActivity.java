@@ -91,6 +91,7 @@ public class ViewSpotDetailActivity extends Activity implements XListView.IXList
             }
         }
     };
+    private int is_select;
     public View mHeadView;
     public static final int LOAD_COMMENT_SUCCESS = 88888;
     public static final int LOAD_MORE_COMMENT_SUCCESS = 88889;
@@ -124,6 +125,7 @@ public class ViewSpotDetailActivity extends Activity implements XListView.IXList
     }
 
     public void initData() {
+        is_select = getIntent().getIntExtra("is_select",0);
         limitNum = getIntent().getIntExtra("limitNum",0);
         selectNum = getIntent().getIntExtra("selectNum",0);
         view_spot_id = getIntent().getLongExtra("view_spot_id",0L);
@@ -279,6 +281,12 @@ public class ViewSpotDetailActivity extends Activity implements XListView.IXList
         mTvTitle = (TextView) findViewById(R.id.tv_title);
         mIvBack = (ImageView) findViewById(R.id.iv_back);
         mTvAddViewSpot = (TextView) findViewById(R.id.tv_add_view_spot);
+        if(is_select == 1) {
+            mTvAddViewSpot.setBackgroundColor(getResources().getColor(R.color.default_bg));
+            mTvAddViewSpot.setText("已经添加");
+            mTvAddViewSpot.setTextColor(getResources().getColor(R.color.image_color));
+            mTvAddViewSpot.setClickable(false);
+        }
     }
 
 
@@ -368,15 +376,23 @@ public class ViewSpotDetailActivity extends Activity implements XListView.IXList
                 startActivity(intent);
                 break;
             case R.id.tv_add_view_spot:
-                if(selectNum < limitNum) {
-                    intent = new Intent();
-                    intent.putExtra("view_spot_id",view_spot_id);
-                    setResult(Constants.RESULT_GET_VIEW_SPOT_DETAIL,intent);
-                    finish();
-                } else {
-                    Toast.makeText(ViewSpotDetailActivity.this,"所选景点数量超过上限",Toast.LENGTH_SHORT).show();
+                if(is_select == 0) {
+                    if(limitNum == 0) {
+                        intent = new Intent();
+                        intent.putExtra("view_spot_id",view_spot_id);
+                        setResult(Constants.RESULT_GET_VIEW_SPOT_DETAIL,intent);
+                        finish();
+                    } else {
+                        if(selectNum < limitNum) {
+                            intent = new Intent();
+                            intent.putExtra("view_spot_id",view_spot_id);
+                            setResult(Constants.RESULT_GET_VIEW_SPOT_DETAIL,intent);
+                            finish();
+                        } else {
+                            Toast.makeText(ViewSpotDetailActivity.this,"所选景点数量超过上限",Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
-
                 break;
         }
     }

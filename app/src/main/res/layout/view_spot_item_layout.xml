@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:id="@+id/iv_background"
-            android:src="@mipmap/default_icon_new"
+            android:src="@mipmap/default_icon_loading"
             android:scaleType="centerCrop"
             />
         <TextView
@@ -68,6 +68,7 @@
                 android:layout_toRightOf="@id/rb_score"
                 android:id="@+id/tv_score"
                 android:text="3.9"
+                android:layout_marginLeft="5dp"
                 android:textSize="14sp"
                 android:textColor="@color/white"
                 />

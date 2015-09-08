@@ -79,7 +79,7 @@ public class CommentAdapter extends BaseAdapter {
         
         Comment comment = commentList.get(position);
         if(comment.face.equals(Constants.IMAGE_URL + "null")) {
-            viewHolder.mCivAvatar.setImageDrawable(context.getResources().getDrawable(R.mipmap.default_icon_new));
+            viewHolder.mCivAvatar.setImageDrawable(context.getResources().getDrawable(R.mipmap.default_icon_gray));
         } else {
             ImageLoader.getInstance().displayImage(comment.face,viewHolder.mCivAvatar);
         }

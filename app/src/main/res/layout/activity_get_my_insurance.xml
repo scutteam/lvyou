@@ -261,7 +261,7 @@
                     android:layout_marginTop="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/shape_get_my_insurance_et_bg"
-                    android:hint="请输入联系手机"
+                    android:hint="请输入有效号码（获取保险信息）"
                     android:paddingLeft="6dp"
                     android:textColor="@color/main_text_color"
                     android:textSize="14sp" />

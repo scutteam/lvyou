@@ -397,6 +397,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         mj_play_item.setOnClickListener(this);
         mTvCalculate.setOnClickListener(this);
         mj_submit.setOnClickListener(this);
+        destinationImage.setOnClickListener(this);
     }
 
     public void changeCalculateUI() {
@@ -453,6 +454,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                 editMemberNumDialog.show();
                 break;
             case R.id.ll_top_layout:
+            case R.id.mj_image:
                 intent = new Intent(MakeJourneyActivity.this, DestinationDetailActivity.class);
                 ArrayList<String> viewSpotStringList = new ArrayList<String>();
                 for (int i = 0; i < viewSpotList.size(); i++) {

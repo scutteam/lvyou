@@ -147,7 +147,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="40dp"
+        android:paddingLeft="50dp"
         android:lineSpacingExtra="7dp"
         android:paddingRight="@dimen/layout_padding_small"
         android:paddingBottom="@dimen/layout_padding_small"
