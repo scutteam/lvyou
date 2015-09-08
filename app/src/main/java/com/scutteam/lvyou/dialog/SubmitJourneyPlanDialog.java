@@ -120,7 +120,30 @@ public class SubmitJourneyPlanDialog extends Dialog implements View.OnClickListe
                     super.onSuccess(statusCode, headers, response);
                     Log.i("liujie", response.toString());
                     if (0 == response.optInt("code")) {
-                        listener.refreshActivity(0 + "");
+
+                        AsyncHttpClient client = new AsyncHttpClient();
+                        RequestParams params = new RequestParams();
+                        params.put("sessionid", LvYouApplication.getSessionId());
+                        params.put("id", plan_logic_id);
+                        client.post(Constants.URL + "/user/trip.submit_plan.do", params, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                super.onSuccess(statusCode, headers, response);
+                                Log.i("liujie", response.toString());
+                                if (0 == response.optInt("code")) {
+                                    listener.refreshActivity(0 + "");
+                                } else {
+                                    Toast.makeText(mContext, response.optString("msg"), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                super.onFailure(statusCode, headers, responseString, throwable);
+                                Log.i("liujie", responseString.toString());
+                                Toast.makeText(mContext, "网络连接失败，请重试", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     } else {
                         Toast.makeText(mContext, response.optString("msg"), Toast.LENGTH_SHORT).show();
                     }

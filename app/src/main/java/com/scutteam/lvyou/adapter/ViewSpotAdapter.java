@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.scutteam.lvyou.R;
@@ -28,6 +29,8 @@ public class ViewSpotAdapter extends BaseAdapter {
     private ArrayList<ViewSpot>viewSpotList = new ArrayList<ViewSpot>();
     private LayoutInflater layoutInflater;
     public ViewSpotListener listener;
+    public int limitNum;
+    public int selectNum = 0;
 
     public ViewSpotAdapter(Context context, ArrayList<ViewSpot>viewSpotList) {
         this.context = context;
@@ -88,7 +91,18 @@ public class ViewSpotAdapter extends BaseAdapter {
         viewHolder.mIvIsSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             listener.WhenViewSpotSelectIconClick(viewSpot);
+             if(limitNum == 0) {
+                 listener.WhenViewSpotSelectIconClick(viewSpot);    
+             } else {
+
+                 selectNum ++;
+                 if(selectNum <= limitNum) {
+                     listener.WhenViewSpotSelectIconClick(viewSpot);
+                 } else {
+                     selectNum --;
+                     Toast.makeText(context,"所选的景点数目超过上限",Toast.LENGTH_SHORT).show();
+                 }
+             }
             }
         });
 

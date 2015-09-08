@@ -95,7 +95,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     LvYouApplication.clearAllInfo();
                     
                     mTvLogout.setVisibility(View.GONE);
-                    mCivAvatar.setImageDrawable(getResources().getDrawable(R.mipmap.default_icon));
+                    mCivAvatar.setImageDrawable(getResources().getDrawable(R.mipmap.default_icon_new));
                     mTvName.setText("点击登录");
                     mIvArrowRight.setVisibility(View.GONE);
                     

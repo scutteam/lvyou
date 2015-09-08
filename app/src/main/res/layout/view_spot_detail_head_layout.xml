@@ -14,46 +14,52 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_alignBottom="@id/viewPager"
-            android:layout_height="70dp">
+            android:orientation="vertical"
+            android:layout_height="64dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="36dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_destination_name"
                 android:text="凤凰古城"
-                android:padding="@dimen/layout_padding_small"
+                android:textSize="16sp"
+                android:paddingLeft="10dp"
                 style="@style/text_white_xlarge_size_style"
                 />
             <RatingBar
                 android:id="@+id/rb_destination_star"
                 style="@style/mjRatingBar"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginLeft="@dimen/layout_margin_small"
+                android:layout_height="12dp"
                 android:layout_gravity="center_vertical"
                 android:numStars="5"
                 android:isIndicator="true"
                 android:rating="4"
                 android:layout_toRightOf="@id/tv_destination_name"
-                android:paddingTop="@dimen/layout_padding_small"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:id="@+id/tv_destination_score"
                 android:text="3.9"
+                android:textSize="16sp"
                 android:layout_toRightOf="@id/rb_destination_star"
                 android:gravity="center"
-                android:paddingLeft="@dimen/layout_padding_small"
                 style="@style/text_white_large_size_style"
                 />
+            </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="28dp"
                 android:id="@+id/tv_destination_short_intro"
                 android:text="免费景点"
                 android:paddingLeft="@dimen/layout_padding_small"
                 android:layout_alignParentBottom="true"
-                android:paddingBottom="5dp"
+                android:gravity="top"
+                android:textSize="14sp"
                 style="@style/text_white_normal_size_style"
                 />
             <TextView
@@ -87,6 +93,7 @@
                 android:layout_toLeftOf="@id/tv_barrer"
                 style="@style/text_white_normal_size_style"
                 />
+
         </RelativeLayout>
     </RelativeLayout>
     <TextView

@@ -52,12 +52,17 @@ public class MyPlanFragment extends Fragment implements IXListViewListener {
         mListView = (XListView) view.findViewById(R.id.my_plan_listView);
         mListView.setXListViewListener(this);
         mListView.setPullLoadEnable(true);
-        mListView.setPullRefreshEnable(false);
+        mListView.setPullRefreshEnable(true);
         getMyPlans();
     }
 
     @Override
     public void onRefresh() {
+        mListView.setPullLoadEnable(true);
+        plans.clear();
+        currentPage = 0;
+        isLastPage = false;
+        getMyPlans();
     }
 
     @Override
@@ -110,6 +115,8 @@ public class MyPlanFragment extends Fragment implements IXListViewListener {
             }
             adapter.notifyDataSetChanged();
         }
+        mListView.stopLoadMore();
+        mListView.stopRefresh();
     }
 
     @Override

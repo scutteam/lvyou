@@ -10,17 +10,18 @@
         android:id="@+id/rl_avatar_layout"
         android:layout_height="wrap_content">
         <com.scutteam.lvyou.widget.CircleImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
             android:id="@+id/civ_avatar"
             android:layout_centerHorizontal="true"
-            android:src="@mipmap/default_icon"
+            android:src="@mipmap/default_icon_new"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="点击登录"
             android:id="@+id/tv_name"
+            android:textSize="12sp"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/civ_avatar"
             android:textColor="@color/main_text_color"
