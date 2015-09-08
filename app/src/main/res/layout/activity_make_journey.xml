@@ -47,7 +47,7 @@
                             android:gravity="left|center_vertical"
                             android:textColor="@color/white"
                             android:layout_marginLeft="12dp"
-                            android:textSize="16sp"
+                            android:textSize="18sp"
                             android:text="华南皇家理工大学"
                             />
                         <RatingBar
@@ -67,7 +67,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:layout_marginLeft="3dp"
-                            android:textSize="16sp"
+                            android:textSize="14sp"
                             android:textColor="@color/white"
                             android:gravity="left|center_vertical"/>
 
@@ -80,7 +80,7 @@
                         android:gravity="left|top"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:textSize="12sp"
+                        android:textSize="13sp"
                         android:text="这是一个部分江苏恐怖腐败吧福布斯发布 i 素吧 佛塑把 vui 不认识非比如说奔赴人生吧"
                         android:layout_marginLeft="12dp"
                         android:textColor="@color/white"
@@ -387,7 +387,7 @@
                         android:gravity="center"
                         android:text="请选住宿"
                         android:textColor="@color/main_text_color"
-                        android:textSize="14sp"/>
+                        android:textSize="15sp"/>
                     <TextView
                         android:layout_width="56dp"
                         android:layout_height="56dp"
@@ -406,7 +406,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:textSize="14sp"
+                        android:textSize="15sp"
                         android:textColor="@color/main_text_color"
                         android:text="住宿"/>
                     <TextView
@@ -432,7 +432,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="28dp"
                             android:layout_marginLeft="5dp"
-                            android:textSize="14sp"
+                            android:textSize="15sp"
                             android:textColor="@color/image_color"
                             android:text="120/人"/>
                     </LinearLayout>
@@ -471,7 +471,7 @@
                     android:gravity="center"
                     android:textColor="@color/main_text_color"
                     android:text="请选择游玩项目"
-                    android:textSize="14sp"/>
+                    android:textSize="15sp"/>
                 <TextView
                     android:layout_width="56dp"
                     android:layout_height="56dp"

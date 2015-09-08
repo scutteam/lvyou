@@ -47,13 +47,14 @@
                 android:textColor="@color/white"
                 android:paddingLeft="10dp"
                 android:text="经济型酒店"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 />
             <RatingBar
                 android:id="@+id/rb_score"
                 style="@style/mjRatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="12dp"
+                android:layout_marginLeft="5dp"
                 android:layout_gravity="center_vertical"
                 android:numStars="5"
                 android:max="5"
@@ -67,7 +68,7 @@
                 android:layout_toRightOf="@id/rb_score"
                 android:id="@+id/tv_score"
                 android:text="3.9"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textColor="@color/white"
                 />
             </LinearLayout>
