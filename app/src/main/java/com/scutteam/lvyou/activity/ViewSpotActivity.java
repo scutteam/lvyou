@@ -248,6 +248,9 @@ public class ViewSpotActivity extends FragmentActivity implements View.OnClickLi
         selectViewSpotFragment.selectedViewSpotList = selectedViewSpotList;
         selectViewSpotFragment.adapter.notifyDataSetChanged();
         allViewSpotFragment.adapter.notifyDataSetChanged();
+        selectNum = selectedViewSpotList.size();
+        selectViewSpotFragment.selectNum = selectedViewSpotList.size();
+        allViewSpotFragment.selectNum = selectedViewSpotList.size();
         selectViewSpotFragment.adapter.selectNum = selectedViewSpotList.size();
         allViewSpotFragment.adapter.selectNum = selectedViewSpotList.size();
         
@@ -264,6 +267,9 @@ public class ViewSpotActivity extends FragmentActivity implements View.OnClickLi
             selectViewSpotFragment.selectedViewSpotList = selectedViewSpotList;
             selectViewSpotFragment.adapter.notifyDataSetChanged();
             allViewSpotFragment.adapter.notifyDataSetChanged();
+            selectNum = selectedViewSpotList.size();
+            allViewSpotFragment.selectNum = selectedViewSpotList.size();
+            selectViewSpotFragment.selectNum = selectedViewSpotList.size();
             selectViewSpotFragment.adapter.selectNum = selectedViewSpotList.size();
             allViewSpotFragment.adapter.selectNum = selectedViewSpotList.size();
         }

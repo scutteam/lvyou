@@ -90,7 +90,7 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
                     break;
                 case START_SCROLL_BANNER:
                     handler.removeMessages(AUTO_SCROLL_BANNER);
-                    this.sendEmptyMessageDelayed(AUTO_SCROLL_BANNER, 3000);
+                    this.sendEmptyMessageDelayed(AUTO_SCROLL_BANNER, 5000);
                     break;
                 case AUTO_SCROLL_BANNER:
                     int totalBannerSize = advertList.size();
@@ -101,7 +101,7 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
                         mViewPager.setCurrentItem((currentItem + 1) % totalBannerSize);
                     }
                     //每三秒钟发送一个message，用于切换viewPager中的图片
-                    this.sendEmptyMessageDelayed(AUTO_SCROLL_BANNER, 3000);
+                    this.sendEmptyMessageDelayed(AUTO_SCROLL_BANNER, 5000);
                     break;
                 default:
                     break;
@@ -177,7 +177,7 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
         mViewPager.setAdapter(pagerAdapter);
         setSelect(0);
 
-        handler.sendEmptyMessage(AUTO_SCROLL_BANNER);
+        handler.sendEmptyMessageDelayed(AUTO_SCROLL_BANNER,5000);
     }
 
     @Override

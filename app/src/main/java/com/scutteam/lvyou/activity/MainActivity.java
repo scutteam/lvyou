@@ -314,7 +314,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             case FRAGMENT_MAIN:
                 transaction = fragmentManager.beginTransaction();
                 transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_left_out);
-                transaction.replace(R.id.content,mainFragment);
+                if(mainFragment != null) {
+                    transaction.replace(R.id.content,mainFragment);       
+                } else {
+                    mainFragment = new MainFragment();
+                    mainFragment.setListener(this);
+                    transaction.replace(R.id.content,mainFragment);
+                }
+                
                 transaction.commit();
 
                 changeLeftDrawerItem(state);

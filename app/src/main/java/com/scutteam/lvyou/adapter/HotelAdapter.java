@@ -75,7 +75,7 @@ public class HotelAdapter extends BaseAdapter {
             viewHolder.mTvShade.setAlpha((float)0.5);
         }
 
-        viewHolder.mIvIsSelect.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mIvBackground.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 for(int i = 0 ; i < hotelList.size() ; i++) {

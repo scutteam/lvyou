@@ -60,6 +60,7 @@ public class AllViewSpotFragment extends Fragment {
                 intent.putExtra("view_spot_id",viewSpot.view_spot_id);
                 intent.putExtra("selectNum",selectNum);
                 intent.putExtra("limitNum",limitNum);
+                intent.putExtra("is_select",viewSpot.is_select);
                 startActivityForResult(intent, Constants.REQUEST_GET_VIEW_SPOT_DETAIL);
             }
         });
