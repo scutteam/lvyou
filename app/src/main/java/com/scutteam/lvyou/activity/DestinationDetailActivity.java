@@ -66,7 +66,7 @@ public class DestinationDetailActivity extends Activity implements XListView.IXL
                     } else {
                         listView.setPullLoadEnable(true);
                     }
-                    mTvCommentCount.setText("用户评论(" + total_items + ")");
+                    mTvCommentCount.setText("用户评论（" + total_items + "）");
                     initAdapter();
 
                     break;

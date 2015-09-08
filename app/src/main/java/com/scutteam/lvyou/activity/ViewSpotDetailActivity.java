@@ -133,8 +133,8 @@ public class ViewSpotDetailActivity extends Activity implements XListView.IXList
     }
     
     public void setHeaderUI() {
-        mTvType.setText("景点类型:"+label);
-        mTvPlayTime.setText("游玩时间:"+play_duration);
+        mTvType.setText("景点类型："+label);
+        mTvPlayTime.setText("游玩时间："+play_duration);
 
         mTvTitle.setText(title);
         mTvDestinationName.setText(title);

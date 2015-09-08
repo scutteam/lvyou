@@ -56,13 +56,15 @@ public class MyJourneyActivity extends Activity {
     private LinearLayout llBottomBtns;  //底部按钮的父视图
 
 
+    private final int STATE_7 = 0;    //底部显示删除订单(state = 0)
     private final int STATE_1 = 1;    //底部显示提交行程计划跟修改行程计划(state = 1)
     private final int STATE_2 = 2;    //底部显示什么都没有(state = 2)
     private final int STATE_3 = 3;    //底部显示查看行程计划(state = 3)
-    private final int STATE_4 = 4;    //底部显示查看行程方案，查看合同，确认合同(state = 4)
-    private final int STATE_5 = 5;    //底部显示获取保险，支付订金，行程方案(state = 5)
-    private final int STATE_6 = 6;    //底部显示评价反馈，查看保险，行程方案(state = 7)
-    private final int STATE_7 = 7;    //底部显示删除订单(state = 0)
+    private final int STATE_4 = 4;    //底部显示查看行程方案，查看合同(state = 4)
+    private final int STATE_8 = 5;    //底部显示查看行程方案，支付订金(state = 5)
+    private final int STATE_5 = 6;    //底部显示获取保险，行程方案(state = 6)
+    private final int STATE_6 = 7;    //底部显示评价反馈，查看保险，行程方案(state = 7)
+    private final int STATE_9 = 8;    //底部显示评价反馈，查看保险，行程方案(state = 8)
 
     private final int REQUEST_WATCH_PLAN = 1;    //跳转到查看行程方案网页
     private final int REQUEST_WATCH_PROTOCAL = 2;//跳转到查看合同页面
@@ -194,13 +196,8 @@ public class MyJourneyActivity extends Activity {
         tvState.setText(plan.state_text);
         tvStateHint.setText(plan.status_tips);
 
-        if (plan.state == 0) {
-            refreshBottomButton(STATE_7);
-        } else if (plan.state == 7) {
-            refreshBottomButton(STATE_6);
-        } else {
-            refreshBottomButton(plan.state);
-        }
+
+        refreshBottomButton(plan.state);
 
     }
 
@@ -259,23 +256,16 @@ public class MyJourneyActivity extends Activity {
                 llBottomBtns.setVisibility(View.VISIBLE);
                 tvBottomBtn1.setVisibility(View.VISIBLE);
                 tvBottomBtn2.setVisibility(View.VISIBLE);
-                tvBottomBtn3.setVisibility(View.VISIBLE);
                 tvBottomBtn1.setText("查看行程方案");
                 tvBottomBtn1.setTextColor(getResources().getColor(color2));
                 tvBottomBtn1.setBackgroundColor(getResources().getColor(color1));
                 tvBottomBtn2.setText("查看合同");
                 tvBottomBtn2.setTextColor(getResources().getColor(color1));
                 tvBottomBtn2.setBackgroundColor(getResources().getColor(color2));
-                tvBottomBtn3.setText("确认合同");
-                tvBottomBtn3.setTextColor(getResources().getColor(color2));
-                tvBottomBtn3.setBackgroundColor(getResources().getColor(color1));
                 tvStateText1.setTextColor(getResources().getColor(color4));
                 tvStateText2.setTextColor(getResources().getColor(color4));
-                tvStateText3.setTextColor(getResources().getColor(color1));
                 tvBottomBtn1.setOnClickListener(watchJourneyPlanListener);
                 tvBottomBtn2.setOnClickListener(watchProtocalListener);
-                tvBottomBtn3.setOnClickListener(confirmProtocalListener);
-
                 break;
 
             case STATE_5:
@@ -296,6 +286,7 @@ public class MyJourneyActivity extends Activity {
                 break;
 
             case STATE_6:
+            case STATE_9:
                 llBottomBtns.setVisibility(View.VISIBLE);
                 tvBottomBtn1.setVisibility(View.VISIBLE);
                 tvBottomBtn2.setVisibility(View.VISIBLE);
@@ -317,6 +308,23 @@ public class MyJourneyActivity extends Activity {
                 tvBottomBtn3.setOnClickListener(watchJourneyPlanListener);
                 break;
 
+            case STATE_8:
+                llBottomBtns.setVisibility(View.VISIBLE);
+                tvBottomBtn1.setVisibility(View.VISIBLE);
+                tvBottomBtn2.setVisibility(View.VISIBLE);
+                tvBottomBtn1.setText("行程方案");
+                tvBottomBtn1.setTextColor(getResources().getColor(color2));
+                tvBottomBtn1.setBackgroundColor(getResources().getColor(color1));
+                tvBottomBtn2.setText("支付订金");
+                tvBottomBtn2.setTextColor(getResources().getColor(color1));
+                tvBottomBtn2.setBackgroundColor(getResources().getColor(color2));
+                tvStateText1.setTextColor(getResources().getColor(color4));
+                tvStateText2.setTextColor(getResources().getColor(color4));
+                tvStateText3.setTextColor(getResources().getColor(color1));
+                tvBottomBtn1.setOnClickListener(watchJourneyPlanListener);
+                tvBottomBtn2.setOnClickListener(paySubscriptionListener);
+                break;
+
             case STATE_7:
                 llBottomBtns.setVisibility(View.VISIBLE);
                 tvBottomBtn1.setVisibility(View.VISIBLE);
@@ -334,6 +342,13 @@ public class MyJourneyActivity extends Activity {
         }
 
     }
+    private View.OnClickListener paySubscriptionListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            paySubscription();
+        }
+    };
+
 
     private View.OnClickListener submitJourneyPlanListener = new View.OnClickListener() {
         @Override
@@ -472,9 +487,47 @@ public class MyJourneyActivity extends Activity {
     private View.OnClickListener deleteJourneyPlanListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
+            deleteJourneyPlan();
         }
     };
+
+    private void deleteJourneyPlan(){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("sessionid", LvYouApplication.getSessionId());
+        params.put("id", planLogicId);
+        client.post(Constants.URL + "/user/trip.del.do", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                Log.i("liujie", response.toString());
+                if (0 == response.optInt("code")) {
+                    Toast.makeText(mContext, "删除订单成功", Toast.LENGTH_SHORT).show();
+                    needRefresh = true;
+                    finish();
+                } else {
+                    Toast.makeText(mContext, response.optString("msg"), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Log.i("liujie", responseString.toString());
+                Toast.makeText(mContext, "网络连接失败，请重试", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * 支付订金
+     */
+    private void paySubscription(){
+        Toast.makeText(mContext, "有了支付宝接口之后就可以支付", Toast.LENGTH_SHORT).show();
+        /**
+         * 在这里实现支付定金的逻辑
+         */
+    }
 
     /**
      * 获取保险

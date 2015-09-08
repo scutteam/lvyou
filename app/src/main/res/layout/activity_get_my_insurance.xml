@@ -288,7 +288,6 @@
                 android:gravity="center"
                 android:paddingBottom="4dp"
                 android:paddingTop="4dp"
-                android:text="太平财产保险有限公司(100旅行社责任险)\n君龙人寿保险公司（10个人意外险）"
                 android:textColor="@color/secondary_text_color"
                 android:textSize="16sp" />
 

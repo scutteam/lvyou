@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_destination_name"
                 android:text="凤凰古城"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:paddingLeft="10dp"
                 style="@style/text_white_xlarge_size_style"
                 />
@@ -38,6 +38,7 @@
                 android:numStars="5"
                 android:isIndicator="true"
                 android:rating="4"
+                android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/tv_destination_name"
                 />
             <TextView
@@ -45,7 +46,8 @@
                 android:layout_height="40dp"
                 android:id="@+id/tv_destination_score"
                 android:text="3.9"
-                android:textSize="16sp"
+                android:layout_marginLeft="5dp"
+                android:textSize="15sp"
                 android:layout_toRightOf="@id/rb_destination_star"
                 android:gravity="center"
                 style="@style/text_white_large_size_style"
@@ -99,10 +101,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="景点类型:"
+        android:text="景点类型："
         android:id="@+id/tv_type"
         android:gravity="center_vertical"
-        android:drawablePadding="@dimen/layout_padding_tiny"
+        android:drawablePadding="10dp"
         android:textSize="15sp"
         android:paddingLeft="@dimen/layout_padding_normal"
         android:drawableLeft="@mipmap/view_spot_type"
@@ -117,9 +119,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="游玩时间:"
+        android:text="游玩时间："
         android:gravity="center_vertical"
-        android:drawablePadding="@dimen/layout_padding_tiny"
+        android:drawablePadding="10dp"
         android:textSize="15sp"
         android:id="@+id/tv_play_time"
         android:paddingLeft="@dimen/layout_padding_normal"
@@ -134,10 +136,10 @@
         />
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="概述:"
+        android:layout_height="40dp"
+        android:text="概述："
         android:gravity="center_vertical"
-        android:drawablePadding="@dimen/layout_padding_tiny"
+        android:drawablePadding="10dp"
         android:textSize="15sp"
         android:paddingLeft="@dimen/layout_padding_normal"
         android:drawableLeft="@mipmap/short_intro"
@@ -160,11 +162,11 @@
         />
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:text="用户评论（3）"
         android:gravity="center_vertical"
         android:id="@+id/tv_comment_count"
-        android:drawablePadding="@dimen/layout_padding_tiny"
+        android:drawablePadding="10dp"
         android:textSize="15sp"
         android:paddingLeft="@dimen/layout_padding_normal"
         android:drawableLeft="@mipmap/comment_icon"
