@@ -1,16 +1,22 @@
 package com.scutteam.lvyou.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.scutteam.lvyou.R;
+import com.scutteam.lvyou.constant.Constants;
 import com.scutteam.lvyou.model.Destination;
+import com.scutteam.lvyou.util.DensityUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,8 +78,8 @@ public class DestinationItemAdapter extends BaseAdapter{
 
         //读dest数据
         Destination dest = destinationList.get(position);
+        ImageLoader.getInstance().displayImage(dest.cover_pic, viewHolder.mIvBackground);
 
-        ImageLoader.getInstance().displayImage(dest.cover_pic,viewHolder.mIvBackground);
         viewHolder.mTvTitle.setText(dest.title);
         viewHolder.mTvShortIntro.setText(dest.short_intro);
         viewHolder.mTvMark.setText(dest.label);
@@ -82,7 +88,7 @@ public class DestinationItemAdapter extends BaseAdapter{
         return convertView;
     }
 
-    public static class ViewHolder {
+    public class ViewHolder {
         private ImageView mIvBackground;
         private TextView mTvTitle;
         private TextView mTvShortIntro;
@@ -93,6 +99,9 @@ public class DestinationItemAdapter extends BaseAdapter{
             mTvTitle = (TextView) view.findViewById(R.id.tv_title);
             mTvShortIntro = (TextView) view.findViewById(R.id.tv_short_intro_or_num_of_destination);
             mTvMark = (TextView) view.findViewById(R.id.tv_mark);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(DensityUtil.getScreenWidthPx(context),
+                    ((int)((double)DensityUtil.getScreenWidthPx(context) / Constants.Config.IMAGE_WIDTH * Constants.Config.IMAGE_HEIGHT)));
+            mIvBackground.setLayoutParams(params);
         }
     }
 }
