@@ -43,4 +43,5 @@ dependencies {
     compile files('libs/NineOldAndroid-2.4.0.jar')
     compile files('libs/open_sdk_r5276_lite.jar')
     compile files('libs/universal-image-loader-1.9.4.jar')
+    compile files('libs/alipaySDK-20150818.jar')
 }
