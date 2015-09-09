@@ -187,7 +187,7 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
             initView();
             initHeaderViewAndListViewData();
             initListener();
-        }
+        } 
 //        else {
 //           for(int i = 0 ; i <themeDestCountList.size() ;i++) {
 //               themeList.get(i).dest_num = themeDestCountList.get(i);

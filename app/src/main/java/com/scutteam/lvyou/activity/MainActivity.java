@@ -85,6 +85,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     private UserFragment userFragment;
     private LvYouTheme selectedTheme;
+    private boolean is_main_fragment = true;
 
 
     private Handler mHandler = new Handler() {
@@ -103,7 +104,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     LvYouApplication.clearAllInfo();
 
                     mTvLogout.setVisibility(View.GONE);
-                    mCivAvatar.setImageDrawable(getResources().getDrawable(R.mipmap.default_icon_new));
+                    mCivAvatar.setImageDrawable(getResources().getDrawable(R.mipmap.default_icon_gray));
                     mTvName.setText("点击登录");
                     mIvArrowRight.setVisibility(View.GONE);
 
@@ -151,12 +152,34 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 //                }
 //            }
 //        }
-        int destionationFragment = getIntent().getIntExtra("destination_fragment",FRAGMENT_MAIN);
-        if(destionationFragment == FRAGMENT_PLAN) {
+//        int destionationFragment = getIntent().getIntExtra("destination_fragment",FRAGMENT_MAIN);
+//        if(destionationFragment == FRAGMENT_PLAN) {
+//            setTitle("我的行程");
+//            switchFragment(FRAGMENT_PLAN);
+//        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        screen_name = LvYouApplication.getScreenName();
+        profile_image_url = LvYouApplication.getImageProfileUrl();
+        
+        if(screen_name!=null && screen_name.length()>0) {
+            initLeftDrawer();
+            mIvArrowRight.setVisibility(View.VISIBLE);
+        } else {
+            mIvArrowRight.setVisibility(View.GONE);
+        }
+
+//        Intent intent =  getIntent();
+//        int destionationFragment = intent.getIntExtra("destination_fragment",FRAGMENT_MAIN);
+        if(LvYouApplication.type == FRAGMENT_PLAN) {
+            LvYouApplication.setType(0);
             setTitle("我的行程");
             switchFragment(FRAGMENT_PLAN);
         }
-
     }
 
     @Override
@@ -312,6 +335,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void switchFragment(int state) {
         switch (state) {
             case FRAGMENT_MAIN:
+                is_main_fragment = true;
                 transaction = fragmentManager.beginTransaction();
                 transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_left_out);
                 if(mainFragment != null) {
@@ -328,6 +352,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                 break;
             case FRAGMENT_DESTINATION:
+                is_main_fragment = false;
                 if(selectedTheme != null) {
 //                    if(destinationFragment.themeList.size() > 0) {
 //                        destinationFragment = new DestinationFragment();
@@ -351,6 +376,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 changeLeftDrawerItem(state);
                 break;
             case FRAGMENT_PLAN:
+                is_main_fragment = false;
                 //先判断用户是否登录
                 MyPlanFragment myPlanFragment = new MyPlanFragment();
                 transaction = fragmentManager.beginTransaction();
@@ -361,6 +387,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 changeLeftDrawerItem(state);
                 break;
             case FRAGMENT_USER:
+                is_main_fragment = false;
                 //先判断用户是否登录
                 userFragment = new UserFragment();
                 transaction = fragmentManager.beginTransaction();
@@ -371,6 +398,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 changeLeftDrawerItem(state);
                 break;
             case FRAGMENT_ABOUT_APP:
+                is_main_fragment = false;
                 aboutAppFragment = AboutAppFragment.getInstance();
                 transaction = fragmentManager.beginTransaction();
                 transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_left_out);
@@ -380,6 +408,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 changeLeftDrawerItem(state);
                 break;
             case FRAGMENT_ABOUT_INSURANCE:
+                is_main_fragment = false;
                 aboutInsuranceFragment = AboutInsuranceFragment.getInstance();
                 transaction = fragmentManager.beginTransaction();
                 transaction.setCustomAnimations(R.anim.push_left_in,R.anim.push_left_out);
@@ -611,7 +640,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK) {
-            if(fragmentManager.getFragments().get(0) instanceof  MainFragment) {
+
+            if(is_main_fragment) {
                 setTitle("首页");
                 if(System.currentTimeMillis() - mExitTime > 2000) {
                     mExitTime = System.currentTimeMillis();
@@ -622,6 +652,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             } else {
                 setTitle("首页");
                 switchFragment(FRAGMENT_MAIN);
+
+                is_main_fragment = true;
             }
         }
         return true;

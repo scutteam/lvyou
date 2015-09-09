@@ -595,6 +595,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
                         Toast.makeText(MakeJourneyActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MakeJourneyActivity.this, MainActivity.class);
                         intent.putExtra("destination_fragment", MainActivity.FRAGMENT_PLAN);
+                        LvYouApplication.setType(MainActivity.FRAGMENT_PLAN);
                         startActivity(intent);
                     } else {
                         Toast.makeText(MakeJourneyActivity.this, response.getString("msg"), Toast.LENGTH_SHORT).show();

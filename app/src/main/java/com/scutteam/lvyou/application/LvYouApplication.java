@@ -22,6 +22,7 @@ public class LvYouApplication extends Application {
     public static String real_name;
     public static String sex;
     public static String phone;
+    public static int type;
     
     @Override
     public void onCreate() {
@@ -106,6 +107,10 @@ public class LvYouApplication extends Application {
 
     public void removeActivity(Activity ac) {
         ActivityManagerUtils.getInstance().removeActivity(ac);
+    }
+
+    public static void setType(int type) {
+        LvYouApplication.type = type;
     }
 
     public void exit() {
