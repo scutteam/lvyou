@@ -402,7 +402,6 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 
-                
 
                 Log.e("response", response.toString());
             }
