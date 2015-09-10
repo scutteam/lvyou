@@ -32,6 +32,7 @@ import com.scutteam.lvyou.util.PayResult;
 import com.scutteam.lvyou.util.SignUtils;
 
 import org.apache.http.Header;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -126,6 +127,7 @@ public class MyJourneyActivity extends Activity {
     private String startDate;
     private String endDate;
     private String key;   //商品唯一的订单号
+    private double payMoney; //商品订金
     private List<ViewSpot> viewSpotList = new ArrayList<ViewSpot>();
 
     private Handler handler = new Handler() {
@@ -142,7 +144,7 @@ public class MyJourneyActivity extends Activity {
 
                     // 支付宝返回此次支付结果及加签，建议对支付宝签名信息拿签约时支付宝提供的公钥做验签
                     String resultInfo = payResult.getResult();
-                   // Log.i("liujie", resultInfo);
+                    // Log.i("liujie", resultInfo);
 
                     String resultStatus = payResult.getResultStatus();
 
@@ -183,7 +185,6 @@ public class MyJourneyActivity extends Activity {
         Intent intent = getIntent();
         if (null != intent) {
             planLogicId = intent.getStringExtra("plan_logic_id");
-            Log.i("logic plan id", planLogicId);
         }
         findView();
         initData();
@@ -427,7 +428,7 @@ public class MyJourneyActivity extends Activity {
             RequestParams params = new RequestParams();
             params.put("sessionid", LvYouApplication.getSessionId());
             params.put("id", planLogicId);
-            client.post(MyJourneyActivity.this, Constants.URL + "/user/trip.get_trade_no.do", params, new JsonHttpResponseHandler() {
+            client.post(MyJourneyActivity.this, Constants.URL + "user/trip.get_pay_info.do", params, new JsonHttpResponseHandler() {
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -437,9 +438,11 @@ public class MyJourneyActivity extends Activity {
 
                         int code = response.getInt("code");
                         if (code == 0) {
-                            key = response.optString("data");
+                            JSONObject data = response.optJSONObject("data");
+                            key = data.optString("tradeNo");
+                            payMoney = data.optDouble("payMoney");
                             paySubscription();
-                        }else {
+                        } else {
                             Toast.makeText(mContext, response.optString("msg"), Toast.LENGTH_SHORT).show();
                         }
 
@@ -646,8 +649,8 @@ public class MyJourneyActivity extends Activity {
             return;
         }
         // 订单
-        String orderInfo = getOrderInfo("行程订单 : " + planDetail.title, "愉快的旅行", (0.5 * planDetail.unit_price * planDetail.member_num) + "");
- //       String orderInfo = getOrderInfo("行程订单 : " + planDetail.title, "愉快的旅行", 0.01 + "");
+        String orderInfo = getOrderInfo("行程订单 : " + planDetail.title, "愉快的旅行", payMoney + "");
+        //       String orderInfo = getOrderInfo("行程订单 : " + planDetail.title, "愉快的旅行", 0.01 + "");
 
         // 对订单做RSA 签名
         String sign = sign(orderInfo);
