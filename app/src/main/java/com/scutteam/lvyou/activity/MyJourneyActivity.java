@@ -125,6 +125,7 @@ public class MyJourneyActivity extends Activity {
     private String contactTel;
     private String startDate;
     private String endDate;
+    private String key;   //商品唯一的订单号
     private List<ViewSpot> viewSpotList = new ArrayList<ViewSpot>();
 
     private Handler handler = new Handler() {
@@ -304,7 +305,10 @@ public class MyJourneyActivity extends Activity {
                 tvStateText2.setTextColor(getResources().getColor(color5));
                 tvStateText3.setTextColor(getResources().getColor(color5));
                 tvBottomBtn1.setOnClickListener(submitJourneyPlanListener);
-                tvBottomBtn2.setOnClickListener(modifyJourneyPlanListener);
+//                tvBottomBtn2.setOnClickListener(modifyJourneyPlanListener);
+
+
+                tvBottomBtn2.setOnClickListener(paySubscriptionListener);
                 break;
 
             case STATE_2:
@@ -419,7 +423,38 @@ public class MyJourneyActivity extends Activity {
     private View.OnClickListener paySubscriptionListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            paySubscription();
+            Toast.makeText(mContext, "正在打开支付功能...", Toast.LENGTH_SHORT).show();
+            AsyncHttpClient client = new AsyncHttpClient();
+            RequestParams params = new RequestParams();
+            params.put("sessionid", LvYouApplication.getSessionId());
+            params.put("id", planLogicId);
+            client.post(MyJourneyActivity.this, Constants.URL + "/user/trip.get_trade_no.do", params, new JsonHttpResponseHandler() {
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    super.onSuccess(statusCode, headers, response);
+
+                    try {
+
+                        int code = response.getInt("code");
+                        if (code == 0) {
+                            key = response.optString("data");
+                            paySubscription();
+                        }else {
+                            Toast.makeText(mContext, response.optString("msg"), Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    super.onFailure(statusCode, headers, responseString, throwable);
+                    Toast.makeText(mContext, "网络连接失败，请稍后重试", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     };
 
@@ -597,7 +632,6 @@ public class MyJourneyActivity extends Activity {
      * call alipay sdk pay. 调用SDK支付
      */
     public void paySubscription() {
-        Toast.makeText(mContext, "正在打开支付功能...", Toast.LENGTH_SHORT).show();
         if (TextUtils.isEmpty(PARTNER) || TextUtils.isEmpty(RSA_PRIVATE)
                 || TextUtils.isEmpty(SELLER)) {
             new AlertDialog.Builder(this)
@@ -613,7 +647,8 @@ public class MyJourneyActivity extends Activity {
             return;
         }
         // 订单
-        String orderInfo = getOrderInfo("行程订单 : " + planDetail.title, "愉快的旅行", (0.5 * planDetail.unit_price * planDetail.member_num) + "");
+//        String orderInfo = getOrderInfo("行程订单 : " + planDetail.title, "愉快的旅行", (0.5 * planDetail.unit_price * planDetail.member_num) + "");
+        String orderInfo = getOrderInfo("行程订单 : " + planDetail.title, "愉快的旅行", 0.01 + "");
 
         // 对订单做RSA 签名
         String sign = sign(orderInfo);
@@ -673,7 +708,7 @@ public class MyJourneyActivity extends Activity {
         orderInfo += "&total_fee=" + "\"" + price + "\"";
 
         // 服务器异步通知页面路径
-        orderInfo += "&notify_url=" + "\"" + "http://notify.msp.hk/notify.htm"
+        orderInfo += "&notify_url=" + "\"" + Constants.URL + "pay/app_notify.do"
                 + "\"";
 
         // 服务接口名称， 固定值
@@ -708,14 +743,6 @@ public class MyJourneyActivity extends Activity {
      * get the out_trade_no for an order. 生成商户订单号，该值在商户端应保持唯一（可自定义格式规范）
      */
     public String getOutTradeNo() {
-        SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss",
-                Locale.getDefault());
-        Date date = new Date();
-        String key = format.format(date);
-
-        Random r = new Random();
-        key = key + r.nextInt();
-        key = key.substring(0, 15);
         return key;
     }
 

@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -78,7 +77,6 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
                     if (adapter == null) {
                         initAdapter();
                     } else {
-                        Log.i("liujie","wocao");
                         refreshAdapter();
                     }
                     break;
@@ -401,17 +399,12 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                
-                
 
-                Log.e("response", response.toString());
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-
-                Log.e("response_fail", responseString);
             }
         });
 
