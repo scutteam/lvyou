@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -69,16 +68,44 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
 
             switch (msg.what) {
                 case LOAD_VIEW_PAGER_DATA_SUCCESS:
-                    setViewPagerUI();
-                    //viewPager数据加载完毕,加到listview的headView中
-                    mListView.addHeaderView(mHeaderView);
-                    PairProgressHUD.dismiss();
+                    if(pagerAdapter == null) {
+                        setViewPagerUI();
+                        //viewPager数据加载完毕,加到listview的headView中
+                        mListView.addHeaderView(mHeaderView);
+                        PairProgressHUD.dismiss();
+                    } else {
+                        advertImageList.clear();
+                        mLlViewPagerLayout.removeAllViews();
+                        for (int i = 0; i < advertList.size(); i++) {
+                            //ImageView imageView = (ImageView) LayoutInflater.from(getActivity()).inflate(R.layout.view_pager_item,null).findViewById(R.id.iv_item);
+                            ImageView imageView = new ImageView(getActivity());
+                            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+                            imageView.setLayoutParams(params);
+                            imageView.setAdjustViewBounds(true);
+                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+                            ImageLoader.getInstance().displayImage(advertList.get(i).pic, imageView);
+                            advertImageList.add(imageView);
+
+                            ImageView page_view_indicator_image_view = new ImageView(getActivity());
+                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            layoutParams.rightMargin = 10;
+                            page_view_indicator_image_view.setImageDrawable(getResources().getDrawable(R.mipmap.tagvewpager_point01));
+                            page_view_indicator_image_view.setLayoutParams(layoutParams);
+                            mLlViewPagerLayout.addView(page_view_indicator_image_view);
+                        }
+                        pagerAdapter.notifyDataSetChanged();
+                        setSelect(0);
+
+                        handler.removeMessages(AUTO_SCROLL_BANNER);
+                        handler.removeMessages(START_SCROLL_BANNER);
+                        handler.sendEmptyMessageDelayed(AUTO_SCROLL_BANNER,5000);
+                    }
                     break;
                 case LOAD_LIST_VIEW_DATA_SUCCESS:
                     if (adapter == null) {
                         initAdapter();
                     } else {
-                        Log.i("liujie","wocao");
                         refreshAdapter();
                     }
                     break;
@@ -162,7 +189,7 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
             public boolean isViewFromObject(View view, Object object) {
                 return view == object;
             }
-
+            
             @Override
             public Object instantiateItem(ViewGroup container, int position) {
                 ((ViewPager) container).addView(advertImageList.get(position));
@@ -401,16 +428,28 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                
 
-                Log.e("response", response.toString());
+
+                try {
+                    int code = response.getInt("code");
+                    if (code == 0) {
+                        JSONArray dataArray = response.getJSONArray("data");
+                        advertList = Advert.insertWithArray(dataArray);
+
+                        if (advertList != null && advertList.size() > 0) {
+                            handler.sendEmptyMessage(LOAD_VIEW_PAGER_DATA_SUCCESS);
+                        }
+                    } else {
+                        Toast.makeText(getActivity(), response.getString("msg"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-
-                Log.e("response_fail", responseString);
             }
         });
 

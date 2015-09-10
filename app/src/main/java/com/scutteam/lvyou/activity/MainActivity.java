@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -184,7 +183,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     protected void onDestroy() {
-        Log.i("liujie", "onDestroy");
         ScreenManager.getScreenManager().finishActivity(MainActivity.this);
 
         super.onDestroy();
@@ -197,7 +195,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         SharedPreferences sharedPreferences = getSharedPreferences("lvyou", Context.MODE_PRIVATE);
         String phone = sharedPreferences.getString("phone","");
         String password = sharedPreferences.getString("password","");
-        Log.e("haha","phone = "+phone+" password="+password);
 
         if(phone.length() > 0 && password.length() > 0) {
             startLogin(phone,password);
@@ -687,7 +684,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     public void onBackPressed() {
-        Log.i("liujie", "here");
         super.onBackPressed();
     }
 }

@@ -37,13 +37,13 @@ public class SplashActivity extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-//               if (isFirstLaunch) {
-//                    Intent intent = new Intent(SplashActivity.this, WelcomeActivity.class);
-//                    startActivity(intent);
-//               }  else {
+               if (isFirstLaunch) {
+                    Intent intent = new Intent(SplashActivity.this, WelcomeActivity.class);
+                    startActivity(intent);
+               }  else {
                     Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                     startActivity(intent);
-//               }
+               }
                 finish();
             }
         }, postTime);

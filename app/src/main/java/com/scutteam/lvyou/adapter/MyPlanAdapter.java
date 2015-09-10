@@ -77,18 +77,21 @@ public class MyPlanAdapter extends BaseAdapter {
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Toast.makeText(mContext, "onLongClick", Toast.LENGTH_SHORT).show();
-                if(plans.get(position).state == 0 || plans.get(position).state == 1){
-                    DeletePlanDialog dialog = new DeletePlanDialog(mContext, new DialogListener() {
-                        @Override
-                        public void refreshActivity(Object data) {
-                            plans.remove(position);
-                            MyPlanAdapter.this.notifyDataSetChanged();
-                        }
-                    });
-                    dialog.setPlanLogicId(plans.get(position).id + "");
-                    dialog.show();
+                if(plans.size() > position) {
+                    if (plans.get(position).state == 0 || plans.get(position).state == 1) {
+                        DeletePlanDialog dialog = new DeletePlanDialog(mContext, new DialogListener() {
+                            @Override
+                            public void refreshActivity(Object data) {
+                                plans.remove(position);
+                                MyPlanAdapter.this.notifyDataSetChanged();
+                            }
+                        });
+                        dialog.setPlanLogicId(plans.get(position).id + "");
+                        dialog.show();
 
+                    } else {
+                        Toast.makeText(mContext, "只有未提交跟超时的行程才可删除", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 return true;
             }
