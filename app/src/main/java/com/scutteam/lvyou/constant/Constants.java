@@ -59,5 +59,27 @@ public class Constants {
     public static class Config{
         public static final int IMAGE_WIDTH = 480;
         public static final int IMAGE_HEIGHT = 360;
+
+        /* 商户PID **/
+        public static final String PARTNER = "2088611807463433";
+        /* 商户收款账号 **/
+        public static final String SELLER = "huangzibin172@qq.com";
+        /* 商户私钥，pkcs8格式 **/
+        public static final String RSA_PRIVATE = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAKND9721eDw0kOp4" +
+                "JT1OOo6HnV04UYEgqJQFLVnxmxOc8+YLDXWGlJtnSDP/iUqxFBqODz+SBW/dZ2Sw" +
+                "hsSltmgq9CoKtD2nEjJXgnVpeJmA8kcZZVVY7DhfQoz+9Rph3tu8ggGegpz/eJ7Y" +
+                "niDY6vbJ1+zH4izLIawtsfLvD4VzAgMBAAECgYEAi6V/Kg0mIpjzuxm5AI8BFxh4" +
+                "SVv6mvBMQQ+MkvpNIqGFHKcng/bw9VuKLq/Lxs9f2rbX5BAKBnziCwXSwDDdqy4U" +
+                "aie1VAeHE1cvjZoPOa+oYQwHLGTzCk1jd6Oa3fPs/ERmnXThAfO5XC6IODffEvj1" +
+                "IgbW8r/3dfY0IAqs+AECQQDNtoVZIL2xF+rOBEHR6qHOnbQ00edOdQ0BScBi3zrz" +
+                "ltVBaAlLXCShEQSQ60m0Pb8aQ9ho3wx8NC0M4A3IJW/zAkEAyy0XimBoMOTuEjF+" +
+                "MFukVD5bfGCbnhsIJT5NXOe42v7rCW2gXo5hee/Xefyu4aNpxmmKEYRqeqZfY9oW" +
+                "Qqh0gQJAexwxX66ld3d90T9g+LS3k0R0FWxNRnnsh4nQthssV508EQGnFk+VqELb" +
+                "/bKiEFknphtWRyS9fxNmpp7sAIzPGwJAfWPAyXeiFbrTaor889861Xr+fw4oPDU2" +
+                "m7WNjS69GPqGF3V+qZx5cAWjF/fn/f0aBIeR3Cm6hSM0b61iW5UXAQJBAKUNiVLk" +
+                "ZDq97tlSNPaoT3Kqv1LSrpc37SqpFKb0aD1b+1rkIljFW0UTO2Qz3bYObCFW4PIV" +
+                "tmycKTVGKe7pw+Y=";
+        /* 支付宝公钥 **/
+        public static final String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB";
     }
 }

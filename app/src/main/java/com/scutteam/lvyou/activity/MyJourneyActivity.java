@@ -142,6 +142,7 @@ public class MyJourneyActivity extends Activity {
 
                     // 支付宝返回此次支付结果及加签，建议对支付宝签名信息拿签约时支付宝提供的公钥做验签
                     String resultInfo = payResult.getResult();
+                   // Log.i("liujie", resultInfo);
 
                     String resultStatus = payResult.getResultStatus();
 
@@ -305,10 +306,8 @@ public class MyJourneyActivity extends Activity {
                 tvStateText2.setTextColor(getResources().getColor(color5));
                 tvStateText3.setTextColor(getResources().getColor(color5));
                 tvBottomBtn1.setOnClickListener(submitJourneyPlanListener);
-//                tvBottomBtn2.setOnClickListener(modifyJourneyPlanListener);
-
-
-                tvBottomBtn2.setOnClickListener(paySubscriptionListener);
+                tvBottomBtn2.setOnClickListener(modifyJourneyPlanListener);
+//                tvBottomBtn2.setOnClickListener(paySubscriptionListener);
                 break;
 
             case STATE_2:
@@ -647,8 +646,8 @@ public class MyJourneyActivity extends Activity {
             return;
         }
         // 订单
-//        String orderInfo = getOrderInfo("行程订单 : " + planDetail.title, "愉快的旅行", (0.5 * planDetail.unit_price * planDetail.member_num) + "");
-        String orderInfo = getOrderInfo("行程订单 : " + planDetail.title, "愉快的旅行", 0.01 + "");
+        String orderInfo = getOrderInfo("行程订单 : " + planDetail.title, "愉快的旅行", (0.5 * planDetail.unit_price * planDetail.member_num) + "");
+ //       String orderInfo = getOrderInfo("行程订单 : " + planDetail.title, "愉快的旅行", 0.01 + "");
 
         // 对订单做RSA 签名
         String sign = sign(orderInfo);
