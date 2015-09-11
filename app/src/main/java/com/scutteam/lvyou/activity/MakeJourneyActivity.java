@@ -412,7 +412,7 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
         Intent intent;
         switch (v.getId()) {
             case R.id.left_icon:
-                finish();
+                backToMainActivity();
                 break;
             case R.id.mj_select_begin_place:
                 changeCalculateUI();
@@ -990,5 +990,23 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
 
         mj_stay_choosed_price.setText(hotel.price + "元/间");
         mj_stay_choosed_type.setText(hotel.level_name);
+    }
+    
+    private void backToMainActivity(){
+        Intent fromIntent = getIntent();
+        boolean ifFromMyJourneyActivity = fromIntent.getBooleanExtra("come_from_my_journey",false);
+        if(!ifFromMyJourneyActivity) {
+            Intent intent = new Intent();
+            intent.setClass(MakeJourneyActivity.this,MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        backToMainActivity();
     }
 }

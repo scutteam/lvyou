@@ -37,12 +37,8 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.Random;
 
 public class MyJourneyActivity extends Activity {
 
@@ -509,6 +505,7 @@ public class MyJourneyActivity extends Activity {
     public void startModifyJourney() {
         Intent intent = new Intent();
         intent.setClass(MyJourneyActivity.this, MakeJourneyActivity.class);
+        intent.putExtra("come_from_my_journey",true);
         intent.putExtra("destination_id", destId);
         intent.putExtra("place", planDetail.place);
         intent.putExtra("peopleNum", planDetail.member_num);

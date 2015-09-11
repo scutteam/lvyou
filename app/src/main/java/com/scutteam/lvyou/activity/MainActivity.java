@@ -159,6 +159,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if(null != intent)
+            this.setIntent(intent);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
 
@@ -172,12 +179,16 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             mIvArrowRight.setVisibility(View.GONE);
         }
 
-//        Intent intent =  getIntent();
-//        int destionationFragment = intent.getIntExtra("destination_fragment",FRAGMENT_MAIN);
-        if(LvYouApplication.type == FRAGMENT_PLAN) {
-            LvYouApplication.setType(0);
+        Intent intent =  getIntent();
+        int destionationFragment = intent.getIntExtra("destination_fragment",FRAGMENT_MAIN);
+        if(destionationFragment == FRAGMENT_PLAN) {
+//            LvYouApplication.setType(0);
             setTitle("我的行程");
             switchFragment(FRAGMENT_PLAN);
+        }else if(destionationFragment == FRAGMENT_DESTINATION){
+//            LvYouApplication.setType(0);
+            setTitle("目的地");
+            switchFragment(FRAGMENT_DESTINATION);
         }
     }
 
