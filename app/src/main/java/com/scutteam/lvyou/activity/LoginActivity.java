@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -193,7 +194,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     if(code == 0) {
                         sessionId = response.getString("data");
                         LvYouApplication.setSessionId(sessionId);
-
                         handler.sendEmptyMessage(GET_SESSIONID_SUCCESS);
                     } else {
                         Toast.makeText(LoginActivity.this,response.getString("msg"),Toast.LENGTH_SHORT).show();
@@ -438,7 +438,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                
+                Log.i("liujie", response.toString());
                 try {
                     int code = response.getInt("code");
                     String session_data = response.getString("data");
