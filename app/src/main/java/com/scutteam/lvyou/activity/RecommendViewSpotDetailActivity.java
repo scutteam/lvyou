@@ -141,7 +141,7 @@ public class RecommendViewSpotDetailActivity extends Activity implements View.On
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("kw.tripId",recommendtrip.trip_id);
-        client.get(RecommendViewSpotDetailActivity.this, Constants.URL + "main/recommendtrip.detail.json",params,new JsonHttpResponseHandler(){
+            client.get(RecommendViewSpotDetailActivity.this, Constants.URL + "main/recommendtrip.detail.json",params,new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);

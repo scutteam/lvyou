@@ -332,8 +332,12 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
                         }
                     } else {
                         Toast.makeText(getActivity(), response.getString("msg"), Toast.LENGTH_SHORT).show();
+                        
+                        PairProgressHUD.dismiss();
                     }
                 } catch (Exception e) {
+                    PairProgressHUD.dismiss();
+                    
                     e.printStackTrace();
                 }
             }
@@ -341,6 +345,8 @@ public class MainFragment extends Fragment implements XListView.IXListViewListen
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
+
+                PairProgressHUD.dismiss();
             }
         });
     }

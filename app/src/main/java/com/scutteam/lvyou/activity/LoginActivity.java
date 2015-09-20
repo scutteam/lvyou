@@ -162,7 +162,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
                         user_id = dataObject.getString("id");
                         LvYouApplication.setUserId(user_id);
-                        handler.sendEmptyMessage(GET_USER_ID_SUCCESS);
+                        
+                        String phone = dataObject.optString("phone");
+                        if(phone!=null && phone.length() > 0) {
+                            handler.sendEmptyMessage(GET_USER_ID_SUCCESS);
+                        } else {
+                            handler.sendEmptyMessage(BIND_FAIL);
+                        }
+                        
                     } else  {
                         Toast.makeText(LoginActivity.this,response.getString("msg"),Toast.LENGTH_SHORT).show();
                     }
@@ -589,47 +596,48 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     LvYouApplication.setImageProfileUrl(profile_image_url);
                     LvYouApplication.setScreenName(screen_name);
                     
-                    checkIsBindAccount();
+//                    checkIsBindAccount();
+                    getSessionId();
                 }
             }
         });
     }
     
-    public void checkIsBindAccount() {
-        AsyncHttpClient client = new AsyncHttpClient();
-        RequestParams params = new RequestParams();
-        params.put("openId",openId);
-            client.post(LoginActivity.this,Constants.URL + "user/mobilelogin.is_bind.do",params,new JsonHttpResponseHandler(){
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-
-                try {
-                    int code = response.getInt("code");
-                    if(code == 0) {
-                        Boolean bindIsSuccess = response.getBoolean("data");
-                        if(bindIsSuccess) {
-                            handler.sendEmptyMessage(BIND_SUCCESS);                            
-                        } else {
-                            handler.sendEmptyMessage(BIND_FAIL);
-                        }
-                    } else {
-                        
-                        Toast.makeText(LoginActivity.this,response.getString("msg"),Toast.LENGTH_SHORT).show();
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } 
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
-            }
-        });
-    }
+//    public void checkIsBindAccount() {
+//        AsyncHttpClient client = new AsyncHttpClient();
+//        RequestParams params = new RequestParams();
+//        params.put("openId",openId);
+//            client.post(LoginActivity.this,Constants.URL + "user/mobilelogin.is_bind.do",params,new JsonHttpResponseHandler(){
+//
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                super.onSuccess(statusCode, headers, response);
+//
+//                try {
+//                    int code = response.getInt("code");
+//                    if(code == 0) {
+//                        Boolean bindIsSuccess = response.getBoolean("data");
+//                        if(bindIsSuccess) {
+//                            handler.sendEmptyMessage(BIND_SUCCESS);
+//                        } else {
+//                            handler.sendEmptyMessage(BIND_FAIL);
+//                        }
+//                    } else {
+//
+//                        Toast.makeText(LoginActivity.this,response.getString("msg"),Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+//                super.onFailure(statusCode, headers, responseString, throwable);
+//            }
+//        });
+//    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

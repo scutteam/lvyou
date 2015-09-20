@@ -236,11 +236,14 @@ public class MakeJourneyActivity extends Activity implements View.OnClickListene
 
                 } catch (Exception e) {
                     e.printStackTrace();
+                    
+                    PairProgressHUD.dismiss();
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                PairProgressHUD.dismiss();
                 super.onFailure(statusCode, headers, responseString, throwable);
             }
         });

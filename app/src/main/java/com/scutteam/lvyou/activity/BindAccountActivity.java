@@ -145,7 +145,7 @@ public class BindAccountActivity extends Activity implements View.OnClickListene
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("mobile",mEtPhone.getText().toString());
-        client.post(BindAccountActivity.this, Constants.URL + "user/personal.send_code_check.do", params, new JsonHttpResponseHandler() {
+        client.post(BindAccountActivity.this, Constants.URL + "user/personal.send_code.do", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);

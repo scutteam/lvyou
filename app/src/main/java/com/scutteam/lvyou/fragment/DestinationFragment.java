@@ -282,14 +282,17 @@ public class DestinationFragment extends Fragment implements XListView.IXListVie
                         
                     } else {
                         Toast.makeText(getActivity(),response.getString("msg"),Toast.LENGTH_SHORT).show();
+                        PairProgressHUD.dismiss();
                     }
                 } catch (Exception e){
+                    PairProgressHUD.dismiss();
                     e.printStackTrace();
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                PairProgressHUD.dismiss();
                 super.onFailure(statusCode, headers, responseString, throwable);
             }
         });

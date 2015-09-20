@@ -28,7 +28,7 @@ public class CommentDetailActivity extends Activity implements XListView.IXListV
     private CommentAdapter adapter;
     private long view_spot_id;
     private int current_page;
-    private int total_page;
+    private boolean lastPage;
     private ImageView mIvBack;
     private Handler handler = new Handler() {
         @Override
@@ -37,7 +37,7 @@ public class CommentDetailActivity extends Activity implements XListView.IXListV
 
             switch (msg.what) {
                 case LOAD_COMMENT_SUCCESS:
-                    if(current_page == total_page) {
+                    if(lastPage) {
                         listView.setPullLoadEnable(false);
                     } else {
                         listView.setPullLoadEnable(true);
@@ -51,7 +51,7 @@ public class CommentDetailActivity extends Activity implements XListView.IXListV
                    
                     break;
                 case LOAD_MORE_COMMENT_SUCCESS:
-                    if(current_page == total_page) {
+                    if(lastPage) {
                         listView.setPullLoadEnable(false);
                     } else {
                         listView.setPullLoadEnable(true);
@@ -102,7 +102,7 @@ public class CommentDetailActivity extends Activity implements XListView.IXListV
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("kw.destId",view_spot_id);
-        params.put("pr.page",current_page);
+        params.put("pr.page",current_page + 1);
         client.get(CommentDetailActivity.this, Constants.URL + "main/comment.dest_page_list.json",params,new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -111,8 +111,8 @@ public class CommentDetailActivity extends Activity implements XListView.IXListV
                 try {
                     JSONObject dataObject = response.getJSONObject("data");
                     newCommentList = Comment.insertWithArray(dataObject.getJSONArray("items"));
-                    total_page = dataObject.getInt("totalPages");
-                    current_page ++;
+                    lastPage = dataObject.getBoolean("lastPage");
+                    current_page = dataObject.getInt("currentPage");
 
                     handler.sendEmptyMessage(LOAD_MORE_COMMENT_SUCCESS);
 
@@ -141,7 +141,7 @@ public class CommentDetailActivity extends Activity implements XListView.IXListV
                     JSONObject dataObject = response.getJSONObject("data");
                     commentList = Comment.insertWithArray(dataObject.getJSONArray("items"));
                     current_page = dataObject.getInt("currentPage");
-                    total_page = dataObject.getInt("totalPages");
+                    lastPage = dataObject.getBoolean("lastPage");
                     handler.sendEmptyMessage(LOAD_COMMENT_SUCCESS);
 
                 } catch (Exception e){

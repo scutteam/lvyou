@@ -32,7 +32,6 @@ import com.scutteam.lvyou.util.PayResult;
 import com.scutteam.lvyou.util.SignUtils;
 
 import org.apache.http.Header;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -105,11 +104,7 @@ public class MyJourneyActivity extends Activity {
     private static final int SDK_CHECK_FLAG = 2;
 
 
-    private final int color1 = R.color.image_color;
-    private final int color2 = R.color.ldrawer_color;
-    private final int color3 = R.color.my_journey_state_delete;
-    private final int color4 = R.color.main_text_color;
-    private final int color5 = R.color.secondary_text_color;
+    
 
     private boolean isFirstIn = true;
     private long hotelId;
@@ -282,6 +277,12 @@ public class MyJourneyActivity extends Activity {
         super.onBackPressed();
         backToMyPlanFragment();
     }
+
+    private final int color1 = R.color.image_color;
+    private final int color2 = R.color.ldrawer_color;
+    private final int color3 = R.color.my_journey_state_delete;
+    private final int color4 = R.color.main_text_color;
+    private final int color5 = R.color.secondary_text_color;
 
     private void refreshBottomButton(int state) {
         llBottomBtns.setVisibility(View.GONE);
